@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: cinetrack-mvp
+    env: static
+    buildCommand: ""
+    publishPath: .
