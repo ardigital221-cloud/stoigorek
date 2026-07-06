@@ -2,5 +2,5 @@ services:
   - type: web
     name: cinetrack-mvp
     env: static
-    buildCommand: ""
+    buildCommand: "echo 'Static deploy - no build needed'"
     publishPath: .
