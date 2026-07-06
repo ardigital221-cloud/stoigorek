@@ -5,6 +5,8 @@
 
 const STATE = {
   currentUser: null,
+  searchSource: "local", // "local" or "tmdb"
+  tmdbApiKey: "",
   
   // Initialize state from localStorage or load defaults
   init() {
@@ -12,6 +14,9 @@ const STATE = {
     if (session) {
       this.currentUser = JSON.parse(session);
     }
+    
+    this.searchSource = localStorage.getItem("tracker_search_source") || "local";
+    this.tmdbApiKey = localStorage.getItem("tracker_tmdb_api_key") || "1f296c09b0b4decc46dbf784e1b8b2e3"; // Prefilled demo API key for testing
     
     // Seed default users if empty
     if (!localStorage.getItem("tracker_users")) {
@@ -29,6 +34,16 @@ const STATE = {
       ];
       localStorage.setItem("tracker_feedback", JSON.stringify(defaultFeedback));
     }
+  },
+
+  setSearchSource(source) {
+    this.searchSource = source;
+    localStorage.setItem("tracker_search_source", source);
+  },
+
+  setTmdbApiKey(key) {
+    this.tmdbApiKey = key;
+    localStorage.setItem("tracker_tmdb_api_key", key);
   },
 
   // Save current session
@@ -197,7 +212,7 @@ const STATE = {
           updated = true;
           
           window.dispatchEvent(new CustomEvent("achievementUnlocked", {
-            detail: { id: ach.id, title: ach.title, desc: ach.desc, points: ach.points, icon: ach.icon }
+            detail: { id: ach.id, title: ach.title, desc: ach.desc, points: ach.points, icon: "A" }
           }));
         }
       }

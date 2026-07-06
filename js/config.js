@@ -21,25 +21,25 @@ const CONFIG = {
   feedbackPrompt: "Не нашли сериал или фильм в базе? Напишите нам, и мы добавим его! За добавление начисляется 50 очков.",
   feedbackLabel: "Не нашли фильм или сериал?",
   cpaLabel: "Где посмотреть?",
-  cpaPartner: "Кинопоиск (CPA реферал)",
+  cpaPartner: "Кинопоиск (CPA)",
   
   statuses: [
-    { id: "watching", label: "Смотрю сейчас", icon: "📺", color: "#38bdf8" },
-    { id: "completed", label: "Просмотрено", icon: "✅", color: "#34d399" },
-    { id: "planned", label: "В планах", icon: "⏳", color: "#fbbf24" },
-    { id: "dropped", label: "Бросил", icon: "❌", color: "#f87171" }
+    { id: "watching", label: "Смотрю", color: "#2563eb" },
+    { id: "completed", label: "Завершено", color: "#16a34a" },
+    { id: "planned", label: "В планах", color: "#ea580c" },
+    { id: "dropped", label: "Брошено", color: "#dc2626" }
   ],
 
   stats: [
     { id: "time", title: "Потрачено времени", unit: "часов", calc: (items) => items.reduce((acc, item) => acc + (item.progressValue * 0.75) + (item.rating * 2.2), 0).toFixed(0) },
     { id: "favoriteType", title: "Любимый жанр", unit: "", calc: (items) => getMostFrequent(items.map(i => i.type)) },
-    { id: "completedCount", title: "Просмотрено", unit: "фильмов/сериалов", calc: (items) => items.filter(i => i.status === "completed").length }
+    { id: "completedCount", title: "Завершено", unit: "фильмов/сериалов", calc: (items) => items.filter(i => i.status === "completed").length }
   ],
 
   achievements: [
-    { id: "detective_fan", title: "Шерлок Холмс", desc: "Добавить в просмотренное 3 детектива", check: (items) => items.filter(i => i.status === "completed" && i.type.toLowerCase().includes("детектив")).length >= 3, points: 100, icon: "🕵️‍♂️" },
-    { id: "speedrun", title: "Марафонец", desc: "Оценить сериал на 10 баллов", check: (items) => items.some(i => i.rating === 10), points: 150, icon: "🏃" },
-    { id: "collector_50", title: "Киноман", desc: "Добавить 5 любых элементов в список", check: (items) => items.length >= 5, points: 200, icon: "🍿" }
+    { id: "detective_fan", title: "Шерлок Холмс", desc: "Добавить в просмотренное 3 детектива", check: (items) => items.filter(i => i.status === "completed" && i.type.toLowerCase().includes("детектив")).length >= 3, points: 100 },
+    { id: "speedrun", title: "Марафонец", desc: "Оценить сериал на 10 баллов", check: (items) => items.some(i => i.rating === 10), points: 150 },
+    { id: "collector_50", title: "Киноман", desc: "Добавить 5 любых элементов в список", check: (items) => items.length >= 5, points: 200 }
   ],
 
   cpaLinks: [
@@ -55,7 +55,7 @@ const CONFIG = {
   ],
 
   database: [
-    { id: 1, title: "Очень странные дела", type: "Фантастика, Детектив", creator: "Netflix", progress: "4 сезона, 34 серии", desc: "Группа детей сталкивается со сверхъестественными силами и секретными правительственными экспериментами в тихом городке Hawking.", rating: 9.2 },
+    { id: 1, title: "Очень странные дела", type: "Фантастика, Детектив", creator: "Netflix", progress: "4 сезона, 34 серии", desc: "Группа детей сталкивается со сверхъестественными силами и секретными правительственными экспериментами в тихом городке.", rating: 9.2 },
     { id: 2, title: "Во все тяжкие", type: "Криминал, Драма", creator: "AMC", progress: "5 сезонов, 62 серии", desc: "Учитель химии, узнав о смертельной болезни, решает заняться производством метамфетамина ради обеспечения семьи.", rating: 9.5 },
     { id: 3, title: "Шерлок", type: "Детектив, Триллер", creator: "BBC", progress: "4 сезона, 13 серий", desc: "Современная адаптация знаменитых детективных историй Артура Конан Дойла в Лондоне XXI века.", rating: 9.1 },
     { id: 4, title: "Дом Дракона", type: "Фэнтези, Драма", creator: "HBO", progress: "2 сезона, 18 серий", desc: "История расцвета и начала заката правления дома Таргариенов в Вестеросе.", rating: 8.4 },
@@ -70,7 +70,7 @@ const CONFIG = {
     { id: 13, title: "Пацаны (The Boys)", type: "Фантастика, Экшен", creator: "Amazon Prime", progress: "4 сезона, 32 серии", desc: "Отряд линчевателей борется с коррумпированными супергероями, злоупотребляющими своими силами.", rating: 8.7 },
     { id: 14, title: "Клан Сопрано", type: "Криминал, Драма", creator: "HBO", progress: "6 сезонов, 86 серий", desc: "Глава мафии Тони Сопрано пытается совместить проблемы личной жизни с руководством криминальным синдикатом.", rating: 9.2 },
     { id: 15, title: "Бойцовский клуб", type: "Триллер, Драма", creator: "Дэвид Финчер", progress: "1 фильм", desc: "Офисный клерк вместе с харизматичным мыловаром создают подпольный бойцовский клуб.", rating: 8.7 },
-    { id: 16, title: "Рик и Морти", type: "Анимация, Фантастика", creator: "Adult Swim", progress: "7 сезонов, 71 серия", desc: "Приключения гениального сумасшедшего ученого Рика и его капризного внука Морти в космосе и измерениях.", rating: 9.0 },
+    { id: 16, title: "Рик и Морти", type: "Анимация, Фантастика", creator: "Adult Swim", progress: "7 сезонов, 71 серия", desc: "Приключения гениального сумасшедшего ученыго Рика и его капризного внука Морти в космосе и измерениях.", rating: 9.0 },
     { id: 17, title: "Киберпанк: Бегущие по краю", type: "Анимация, Фантастика", creator: "Trigger / CD Projekt", progress: "1 сезон, 10 серий", desc: "Уличный парень пытается выжить в Найт-Сити, став наемником-киберпанком.", rating: 8.6 },
     { id: 18, title: "Чернобыль", type: "Драма, История", creator: "HBO", progress: "1 сезон, 5 серий", desc: "Художественная реконструкция аварии на Чернобыльской АЭС и подвигов людей по ликвидации ее последствий.", rating: 9.4 },
     { id: 19, title: "Ведьмак", type: "Фэнтези, Драма", creator: "Netflix", progress: "3 сезона, 24 серии", desc: "Геральт из Ривии, мутант и охотник на чудовищ, пытается найти свое место в неспокойном мире.", rating: 7.2 },
@@ -84,7 +84,7 @@ const CONFIG = {
     { id: 27, title: "Побег", type: "Драма, Триллер", creator: "Fox", progress: "5 сезонов, 90 серий", desc: "Инженер проектирует побег из тюрьмы, чтобы спасти своего невиновного брата, приговоренного к смерти.", rating: 8.6 },
     { id: 28, title: "Волк с Уолл-стрит", type: "Комедия, Криминал", creator: "Мартин Скорсезе", progress: "1 фильм", desc: "Быстрый взлет и стремительное падение харизматичного бруклинского брокера Джордана Белфорта.", rating: 8.5 },
     { id: 29, title: "Гладиатор", type: "Боевик, Драма", creator: "Ридли Скотт", progress: "1 фильм", desc: "Преданный римский генерал Максимус возвращается в Рим в качестве гладиатора, чтобы отомстить убийце своей семьи.", rating: 8.6 },
-    { id: 30, title: "Друзья", type: "Комедия", creator: "Warner Bros.", progress: "10 сезонов, 236 серий", desc: "Жизнь шести молодых друзей в Нью-Йорке с их карьерными трудностями и романтическими переживаниями.", rating: 8.9 }
+    { id: 30, title: "Друзья", type: "Комедия", creator: "Warner Bros.", progress: "10 сезонов, 236 серий", desc: "Жизнь шести друзей в Нью-Йорке с их карьерными трудностями и романтическими переживаниями.", rating: 8.9 }
   ]
 };
 

@@ -7,7 +7,7 @@
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Умный трекер просмотренных сериалов и фильмов с личной статистикой, календарем релизов и ачивками. Масштабируемый движок для ваших коллекций.">
-  <meta name="keywords" content="трекер сериалов, учет фильмов, статистика просмотров, календарь сериалов, CineTrack, ботаник, парфюмерия, рецепты">
+  <meta name="keywords" content="трекер сериалов, учет фильмов, статистика просмотров, календарь сериалов, CineTrack">
   <meta name="author" content="Hexa-Studio">
 
   <!-- Inter for body, Space Grotesk for display headlines -->
@@ -19,7 +19,8 @@
 </head>
 <body>
 
-  <!-- Ambient Light Mesh Orbs (Glassmorphism backdrop) -->
+  <!-- Ambient Light Grid & Mesh Overlays (Light Modern Slate) -->
+  <div class="grid-pattern"></div>
   <div class="ambient-glow orb-left"></div>
   <div class="ambient-glow orb-right"></div>
 
@@ -66,6 +67,11 @@
     <!-- Generated dynamically in UI.openAddModal() -->
   </div>
 
+  <!-- ===== modal dialog: settings api keys form ===== -->
+  <div class="modal-overlay" id="settings-modal">
+    <!-- Generated dynamically in UI.openSettingsModal() -->
+  </div>
+
   <!-- ===== popup overlay: cpa referral loader redirect simulation ===== -->
   <div class="cpa-simulation-overlay" id="cpa-overlay">
     <div class="cpa-loader"></div>
@@ -76,12 +82,11 @@
 
   <!-- ===== achievement toast notification alert ===== -->
   <div class="achievement-toast" id="achievement-toast">
-    <div class="toast-icon">🏆</div>
     <div class="toast-info">
-      <h4>Достижение разблокировано!</h4>
-      <p>Вы завершили цель и получили награду.</p>
+      <h4>Цель завершена!</h4>
+      <p>Вы разблокировали награду.</p>
     </div>
-    <div class="toast-pts">+50 очков</div>
+    <div class="toast-pts">+50</div>
   </div>
 
   <!-- ===== core scripts loaded sequentially ===== -->
