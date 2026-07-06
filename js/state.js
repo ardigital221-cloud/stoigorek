@@ -1,16 +1,13 @@
 /**
  * Application State Manager
- * Handles database operations, user sessions, lists per niche, achievements, and admin feedback queue.
+ * Handles database operations, user sessions, tracking lists, achievements, and admin feedback queue.
  */
 
 const STATE = {
   currentUser: null,
-  activeNiche: "shows",
   
   // Initialize state from localStorage or load defaults
   init() {
-    this.activeNiche = localStorage.getItem("tracker_active_niche") || "shows";
-    
     const session = localStorage.getItem("tracker_session");
     if (session) {
       this.currentUser = JSON.parse(session);
@@ -28,8 +25,7 @@ const STATE = {
     // Seed feedback database if empty
     if (!localStorage.getItem("tracker_feedback")) {
       const defaultFeedback = [
-        { id: 1, userEmail: "user1@mail.ru", niche: "shows", title: "Черное зеркало", type: "Фантастика", creator: "Netflix", progress: "6 сезонов", desc: "Антология о влиянии современных технологий на человеческие отношения.", approved: false },
-        { id: 2, userEmail: "test@test.ru", niche: "perfumes", title: "Wood Sage & Sea Salt", type: "Древесные", creator: "Jo Malone", progress: "Морская соль, Шалфей, Грейпфрут", desc: "Аромат свежего ветра на морском побережье Англии.", approved: false }
+        { id: 1, userEmail: "user1@mail.ru", title: "Черное зеркало", type: "Фантастика", creator: "Netflix", progress: "6 сезонов", desc: "Антология о влиянии современных технологий на человеческие отношения.", approved: false }
       ];
       localStorage.setItem("tracker_feedback", JSON.stringify(defaultFeedback));
     }
@@ -55,15 +51,6 @@ const STATE = {
   // Get user database
   getUsers() {
     return JSON.parse(localStorage.getItem("tracker_users") || "[]");
-  },
-
-  // Switch Niche dynamically
-  setNiche(nicheId) {
-    this.activeNiche = nicheId;
-    localStorage.setItem("tracker_active_niche", nicheId);
-    
-    // Dispatch custom event for reactive UI
-    window.dispatchEvent(new CustomEvent("nicheChanged", { detail: nicheId }));
   },
 
   // User Actions
@@ -121,10 +108,10 @@ const STATE = {
     window.dispatchEvent(new CustomEvent("userUpdated"));
   },
 
-  // Tracking List Operations (Per User + Per Niche)
+  // Tracking List Operations (Per User)
   getStorageKey() {
     const email = this.currentUser ? this.currentUser.email : "guest";
-    return `tracker_items_${email}_${this.activeNiche}`;
+    return `tracker_items_${email}`;
   },
 
   getUserItems() {
@@ -140,8 +127,7 @@ const STATE = {
   seedDefaultUserItems() {
     const key = this.getStorageKey();
     if (!localStorage.getItem(key)) {
-      // Seed default tracking entries from default database items
-      const config = NICHES[this.activeNiche];
+      const config = CONFIG;
       const initialItems = config.database.slice(0, 3).map((dbItem, idx) => ({
         id: Date.now() - (idx * 100000),
         title: dbItem.title,
@@ -200,18 +186,16 @@ const STATE = {
     if (!this.currentUser) return;
     
     const items = this.getUserItems();
-    const config = NICHES[this.activeNiche];
+    const config = CONFIG;
     let updated = false;
     
     for (const ach of config.achievements) {
-      // If not already unlocked
       if (!this.currentUser.achievements.includes(ach.id)) {
         if (ach.check(items)) {
           this.currentUser.achievements.push(ach.id);
           this.currentUser.points += ach.points;
           updated = true;
           
-          // Trigger custom achievement toast event
           window.dispatchEvent(new CustomEvent("achievementUnlocked", {
             detail: { id: ach.id, title: ach.title, desc: ach.desc, points: ach.points, icon: ach.icon }
           }));
@@ -235,12 +219,11 @@ const STATE = {
     const newRequest = {
       id: Date.now(),
       userEmail: this.currentUser ? this.currentUser.email : "гость",
-      niche: this.activeNiche,
       title: feedbackData.title,
       type: feedbackData.type,
       creator: feedbackData.creator,
       progress: feedbackData.progress,
-      desc: feedbackData.desc || "Запрос от пользователя на добавление нового контента.",
+      desc: feedbackData.desc || "Запрос от пользователя на добавление нового фильма/сериала.",
       approved: false
     };
     queue.unshift(newRequest);
@@ -261,25 +244,24 @@ const STATE = {
       
       const request = queue[index];
       
-      // 1. Add it to the target niche database in the config so it becomes globally searchable
-      NICHES[request.niche].database.unshift({
+      // Add it to the configuration database dynamically
+      CONFIG.database.unshift({
         id: Date.now(),
         title: request.title,
         type: request.type,
         creator: request.creator,
         progress: request.progress,
         desc: request.desc,
-        rating: 8.0 // default starting score
+        rating: 8.0
       });
       
-      // 2. Find the requesting user and award them more points
+      // Award requesting user points
       const users = this.getUsers();
       const userIndex = users.findIndex(u => u.email === request.userEmail);
       if (userIndex !== -1) {
-        users[userIndex].points += 50; // admin approval bonus
+        users[userIndex].points += 50;
         localStorage.setItem("tracker_users", JSON.stringify(users));
         
-        // If the current logged in user is the owner, sync session
         if (this.currentUser && this.currentUser.email === request.userEmail) {
           this.currentUser.points += 50;
           this.saveSession();

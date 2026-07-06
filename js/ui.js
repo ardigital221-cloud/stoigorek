@@ -1,6 +1,6 @@
 /**
  * UI Rendering and Event Controller
- * Dynamically renders the SPA based on the active niche configuration and application state.
+ * Dynamically renders the CineTrack interface based on configuration and state.
  */
 
 const UI = {
@@ -15,14 +15,6 @@ const UI = {
 
   // Global events bound once
   bindGlobalEvents() {
-    // Listen for niche change events
-    window.addEventListener("nicheChanged", () => {
-      this.activeFilter = "all";
-      this.searchQuery = "";
-      STATE.seedDefaultUserItems();
-      this.render();
-    });
-
     // Listen for user state changes
     window.addEventListener("userUpdated", () => {
       this.updateHeader();
@@ -63,7 +55,7 @@ const UI = {
       return;
     }
 
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
     
     // Main App Layout
     root.innerHTML = `
@@ -149,7 +141,7 @@ const UI = {
               </form>
             </div>
 
-            <!-- Admin Simulation View (Only for admin@admin.ru or if developer wants to test) -->
+            <!-- Admin Simulation View -->
             <div class="card" id="admin-panel-card" style="display: ${STATE.currentUser.email === 'admin@admin.ru' ? 'block' : 'none'}; border-color: var(--color-danger);">
               <div class="card-title-row">
                 <h2>Панель админа <span class="admin-badge">Simulation</span></h2>
@@ -170,20 +162,6 @@ const UI = {
       <!-- Quick Action FAB (Floating Button) -->
       <div class="fab-quick-log" id="fab-quick-log" title="Быстро добавить в список">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-      </div>
-
-      <!-- Dev Switcher Floating Corner Panel -->
-      <div class="dev-switcher-panel">
-        <div class="dev-menu-card" id="dev-menu-card">
-          <div class="dev-menu-title">Выбор ниши (Движок)</div>
-          <button class="niche-switch-btn ${STATE.activeNiche === 'shows' ? 'active' : ''}" data-niche="shows">📺 Сериалы / Кино</button>
-          <button class="niche-switch-btn ${STATE.activeNiche === 'perfumes' ? 'active' : ''}" data-niche="perfumes">🧴 Парфюмерия</button>
-          <button class="niche-switch-btn ${STATE.activeNiche === 'botanics' ? 'active' : ''}" data-niche="botanics">🌱 Домашний ботаник</button>
-          <button class="niche-switch-btn ${STATE.activeNiche === 'recipes' ? 'active' : ''}" data-niche="recipes">🥘 Рецепты / Закрутки</button>
-        </div>
-        <button class="dev-toggle-trigger" id="dev-toggle-trigger">
-          🛠️ Переключить нишу
-        </button>
       </div>
     `;
 
@@ -230,9 +208,9 @@ const UI = {
       document.getElementById("btn-toggle-premium").addEventListener("click", () => {
         STATE.togglePremium();
         this.renderAdPlacement();
-        // Notify
+        
         const text = STATE.currentUser.premium 
-          ? "Премиум подписка активирована! Реклама скрыта, разблокирована расширенная статистика."
+          ? "Премиум подписка активирована! Реклама скрыта, разблокирована статистика."
           : "Премиум подписка отключена. Показ рекламы возобновлен.";
         alert(text);
       });
@@ -333,7 +311,6 @@ const UI = {
       emailInput.value = "test@test.ru";
       passwordInput.value = "test";
       
-      // Auto-submit login
       const res = STATE.login("test@test.ru", "test");
       if (res.success) {
         this.render();
@@ -343,7 +320,7 @@ const UI = {
 
   // Bind interactions inside dashboard
   bindDashboardEvents() {
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
 
     // Open add item modal
     const openAddBtn = document.getElementById("btn-add-item-modal");
@@ -376,8 +353,8 @@ const UI = {
         STATE.submitFeedback({
           title: titleVal,
           creator: creatorVal,
-          type: "Новый жанр / категория",
-          progress: "1 шт"
+          type: "Новый жанр",
+          progress: "1 серия"
         });
 
         document.getElementById("fb-title").value = "";
@@ -385,27 +362,6 @@ const UI = {
 
         alert(`Запрос на добавление «${titleVal}» отправлен! Вам начислено 15 очков. Запрос появится в симуляции админ-панели (доступна под аккаунтом admin@admin.ru).`);
         this.renderAdminRequests();
-      });
-    }
-
-    // Niche Selector triggers
-    const devToggle = document.getElementById("dev-toggle-trigger");
-    const devMenu = document.getElementById("dev-menu-card");
-    if (devToggle && devMenu) {
-      devToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        devMenu.classList.toggle("active");
-      });
-      
-      document.addEventListener("click", () => {
-        devMenu.classList.remove("active");
-      });
-
-      devMenu.querySelectorAll(".niche-switch-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          const niche = e.target.getAttribute("data-niche");
-          STATE.setNiche(niche);
-        });
       });
     }
   },
@@ -416,7 +372,7 @@ const UI = {
     if (!container) return;
 
     const items = STATE.getUserItems();
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
 
     // Compute widget counts
     let widgetHTML = "";
@@ -430,10 +386,9 @@ const UI = {
       `;
     });
     
-    // Add SVG Genre/Type Distribution Chart inside the widget row if there are items
+    // Add SVG Genre Distribution Chart
     let chartHTML = "";
     if (items.length > 0) {
-      // Calculate distributions of Type
       const typeCounts = {};
       items.forEach(i => {
         if (!i.type) return;
@@ -500,7 +455,7 @@ const UI = {
     const container = document.getElementById("status-filters");
     if (!container) return;
 
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
     
     let html = `<div class="filter-pill ${this.activeFilter === 'all' ? 'active' : ''}" data-status="all">Все</div>`;
     
@@ -531,7 +486,7 @@ const UI = {
     if (!container) return;
 
     const items = STATE.getUserItems();
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
 
     // Filter items
     let filtered = items;
@@ -560,9 +515,6 @@ const UI = {
     let html = "";
     filtered.forEach(item => {
       const statusObj = config.statuses.find(s => s.id === item.status) || config.statuses[0];
-      
-      // Dynamic rendering of ratings/stars
-      const stars = "★".repeat(item.rating) + "☆".repeat(10 - item.rating);
 
       html += `
         <div class="item-row" data-id="${item.id}">
@@ -584,7 +536,7 @@ const UI = {
             </div>
           </div>
 
-          <!-- Progress control (Episodes/Notes counter) -->
+          <!-- Progress control -->
           <div class="item-progress-control">
             <button class="progress-btn btn-progress-dec" data-id="${item.id}">−</button>
             <span class="item-progress-val" id="progress-val-${item.id}">${item.progressValue} ${config.progressUnit}</span>
@@ -657,11 +609,10 @@ const UI = {
     const container = document.getElementById("calendar-container");
     if (!container) return;
 
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
     
     let html = "";
     config.calendarEvents.forEach(ev => {
-      // Split date
       const parts = ev.date.split("-");
       const day = parts[2];
       const monthNames = { "07": "Июл", "08": "Авг", "09": "Сен" };
@@ -689,7 +640,7 @@ const UI = {
     const container = document.getElementById("achievements-container");
     if (!container) return;
 
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
     const user = STATE.currentUser;
     if (!user) return;
 
@@ -717,12 +668,12 @@ const UI = {
     const container = document.getElementById("admin-requests-container");
     if (!container) return;
 
-    const requests = STATE.getFeedbackRequests().filter(r => r.niche === STATE.activeNiche && !r.approved);
+    const requests = STATE.getFeedbackRequests().filter(r => !r.approved);
     
     if (requests.length === 0) {
       container.innerHTML = `
         <div style="text-align: center; padding: 15px; color: var(--text-muted); font-size: 0.85rem;">
-          Нет активных запросов на одобрение для этой ниши.
+          Нет активных запросов на модерацию.
         </div>
       `;
       return;
@@ -738,7 +689,7 @@ const UI = {
           </div>
           <div class="feedback-request-title">${req.title}</div>
           <div class="feedback-request-meta">
-            Бренд/Студия: ${req.creator}
+            Студия/Режиссер: ${req.creator}
           </div>
           <div class="feedback-request-actions">
             <button class="btn btn-primary btn-approve-fb" data-id="${req.id}" style="padding: 4px 10px; font-size: 0.75rem;">
@@ -756,7 +707,7 @@ const UI = {
       btn.addEventListener("click", (e) => {
         const id = parseInt(e.target.getAttribute("data-id"));
         if (STATE.approveFeedback(id)) {
-          alert("Запрос успешно одобрен! Карточка добавлена в общий каталог, пользователю начислено 50 очков.");
+          alert("Запрос успешно одобрен! Кинокарточка добавлена в общий поиск, пользователю начислено 50 очков.");
           this.renderAdminRequests();
           this.renderStats();
         }
@@ -776,7 +727,6 @@ const UI = {
 
     toast.classList.add("active");
     
-    // Play sound simulation (using browser Synthesis or simple timer)
     setTimeout(() => {
       toast.classList.remove("active");
     }, 4500);
@@ -785,8 +735,8 @@ const UI = {
   // Full screen CPA redirect simulation
   simulateCpaRedirect(title) {
     const overlay = document.getElementById("cpa-overlay");
-    const partner = NICHES[STATE.activeNiche].cpaPartner;
-    const links = NICHES[STATE.activeNiche].cpaLinks;
+    const partner = CONFIG.cpaPartner;
+    const links = CONFIG.cpaLinks;
     const randomLink = links[Math.floor(Math.random() * links.length)];
 
     if (!overlay) return;
@@ -812,9 +762,8 @@ const UI = {
     const overlay = document.getElementById("add-item-modal");
     if (!overlay) return;
 
-    const config = NICHES[STATE.activeNiche];
+    const config = CONFIG;
 
-    // Adapt modal text inputs dynamically
     overlay.innerHTML = `
       <div class="modal-container">
         <div class="modal-header">
@@ -872,12 +821,10 @@ const UI = {
 
     overlay.classList.add("active");
 
-    // Re-bind modal close events for dynamic HTML
     overlay.querySelector(".btn-close-modal").addEventListener("click", () => {
       overlay.classList.remove("active");
     });
 
-    // Rating selector interaction
     let selectedRating = 0;
     const ratingSelector = overlay.querySelector("#modal-rating-selector");
     ratingSelector.querySelectorAll(".rating-select-btn").forEach(btn => {
@@ -889,7 +836,6 @@ const UI = {
       });
     });
 
-    // Handle form submit
     overlay.querySelector("#modal-add-form").addEventListener("submit", (e) => {
       e.preventDefault();
       
