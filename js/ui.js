@@ -82,8 +82,8 @@ const UI = {
               ${user.email.charAt(0).toUpperCase()}
             </div>
             <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 0.8rem; font-weight: bold;">Уровень ${user.level}</span>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">${user.points} XP</span>
+              <span style="font-size: 0.8rem; font-weight: bold;">Уровень ${user.level || 0}</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);">${user.points || 0} XP</span>
             </div>
           </div>
         </div>
@@ -96,34 +96,30 @@ const UI = {
   renderTracker(root) {
     root.innerHTML = `
       <div class="container" style="padding-top: 30px;">
-        <div class="dashboard-grid">
+        <div class="main-content">
           <div class="card reveal-element delay-3">
-            <div class="card-title-row">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
               <h2>Ваши сериалы</h2>
-              <button class="btn btn-primary" id="btn-add-item-modal">Добавить сериал</button>
+              <button class="btn btn-primary" id="btn-add-item-modal">+ Добавить сериал</button>
             </div>
             
-            <div class="items-list-header">
-              <div class="search-filter-wrap">
-                <input type="text" id="search-input" class="form-input" placeholder="Поиск по вашим сериалам..." value="${this.searchQuery}">
-              </div>
-              <div class="filters-pills" id="status-filters"></div>
+            <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
+              <input type="text" id="search-input" class="form-input" style="max-width: 300px;" placeholder="Поиск по вашим сериалам..." value="${this.searchQuery}">
+              <div id="status-filters" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
             </div>
 
-            <div class="items-grid" id="items-list-container"></div>
+            <div class="tracker-grid" id="items-list-container"></div>
           </div>
+        </div>
 
-          <div class="sidebar-panel reveal-element delay-4">
-            <div class="card">
-              <div class="card-title-row">
-                <h2>Календарь релизов</h2>
-              </div>
-              <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button class="btn ${this.calendarFilter === 'all' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-all" style="flex: 1; font-size: 0.8rem;">Все</button>
-                <button class="btn ${this.calendarFilter === 'my' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-my" style="flex: 1; font-size: 0.8rem;">Мои сериалы</button>
-              </div>
-              <div class="calendar-list" id="calendar-container"></div>
+        <div class="sidebar reveal-element delay-4">
+          <div class="card">
+            <h2 style="margin-bottom: 20px;">Календарь релизов</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+              <button class="btn ${this.calendarFilter === 'all' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-all" style="flex: 1; font-size: 0.8rem;">Все</button>
+              <button class="btn ${this.calendarFilter === 'my' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-my" style="flex: 1; font-size: 0.8rem;">Мои сериалы</button>
             </div>
+            <div id="calendar-container" style="display: flex; flex-direction: column; gap: 15px;"></div>
           </div>
         </div>
       </div>
@@ -155,18 +151,17 @@ const UI = {
     const container = document.getElementById("status-filters");
     if (!container) return;
     
-    let html = `<div class="filter-pill ${this.activeFilter === 'all' ? 'active' : ''}" data-status="all">Все</div>`;
+    let html = `<button class="btn ${this.activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'}" data-status="all" style="font-size: 0.85rem; padding: 6px 14px;">Все</button>`;
     CONFIG.statuses.forEach(st => {
-      html += `<div class="filter-pill ${this.activeFilter === st.id ? 'active' : ''}" data-status="${st.id}">${st.label}</div>`;
+      html += `<button class="btn ${this.activeFilter === st.id ? 'btn-primary' : 'btn-secondary'}" data-status="${st.id}" style="font-size: 0.85rem; padding: 6px 14px;">${st.label}</button>`;
     });
     container.innerHTML = html;
 
-    container.querySelectorAll(".filter-pill").forEach(pill => {
-      pill.addEventListener("click", (e) => {
+    container.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
         this.activeFilter = e.target.getAttribute("data-status");
-        container.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
-        e.target.classList.add("active");
         this.renderTrackedItems();
+        this.renderStatusFilters(); // re-render filters to update active button class
       });
     });
   },
@@ -184,7 +179,6 @@ const UI = {
       items = items.filter(i => i.title.toLowerCase().includes(q));
     }
 
-    // Sort: if in "want_to_watch" view, sort by expectedRating descending!
     if (this.activeFilter === "want_to_watch") {
       items.sort((a, b) => (b.expectedRating || 0) - (a.expectedRating || 0));
     }
@@ -195,30 +189,34 @@ const UI = {
     }
 
     let html = "";
-    items.forEach(item => {
+    items.forEach((item, index) => {
       const statusObj = CONFIG.statuses.find(s => s.id === item.status) || CONFIG.statuses[0];
+      const delayClass = `delay-${(index % 5) + 1}`;
       
       let ratingInfo = item.status === "want_to_watch" 
-        ? `<div class="item-rating">Ожидание: <span>${item.expectedRating || 0}/10</span></div>`
-        : `<div class="item-rating">Рейтинг: <span>${item.rating || 0}/10</span></div>`;
+        ? `<div class="item-rating" style="font-size: 0.85rem;">Ожидание: <span class="tabular font-bold text-white">${item.expectedRating || 0}/10</span></div>`
+        : `<div class="item-rating" style="font-size: 0.85rem;">Рейтинг: <span class="tabular font-bold text-white">${item.rating || 0}/10</span></div>`;
 
       html += `
-        <div class="item-row" data-id="${item.id}">
-          <div class="item-status-icon" style="background: rgba(15,23,42,0.03); color: ${statusObj.color}; border: 1px solid ${statusObj.color}22">
-            [${statusObj.label}]
-          </div>
-          <div class="item-info">
-            <div class="item-title">${item.title}</div>
-            <div class="item-meta"><strong>Жанр:</strong> ${item.type}</div>
-          </div>
-          <div class="item-progress-control">
-            <button class="progress-btn btn-progress-dec" data-id="${item.id}">−</button>
-            <span class="item-progress-val">${item.progressValue} серий</span>
-            <button class="progress-btn btn-progress-inc" data-id="${item.id}">+</button>
-          </div>
-          <div class="item-right-actions">
-            ${ratingInfo}
-            <button class="btn-item-action btn-item-delete" data-id="${item.id}">Удалить</button>
+        <div class="series-card reveal-element ${delayClass}" data-id="${item.id}">
+          <div class="series-card-content">
+            <div class="series-card-header">
+              <h3 class="series-card-title">${item.title}</h3>
+              <span class="series-status-badge status-${item.status}">${statusObj.label}</span>
+            </div>
+            <div class="item-meta mb-4" style="color: var(--text-secondary); font-size: 0.9rem;"><strong>Жанр:</strong> ${item.type}</div>
+            
+            <div class="series-card-progress">
+              <div class="flex items-center gap-2">
+                <button class="btn-icon btn-progress-dec" data-id="${item.id}">−</button>
+                <span class="progress-text tabular">${item.progressValue} серий</span>
+                <button class="btn-icon btn-progress-inc" data-id="${item.id}">+</button>
+              </div>
+              <div class="flex items-center gap-4">
+                ${ratingInfo}
+                <button class="btn-icon btn-item-delete" data-id="${item.id}" style="color: #ef4444;">✕</button>
+              </div>
+            </div>
           </div>
         </div>
       `;
@@ -318,8 +316,8 @@ const UI = {
               ${user.email.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 style="margin: 0; font-family: var(--font-display);">${user.email}</h1>
-              <p style="margin: 5px 0 15px 0; color: var(--color-primary); font-weight: bold;">Уровень ${user.level} (${user.points} XP)</p>
+              <h1 style="margin: 0; font-family: var(--font-family-display);">${user.email}</h1>
+              <p style="margin: 5px 0 15px 0; color: var(--primary-color); font-weight: bold;">Уровень ${user.level || 0} (${user.points || 0} XP)</p>
               <div style="display: flex; gap: 20px; font-size: 0.9rem;">
                 <div><strong>${user.followers}</strong> Подписчиков</div>
                 <div><strong>${user.following}</strong> Подписок</div>
@@ -330,13 +328,13 @@ const UI = {
         </div>
 
         <div class="dashboard-grid">
-          <div class="card">
+          <div class="card reveal-element delay-3">
             <h2>Ваша коллекция карточек</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
               ${cardsHtml}
             </div>
           </div>
-          <div class="card">
+          <div class="card reveal-element delay-4">
             <h2>Достижения</h2>
             <div id="achievements-container"></div>
           </div>
@@ -364,10 +362,11 @@ const UI = {
 
   renderEncyclopedia(root = document.getElementById("app-root")) {
     let encHtml = "";
-    CONFIG.encyclopedia.forEach(enc => {
+    CONFIG.encyclopedia.forEach((enc, index) => {
+      const delayClass = `delay-${(index % 5) + 1}`;
       encHtml += `
-        <div class="card" style="margin-bottom: 20px;">
-          <h2 style="font-family: var(--font-display); color: var(--color-primary);">${enc.title}</h2>
+        <div class="card reveal-element ${delayClass}" style="margin-bottom: 20px;">
+          <h2 style="font-family: var(--font-family-display); color: var(--primary-color);">${enc.title}</h2>
           
           <div style="margin-top: 15px;">
             <h3 style="font-size: 1rem; margin-bottom: 5px;">Персонажи</h3>
@@ -395,7 +394,7 @@ const UI = {
 
     root.innerHTML = `
       <div class="container" style="padding-top: 30px;">
-        <h1 style="margin-bottom: 20px; font-family: var(--font-display);">Миры сериалов (Энциклопедия)</h1>
+        <h1 style="margin-bottom: 20px; font-family: var(--font-family-display);">Миры сериалов (Энциклопедия)</h1>
         ${encHtml}
       </div>
     `;

@@ -639,3 +639,62 @@ p {
 .justify-between { justify-content: space-between; }
 .gap-2 { gap: 8px; }
 .gap-4 { gap: 16px; }
+
+/* Calendar Styles */
+.calendar-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.calendar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-item:last-child {
+  border-bottom: none;
+}
+
+.calendar-date-box {
+  background: var(--surface-hover);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  min-width: 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-highlight);
+}
+
+.calendar-date-day {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.calendar-date-month {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.calendar-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-event-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.calendar-event-sub {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
