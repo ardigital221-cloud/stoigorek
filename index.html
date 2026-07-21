@@ -9,6 +9,7 @@
   <meta name="description" content="Умный трекер просмотренных сериалов, личная статистика, календарь релизов и подробная энциклопедия. Создай свою вселенную.">
   <meta name="keywords" content="трекер сериалов, вселенная сериалов, статистика просмотров, энциклопедия сериалов, Series Universe">
   <meta name="author" content="Hexa-Studio">
+  <meta name="theme-color" content="#05050A">
 
   <!-- Inter for body, Space Grotesk for display headlines -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,10 +39,11 @@
       </div>
 
       <!-- Navigation Tabs -->
-      <nav id="main-nav" class="main-nav" style="display: flex; gap: 20px;">
-        <button class="nav-tab active" data-tab="tracker">Трекер</button>
-        <button class="nav-tab" data-tab="profile">Моя вселенная</button>
-        <button class="nav-tab" data-tab="encyclopedia">Энциклопедия</button>
+      <nav id="main-nav" class="main-nav" style="display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;">
+        <style>#main-nav::-webkit-scrollbar { display: none; }</style>
+        <button class="nav-tab active" data-tab="tracker" style="white-space: nowrap;">Трекер</button>
+        <button class="nav-tab" data-tab="profile" style="white-space: nowrap;">Моя вселенная</button>
+        <button class="nav-tab" data-tab="encyclopedia" style="white-space: nowrap;">Энциклопедия</button>
       </nav>
 
       <!-- Session Profile Controls -->
