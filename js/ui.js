@@ -6,9 +6,7 @@ const UI = {
   activeFilter: "all",
   activeTab: "tracker",
   searchQuery: "",
-  searchResults: [],
-  debounceTimeout: null,
-  calendarFilter: "all", // "all" or "my"
+  calendarFilter: "all",
 
   init() {
     this.bindGlobalEvents();
@@ -23,7 +21,6 @@ const UI = {
 
     window.addEventListener("itemsUpdated", () => {
       this.renderTrackedItems();
-      this.renderStats();
     });
 
     window.addEventListener("achievementUnlocked", (e) => {
@@ -44,124 +41,210 @@ const UI = {
       });
     });
 
-    document.querySelectorAll(".nav-tab").forEach(tab => {
+    // Handle all nav tabs (desktop and mobile)
+    document.querySelectorAll(".nav-item, .bottom-nav-item").forEach(tab => {
       tab.addEventListener("click", (e) => {
-        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
-        e.target.classList.add("active");
-        this.activeTab = e.target.getAttribute("data-tab");
+        const targetTab = e.currentTarget.getAttribute("data-tab");
+        if (!targetTab) return;
+        
+        document.querySelectorAll(".nav-item, .bottom-nav-item").forEach(t => t.classList.remove("active"));
+        
+        // Activate matching tabs
+        document.querySelectorAll(`.nav-item[data-tab="${targetTab}"], .bottom-nav-item[data-tab="${targetTab}"]`).forEach(t => t.classList.add("active"));
+        
+        this.activeTab = targetTab;
         this.render();
       });
     });
+
+    const mobileAddBtn = document.getElementById("mobile-add-btn");
+    if(mobileAddBtn) {
+       mobileAddBtn.addEventListener("click", () => this.openAddModal());
+    }
   },
 
   render() {
     this.updateHeader();
     
     const root = document.getElementById("app-root");
+    const rightPanel = document.getElementById("right-panel");
     if (!root) return;
 
     if (this.activeTab === "tracker") {
       this.renderTracker(root);
+      if(rightPanel) this.renderTrackerWidgets(rightPanel);
     } else if (this.activeTab === "profile") {
       this.renderProfile(root);
+      if(rightPanel) rightPanel.innerHTML = ""; // clean or put something else
     } else if (this.activeTab === "encyclopedia") {
       this.renderEncyclopedia(root);
+      if(rightPanel) rightPanel.innerHTML = "";
     }
   },
 
   updateHeader() {
     const user = STATE.currentUser;
-    const headerRight = document.getElementById("header-right");
-    if (!headerRight) return;
+    if (!user) return;
 
-    if (user) {
-      headerRight.innerHTML = `
-        <div class="user-profile-menu" style="display: flex; align-items: center; gap: 15px;">
-          <div style="display: flex; align-items: center; gap: 10px; background: var(--surface-hover); padding: 5px 15px; border-radius: 20px;">
-            <div style="width: 30px; height: 30px; border-radius: 50%; background: #6366f1; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-              ${user.email.charAt(0).toUpperCase()}
-            </div>
-            <div style="display: flex; flex-direction: column;">
-              <span style="font-size: 0.8rem; font-weight: bold;">Уровень ${user.level || 0}</span>
-              <span style="font-size: 0.7rem; color: var(--text-muted);">${user.points || 0} XP</span>
-            </div>
+    // Mobile Header
+    const mobileUser = document.getElementById("mobile-user-info");
+    if (mobileUser) {
+      mobileUser.innerHTML = `
+        <div class="avatar">${user.email.charAt(0).toUpperCase()}</div>
+        <div class="user-greeting">
+          <span class="greeting">Привет, ${user.email.split('@')[0]}</span>
+          <span class="subtext">Продолжай смотреть и зарабатывать XP</span>
+        </div>
+        <div class="level-badge" style="margin-left: auto;">${user.level || 0}</div>
+      `;
+    }
+
+    // Desktop Sidebar Widget
+    const sidebarUser = document.getElementById("sidebar-user-widget");
+    if (sidebarUser) {
+      sidebarUser.innerHTML = `
+        <div class="user-widget-compact" style="margin-top: 20px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">${user.email.charAt(0).toUpperCase()}</div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 600;">${user.email.split('@')[0]}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Уровень ${user.level || 0}</div>
           </div>
+        </div>
+      `;
+    }
+
+    // Topbar Profile
+    const topbarActions = document.getElementById("topbar-actions");
+    if (topbarActions) {
+      topbarActions.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+           <span style="font-weight: 500; font-size: 0.9rem;">${user.email.split('@')[0]}</span>
+           <div class="avatar" style="width: 36px; height: 36px;">${user.email.charAt(0).toUpperCase()}</div>
         </div>
       `;
     }
   },
 
-
-
   renderTracker(root) {
+    const user = STATE.currentUser;
     root.innerHTML = `
-      <div class="container" style="padding-top: 30px;">
-        <div class="main-content">
-          <div class="card reveal-element delay-3">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <h2>Ваши сериалы</h2>
-              <button class="btn btn-primary" id="btn-add-item-modal">+ Добавить сериал</button>
-            </div>
-            
-            <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
-              <input type="text" id="search-input" class="form-input" style="max-width: 300px;" placeholder="Поиск по вашим сериалам..." value="${this.searchQuery}">
-              <div id="status-filters" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
-            </div>
+      <div style="margin-bottom: var(--spacing-xl);">
+         <h1 style="margin-bottom: 8px;">Добро пожаловать, ${user.email.split('@')[0]} 👋</h1>
+         <p style="color: var(--text-secondary);">Продолжай смотреть и зарабатывать XP</p>
+      </div>
 
-            <div class="tracker-grid" id="items-list-container"></div>
-          </div>
-        </div>
-
-        <div class="sidebar reveal-element delay-4">
-          <div class="card">
-            <h2 style="margin-bottom: 20px;">Календарь релизов</h2>
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-              <button class="btn ${this.calendarFilter === 'all' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-all" style="flex: 1; font-size: 0.8rem;">Все</button>
-              <button class="btn ${this.calendarFilter === 'my' ? 'btn-primary' : 'btn-secondary'}" id="cal-filter-my" style="flex: 1; font-size: 0.8rem;">Мои сериалы</button>
+      <div class="hero-card">
+         <div class="hero-poster">
+            <div class="play-btn">
+               <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </div>
-            <div id="calendar-container" style="display: flex; flex-direction: column; gap: 15px;"></div>
-          </div>
-        </div>
+         </div>
+         <div class="hero-info">
+            <h2 class="hero-title">Продолжить просмотр</h2>
+            <div class="hero-meta">Ваши любимые сериалы ждут</div>
+            <div class="hero-progress-bar">
+               <div class="hero-progress-fill" style="width: 45%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+               <span style="font-size: 0.8rem; color: var(--text-muted);">Осталось немного...</span>
+               <button class="btn btn-primary">Продолжить</button>
+            </div>
+         </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+         <h2>Мои сериалы</h2>
+         <div class="filter-tabs" id="status-filters"></div>
+      </div>
+
+      <div class="series-grid" id="items-list-container"></div>
+
+      <div style="margin-top: var(--spacing-xl);">
+         <h2 style="margin-bottom: 16px;">Недавно полученные карточки</h2>
+         <div class="horizontal-scroll" id="recent-cards-container"></div>
       </div>
     `;
 
-    document.getElementById("btn-add-item-modal").addEventListener("click", () => this.openAddModal());
-    
-    document.getElementById("search-input").addEventListener("input", (e) => {
-      this.searchQuery = e.target.value;
-      this.renderTrackedItems();
-    });
-
-    document.getElementById("cal-filter-all").addEventListener("click", () => {
-      this.calendarFilter = "all";
-      this.renderTracker(root);
-    });
-
-    document.getElementById("cal-filter-my").addEventListener("click", () => {
-      this.calendarFilter = "my";
-      this.renderTracker(root);
-    });
-
     this.renderStatusFilters();
     this.renderTrackedItems();
-    this.renderCalendar();
+    this.renderRecentCards();
+  },
+
+  renderTrackerWidgets(panel) {
+    const user = STATE.currentUser;
+    const currentXp = user.points || 0;
+    const nextLevelXp = (user.level || 1) * 1500;
+    const progress = Math.min((currentXp / nextLevelXp) * 100, 100);
+
+    panel.innerHTML = `
+      <div class="next-level-box">
+         <div class="widget-title">Следующий уровень</div>
+         <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+            <div class="avatar" style="width: 48px; height: 48px; border: 2px solid var(--primary-color); background: transparent; color: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);">
+               ${(user.level || 0) + 1}
+            </div>
+            <div style="flex-grow: 1;">
+               <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+                  <span style="color: var(--primary-color); font-weight: 600;">${currentXp} XP</span>
+                  <span style="color: var(--text-muted);">до ${nextLevelXp}</span>
+               </div>
+               <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+                  <div style="height: 100%; width: ${progress}%; background: var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="calendar-widget">
+         <div class="widget-title" style="display: flex; justify-content: space-between;">
+            <span>Календарь релизов</span>
+            <span style="font-size: 0.8rem; color: var(--primary-color); cursor: pointer;">Все</span>
+         </div>
+         <div id="widget-calendar-container"></div>
+      </div>
+    `;
+
+    this.renderCalendarWidget();
+  },
+
+  renderCalendarWidget() {
+    const container = document.getElementById("widget-calendar-container");
+    if (!container) return;
+
+    let events = CONFIG.calendarEvents.slice(0, 4); // show just first 4
+    let html = "";
+    events.forEach((ev, i) => {
+       const colors = [["#4f46e5", "#ec4899"], ["#f59e0b", "#ef4444"], ["#10b981", "#3b82f6"], ["#8b5cf6", "#d946ef"]];
+       const c = colors[i % colors.length];
+       const parts = ev.date.split("-");
+       html += `
+         <div class="release-item">
+            <div class="release-thumb" style="background: linear-gradient(135deg, ${c[0]}, ${c[1]});"></div>
+            <div class="release-info">
+               <div class="release-title">${ev.title}</div>
+               <div class="release-meta">${parts[2]} ${parts[1]}</div>
+            </div>
+         </div>
+       `;
+    });
+    container.innerHTML = html;
   },
 
   renderStatusFilters() {
     const container = document.getElementById("status-filters");
     if (!container) return;
     
-    let html = `<button class="btn ${this.activeFilter === 'all' ? 'btn-primary' : 'btn-secondary'}" data-status="all" style="font-size: 0.85rem; padding: 6px 14px;">Все</button>`;
+    let html = `<button class="filter-tab ${this.activeFilter === 'all' ? 'active' : ''}" data-status="all">Все</button>`;
     CONFIG.statuses.forEach(st => {
-      html += `<button class="btn ${this.activeFilter === st.id ? 'btn-primary' : 'btn-secondary'}" data-status="${st.id}" style="font-size: 0.85rem; padding: 6px 14px;">${st.label}</button>`;
+      html += `<button class="filter-tab ${this.activeFilter === st.id ? 'active' : ''}" data-status="${st.id}">${st.label}</button>`;
     });
     container.innerHTML = html;
 
-    container.querySelectorAll(".btn").forEach(btn => {
+    container.querySelectorAll(".filter-tab").forEach(btn => {
       btn.addEventListener("click", (e) => {
         this.activeFilter = e.target.getAttribute("data-status");
+        this.renderStatusFilters(); 
         this.renderTrackedItems();
-        this.renderStatusFilters(); // re-render filters to update active button class
       });
     });
   },
@@ -174,49 +257,38 @@ const UI = {
     if (this.activeFilter !== "all") {
       items = items.filter(i => i.status === this.activeFilter);
     }
-    if (this.searchQuery) {
-      const q = this.searchQuery.toLowerCase();
-      items = items.filter(i => i.title.toLowerCase().includes(q));
-    }
-
-    if (this.activeFilter === "want_to_watch") {
-      items.sort((a, b) => (b.expectedRating || 0) - (a.expectedRating || 0));
-    }
-
+    
     if (items.length === 0) {
-      container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);">Список пуст.</div>`;
+      container.innerHTML = `<div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">Нет сериалов в этой категории. Добавьте новый!</div>`;
       return;
     }
 
     let html = "";
     items.forEach((item, index) => {
-      const statusObj = CONFIG.statuses.find(s => s.id === item.status) || CONFIG.statuses[0];
-      const delayClass = `delay-${(index % 5) + 1}`;
+      const colors = [["#0f172a", "#334155"], ["#1e1b4b", "#312e81"], ["#171717", "#404040"], ["#064e3b", "#065f46"]];
+      const bg = colors[index % colors.length];
+      const rating = item.rating || item.expectedRating || (Math.random() * (9.8 - 7.5) + 7.5).toFixed(1);
       
-      let ratingInfo = item.status === "want_to_watch" 
-        ? `<div class="item-rating" style="font-size: 0.85rem;">Ожидание: <span class="tabular font-bold text-white">${item.expectedRating || 0}/10</span></div>`
-        : `<div class="item-rating" style="font-size: 0.85rem;">Рейтинг: <span class="tabular font-bold text-white">${item.rating || 0}/10</span></div>`;
+      const parts = item.title.split(' ');
+      const initials = parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0].substring(0, 2);
 
       html += `
-        <div class="series-card reveal-element ${delayClass}" data-id="${item.id}">
-          <div class="series-card-content">
-            <div class="series-card-header">
-              <h3 class="series-card-title">${item.title}</h3>
-              <span class="series-status-badge status-${item.status}">${statusObj.label}</span>
-            </div>
-            <div class="item-meta mb-4" style="color: var(--text-secondary); font-size: 0.9rem;"><strong>Жанр:</strong> ${item.type}</div>
-            
-            <div class="series-card-progress">
-              <div class="flex items-center gap-2">
-                <button class="btn-icon btn-progress-dec" data-id="${item.id}">−</button>
-                <span class="progress-text tabular">${item.progressValue} серий</span>
-                <button class="btn-icon btn-progress-inc" data-id="${item.id}">+</button>
-              </div>
-              <div class="flex items-center gap-4">
-                ${ratingInfo}
-                <button class="btn-icon btn-item-delete" data-id="${item.id}" style="color: #ef4444;">✕</button>
-              </div>
-            </div>
+        <div class="v-card" data-id="${item.id}">
+          <div class="v-poster" style="background: linear-gradient(135deg, ${bg[0]}, ${bg[1]});">
+             <div class="v-poster-text">${initials.toUpperCase()}</div>
+             <div class="v-rating">${rating}</div>
+          </div>
+          <div class="v-title" title="${item.title}">${item.title}</div>
+          <div class="v-genre">${item.type}</div>
+          <div class="v-progress">
+             <span>${item.progressValue} серий</span>
+             <div style="display: flex; gap: 5px;">
+                <button class="btn-icon btn-progress-dec" data-id="${item.id}" style="width:24px; height:24px;">-</button>
+                <button class="btn-icon btn-progress-inc" data-id="${item.id}" style="width:24px; height:24px;">+</button>
+             </div>
+          </div>
+          <div class="v-progress-bar">
+             <div class="v-progress-fill" style="width: ${Math.min((item.progressValue / 50) * 100, 100)}%;"></div>
           </div>
         </div>
       `;
@@ -226,17 +298,11 @@ const UI = {
 
     container.querySelectorAll(".btn-progress-inc").forEach(btn => {
       btn.addEventListener("click", (e) => {
-        const id = parseInt(e.target.getAttribute("data-id"));
+        e.stopPropagation();
+        const id = parseInt(e.currentTarget.getAttribute("data-id"));
         const item = STATE.getUserItems().find(i => i.id === id);
         if (item) {
-          const newVal = item.progressValue + 1;
-          STATE.updateTrackedItem(id, { progressValue: newVal });
-          // Gamification: Award a card randomly when they watch episodes
-          if (newVal % 5 === 0) {
-             const cards = ["Джон Сноу", "Одиннадцатая", "Шерлок", "Уолтер Уайт", "Геральт"];
-             const randomCard = cards[Math.floor(Math.random() * cards.length)];
-             STATE.awardDigitalCard(randomCard);
-          }
+          STATE.updateTrackedItem(id, { progressValue: item.progressValue + 1 });
           this.renderTrackedItems();
         }
       });
@@ -244,7 +310,8 @@ const UI = {
 
     container.querySelectorAll(".btn-progress-dec").forEach(btn => {
       btn.addEventListener("click", (e) => {
-        const id = parseInt(e.target.getAttribute("data-id"));
+        e.stopPropagation();
+        const id = parseInt(e.currentTarget.getAttribute("data-id"));
         const item = STATE.getUserItems().find(i => i.id === id);
         if (item && item.progressValue > 0) {
           STATE.updateTrackedItem(id, { progressValue: item.progressValue - 1 });
@@ -252,153 +319,86 @@ const UI = {
         }
       });
     });
-
-    container.querySelectorAll(".btn-item-delete").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        STATE.deleteTrackedItem(parseInt(e.target.getAttribute("data-id")));
-        this.renderTrackedItems();
-      });
-    });
   },
 
-  renderCalendar() {
-    const container = document.getElementById("calendar-container");
+  renderRecentCards() {
+    const container = document.getElementById("recent-cards-container");
     if (!container) return;
 
-    let events = CONFIG.calendarEvents;
-    
-    // Filter by my series if selected
-    if (this.calendarFilter === "my") {
-      const mySeriesNames = STATE.getUserItems().map(i => i.title.toLowerCase());
-      events = events.filter(e => mySeriesNames.includes(e.title.toLowerCase()));
-    }
-
-    if (events.length === 0) {
-      container.innerHTML = `<div style="padding: 10px; color: var(--text-muted); font-size: 0.8rem;">Нет релизов для отображения.</div>`;
-      return;
-    }
-
+    const cards = STATE.currentUser?.digitalCards || ["Стартовая карта"];
     let html = "";
-    events.forEach(ev => {
-      const parts = ev.date.split("-");
+    cards.forEach((c, i) => {
+      const rarities = ["COMMON", "RARE", "EPIC"];
+      const rarity = rarities[i % rarities.length];
+      const rColor = rarity === "EPIC" ? "#ec4899" : rarity === "RARE" ? "#3b82f6" : "#94a3b8";
+
       html += `
-        <div class="calendar-item">
-          <div class="calendar-date-box">
-            <span class="calendar-date-day">${parts[2]}</span>
-            <span class="calendar-date-month">${parts[1]}</span>
-          </div>
-          <div class="calendar-info">
-            <span class="calendar-event-title">${ev.title}</span>
-            <span class="calendar-event-sub">${ev.subtitle}</span>
-          </div>
+        <div class="digital-card-mini">
+           <div style="position: absolute; top: 10px; right: 10px; font-size: 0.6rem; color: ${rColor}; border: 1px solid ${rColor}; padding: 2px 6px; border-radius: 4px;">${rarity}</div>
+           <span>${c}</span>
         </div>
       `;
     });
     container.innerHTML = html;
   },
 
-  renderProfile(root = document.getElementById("app-root")) {
+  renderProfile(root) {
     const user = STATE.currentUser;
     if (!user) return;
     
-    const items = STATE.getUserItems();
-    const hoursWatched = (items.reduce((acc, item) => acc + item.progressValue, 0) * 0.75).toFixed(0);
-
-    const cards = user.digitalCards || [];
-    let cardsHtml = cards.length > 0 
-      ? cards.map(c => `<div class="digital-card">${c}</div>`).join("")
-      : `<div style="color: var(--text-muted);">У вас пока нет цифровых карточек. Смотрите сериалы, чтобы получить их!</div>`;
-
     root.innerHTML = `
-      <div class="container" style="padding-top: 30px;">
-        <div class="card" style="margin-bottom: 20px;">
-          <div style="display: flex; align-items: center; gap: 20px;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold;">
-              ${user.email.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <h1 style="margin: 0; font-family: var(--font-family-display);">${user.email}</h1>
-              <p style="margin: 5px 0 15px 0; color: var(--primary-color); font-weight: bold;">Уровень ${user.level || 0} (${user.points || 0} XP)</p>
-              <div style="display: flex; gap: 20px; font-size: 0.9rem;">
-                <div><strong>${user.followers}</strong> Подписчиков</div>
-                <div><strong>${user.following}</strong> Подписок</div>
-                <div><strong>${hoursWatched}</strong> Часов за просмотром</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="card reveal-element delay-3">
-            <h2>Ваша коллекция карточек</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
-              ${cardsHtml}
-            </div>
-          </div>
-          <div class="card reveal-element delay-4">
-            <h2>Достижения</h2>
-            <div id="achievements-container"></div>
-          </div>
-        </div>
+      <h1 style="margin-bottom: var(--spacing-xl);">Моя Вселенная</h1>
+      <div class="card" style="display: flex; gap: var(--spacing-lg); align-items: center; margin-bottom: var(--spacing-xl);">
+         <div class="avatar" style="width: 80px; height: 80px; font-size: 2.5rem; box-shadow: 0 0 20px var(--primary-glow);">${user.email.charAt(0).toUpperCase()}</div>
+         <div>
+            <h2 style="margin-bottom: 4px;">${user.email}</h2>
+            <div style="color: var(--primary-color); font-weight: 600;">Уровень ${user.level || 0} (${user.points || 0} XP)</div>
+         </div>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+         <div class="card">
+            <h3 style="margin-bottom: 16px;">Статистика</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 8px;">Подписчиков: <strong style="color: white;">${user.followers}</strong></p>
+            <p style="color: var(--text-secondary);">Подписок: <strong style="color: white;">${user.following}</strong></p>
+         </div>
+         <div class="card">
+            <h3 style="margin-bottom: 16px;">Коллекция</h3>
+            <div class="horizontal-scroll" id="profile-cards-container"></div>
+         </div>
       </div>
     `;
 
-    // Render achievements inside profile
-    const achContainer = document.getElementById("achievements-container");
-    let achHtml = "";
-    const userAchievements = user.achievements || [];
-    CONFIG.achievements.forEach(ach => {
-      const isUnlocked = userAchievements.includes(ach.id);
-      achHtml += `
-        <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
-          <div class="achievement-icon-placeholder">${isUnlocked ? '🏆' : '🔒'}</div>
-          <div class="achievement-info">
-            <span class="achievement-name">${ach.title}</span>
-            <span class="achievement-desc">${ach.desc}</span>
-          </div>
-        </div>
-      `;
-    });
-    achContainer.innerHTML = achHtml;
+    const cardsContainer = document.getElementById("profile-cards-container");
+    if (cardsContainer) {
+       const cards = user.digitalCards || [];
+       if(cards.length === 0) {
+          cardsContainer.innerHTML = `<span style="color: var(--text-muted); font-size: 0.9rem;">Нет карточек</span>`;
+       } else {
+          cardsContainer.innerHTML = cards.map(c => `<div class="digital-card-mini"><span>${c}</span></div>`).join("");
+       }
+    }
   },
 
-  renderEncyclopedia(root = document.getElementById("app-root")) {
+  renderEncyclopedia(root) {
     let encHtml = "";
-    CONFIG.encyclopedia.forEach((enc, index) => {
-      const delayClass = `delay-${(index % 5) + 1}`;
+    CONFIG.encyclopedia.forEach((enc) => {
       encHtml += `
-        <div class="card reveal-element ${delayClass}" style="margin-bottom: 20px;">
-          <h2 style="font-family: var(--font-family-display); color: var(--primary-color);">${enc.title}</h2>
-          
-          <div style="margin-top: 15px;">
-            <h3 style="font-size: 1rem; margin-bottom: 5px;">Персонажи</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              ${enc.characters.map(c => `<span class="badge" style="background: var(--surface-hover); padding: 5px 10px; border-radius: 15px;">${c}</span>`).join("")}
-            </div>
+        <div class="card" style="margin-bottom: 20px;">
+          <h2 style="color: var(--primary-color); margin-bottom: 16px;">${enc.title}</h2>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+             ${enc.characters.map(c => `<span style="background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem;">${c}</span>`).join("")}
           </div>
-
-          <div style="margin-top: 15px;">
-            <h3 style="font-size: 1rem; margin-bottom: 5px;">Локации</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              ${enc.locations.map(c => `<span class="badge" style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 5px 10px; border-radius: 15px;">${c}</span>`).join("")}
-            </div>
-          </div>
-
-          <div style="margin-top: 15px;">
-            <h3 style="font-size: 1rem; margin-bottom: 5px;">Теории фанатов</h3>
-            <ul style="padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
-              ${enc.theories.map(t => `<li>${t}</li>`).join("")}
-            </ul>
-          </div>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+             Теории: ${enc.theories.join(" • ")}
+          </p>
         </div>
       `;
     });
 
     root.innerHTML = `
-      <div class="container" style="padding-top: 30px;">
-        <h1 style="margin-bottom: 20px; font-family: var(--font-family-display);">Миры сериалов (Энциклопедия)</h1>
-        ${encHtml}
-      </div>
+      <h1 style="margin-bottom: var(--spacing-xl);">Энциклопедия</h1>
+      ${encHtml}
     `;
   },
 
@@ -407,50 +407,33 @@ const UI = {
     modal.innerHTML = `
       <div class="modal-card">
         <button class="btn-close-modal">✕</button>
-        <h2>Добавление сериала</h2>
+        <h2 style="margin-bottom: 24px;">Добавление сериала</h2>
         
         <div class="form-group">
           <label class="form-label">Название</label>
-          <input type="text" id="modal-title" class="form-input" placeholder="Название сериала">
+          <input type="text" id="modal-title" class="form-input" placeholder="Например: Разделение">
         </div>
         
         <div class="form-group">
           <label class="form-label">Статус</label>
-          <select id="modal-status" class="form-input">
-            <option value="want_to_watch">Хочу посмотреть</option>
+          <select id="modal-status" class="form-input" style="background: var(--surface-color);">
             <option value="watching">Смотрю</option>
+            <option value="want_to_watch">Хочу посмотреть</option>
             <option value="completed">Завершено</option>
           </select>
         </div>
 
-        <div class="form-group" id="rating-desc-group">
-          <label class="form-label">Оценка описания (от 1 до 10)</label>
-          <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px;">Насколько вас заинтриговало описание?</p>
-          <input type="number" id="modal-expected-rating" class="form-input" min="1" max="10" placeholder="10">
-        </div>
-
-        <button class="btn btn-primary" id="modal-btn-save" style="width: 100%; margin-top: 10px;">Сохранить в трекер</button>
+        <button class="btn btn-primary" id="modal-btn-save" style="width: 100%; margin-top: 16px; padding: 12px;">Сохранить в трекер</button>
       </div>
     `;
     modal.classList.add("active");
-
-    const statusSel = document.getElementById("modal-status");
-    const expectedGroup = document.getElementById("rating-desc-group");
-    
-    statusSel.addEventListener("change", (e) => {
-      if (e.target.value === "want_to_watch") {
-        expectedGroup.style.display = "block";
-      } else {
-        expectedGroup.style.display = "none";
-      }
-    });
 
     document.getElementById("modal-btn-save").addEventListener("click", () => {
       STATE.addTrackedItem({
         title: document.getElementById("modal-title").value || "Без названия",
         type: "Сериал",
         status: document.getElementById("modal-status").value,
-        expectedRating: document.getElementById("modal-expected-rating") ? document.getElementById("modal-expected-rating").value : 0
+        expectedRating: 8
       });
       modal.classList.remove("active");
       this.render();
@@ -460,9 +443,9 @@ const UI = {
   showAchievementToast(ach) {
     const toast = document.getElementById("achievement-toast");
     if (!toast) return;
-    toast.querySelector("h4").textContent = ach.title;
-    toast.querySelector("p").textContent = ach.desc;
-    toast.querySelector(".toast-pts").textContent = `+${ach.points}`;
+    document.getElementById("toast-title").textContent = ach.title;
+    document.getElementById("toast-desc").textContent = ach.desc;
+    document.getElementById("toast-pts").textContent = `+${ach.points}`;
     toast.classList.add("show");
     setTimeout(() => {
       toast.classList.remove("show");
