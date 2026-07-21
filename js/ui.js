@@ -135,19 +135,22 @@ const UI = {
 
       <div class="hero-card">
          <div class="hero-poster">
-            <div class="play-btn">
-               <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <div class="play-btn" style="border-radius: 12px; width: auto; padding: 5px 15px; background: rgba(124, 58, 237, 0.8);">
+               <span style="font-size: 0.8rem; font-weight: bold; color: white;">В тренде</span>
             </div>
          </div>
          <div class="hero-info">
-            <h2 class="hero-title">Продолжить просмотр</h2>
-            <div class="hero-meta">Ваши любимые сериалы ждут</div>
+            <h2 class="hero-title">Не забудьте отметить</h2>
+            <div class="hero-meta">Сериал, который вы смотрите прямо сейчас</div>
             <div class="hero-progress-bar">
                <div class="hero-progress-fill" style="width: 45%;"></div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-               <span style="font-size: 0.8rem; color: var(--text-muted);">Осталось немного...</span>
-               <button class="btn btn-primary">Продолжить</button>
+               <span style="font-size: 0.8rem; color: var(--text-muted);">Прогресс: почти половина</span>
+               <button class="btn btn-primary">
+                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                 Отметить серию
+               </button>
             </div>
          </div>
       </div>
