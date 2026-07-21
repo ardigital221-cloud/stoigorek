@@ -304,8 +304,9 @@ const UI = {
     const items = STATE.getUserItems();
     const hoursWatched = (items.reduce((acc, item) => acc + item.progressValue, 0) * 0.75).toFixed(0);
 
-    let cardsHtml = user.digitalCards.length > 0 
-      ? user.digitalCards.map(c => `<div class="digital-card">${c}</div>`).join("")
+    const cards = user.digitalCards || [];
+    let cardsHtml = cards.length > 0 
+      ? cards.map(c => `<div class="digital-card">${c}</div>`).join("")
       : `<div style="color: var(--text-muted);">У вас пока нет цифровых карточек. Смотрите сериалы, чтобы получить их!</div>`;
 
     root.innerHTML = `
@@ -345,8 +346,9 @@ const UI = {
     // Render achievements inside profile
     const achContainer = document.getElementById("achievements-container");
     let achHtml = "";
+    const userAchievements = user.achievements || [];
     CONFIG.achievements.forEach(ach => {
-      const isUnlocked = user.achievements.includes(ach.id);
+      const isUnlocked = userAchievements.includes(ach.id);
       achHtml += `
         <div class="achievement-item ${isUnlocked ? 'unlocked' : 'locked'}">
           <div class="achievement-icon-placeholder">${isUnlocked ? '🏆' : '🔒'}</div>
