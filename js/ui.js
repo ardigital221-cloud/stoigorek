@@ -41,6 +41,13 @@ const UI = {
       });
     });
 
+    // Prevent copy and right-click
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("copy", (e) => {
+      e.preventDefault();
+      // Optional: alert("Копирование запрещено");
+    });
+
     // Handle all nav tabs (desktop and mobile)
     document.querySelectorAll(".nav-item, .bottom-nav-item").forEach(tab => {
       tab.addEventListener("click", (e) => {
