@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineTrack — Сервис учета и личной статистики сериалов/фильмов</title>
+  <title>Series Universe — Твоя личная вселенная сериалов</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Умный трекер просмотренных сериалов и фильмов с личной статистикой, календарем релизов и ачивками. Масштабируемый движок для ваших коллекций.">
-  <meta name="keywords" content="трекер сериалов, учет фильмов, статистика просмотров, календарь сериалов, CineTrack">
+  <meta name="description" content="Умный трекер просмотренных сериалов, личная статистика, календарь релизов и подробная энциклопедия. Создай свою вселенную.">
+  <meta name="keywords" content="трекер сериалов, вселенная сериалов, статистика просмотров, энциклопедия сериалов, Series Universe">
   <meta name="author" content="Hexa-Studio">
 
   <!-- Inter for body, Space Grotesk for display headlines -->
@@ -26,12 +26,19 @@
 
   <!-- ===== sticky app header ===== -->
   <header class="app-header">
-    <div class="container header-inner">
+    <div class="container header-inner" style="display: flex; justify-content: space-between; align-items: center;">
       <!-- Brand Logo -->
-      <div class="logo-container">
-        <div class="logo-badge">C</div>
-        <span>CineTrack</span>
+      <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
+        <div class="logo-badge" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">SU</div>
+        <span>Series Universe</span>
       </div>
+
+      <!-- Navigation Tabs -->
+      <nav id="main-nav" class="main-nav" style="display: flex; gap: 20px;">
+        <button class="nav-tab active" data-tab="tracker">Трекер</button>
+        <button class="nav-tab" data-tab="profile">Моя вселенная</button>
+        <button class="nav-tab" data-tab="encyclopedia">Энциклопедия</button>
+      </nav>
 
       <!-- Session Profile Controls -->
       <div id="header-right">
@@ -50,14 +57,13 @@
     <div class="container footer-inner">
       <div>
         <div class="logo-container" style="font-size: 1.1rem; margin-bottom: 5px; cursor: default;">
-          <div class="logo-badge" style="width: 24px; height: 24px; font-size: 0.8rem;">C</div>
-          <span>CineTrack</span>
+          <div class="logo-badge" style="width: 24px; height: 24px; font-size: 0.8rem; background: linear-gradient(135deg, #6366f1, #8b5cf6);">SU</div>
+          <span>Series Universe</span>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.75rem;">© 2026 CineTrack & Hexa-Studio. Личный гид и органайзер ваших просмотров.</p>
+        <p style="color: var(--text-muted); font-size: 0.75rem;">© 2026 Series Universe. Личный гид и органайзер ваших просмотров.</p>
       </div>
       <div class="footer-links">
-        <a href="#about" onclick="alert('CineTrack MVP — это трекер сериалов и кино, позволяющий вести личные списки, получать достижения и смотреть детальную статистику.')">// О проекте</a>
-        <a href="#terms" onclick="alert('Монетизация CineTrack включает подписочную модель Premium за 100 руб/мес и партнерские переходы CPA.')">// Монетизация</a>
+        <a href="#about" onclick="alert('Series Universe — это платформа для фанатов сериалов.')">// О проекте</a>
       </div>
     </div>
   </footer>
@@ -70,14 +76,6 @@
   <!-- ===== modal dialog: settings api keys form ===== -->
   <div class="modal-overlay" id="settings-modal">
     <!-- Generated dynamically in UI.openSettingsModal() -->
-  </div>
-
-  <!-- ===== popup overlay: cpa referral loader redirect simulation ===== -->
-  <div class="cpa-simulation-overlay" id="cpa-overlay">
-    <div class="cpa-loader"></div>
-    <div class="cpa-overlay-text">
-      <!-- Simulated redirect details -->
-    </div>
   </div>
 
   <!-- ===== achievement toast notification alert ===== -->

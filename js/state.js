@@ -1,6 +1,6 @@
 /**
  * Application State Manager
- * Handles database operations, user sessions, tracking lists, achievements, and admin feedback queue.
+ * Handles database operations, user sessions, tracking lists, achievements.
  */
 
 const STATE = {
@@ -8,31 +8,34 @@ const STATE = {
   searchSource: "local", // "local" or "tmdb"
   tmdbApiKey: "",
   
-  // Initialize state from localStorage or load defaults
   init() {
-    const session = localStorage.getItem("tracker_session");
-    if (session) {
-      this.currentUser = JSON.parse(session);
-    }
-    
     this.searchSource = localStorage.getItem("tracker_search_source") || "local";
-    this.tmdbApiKey = localStorage.getItem("tracker_tmdb_api_key") || "1f296c09b0b4decc46dbf784e1b8b2e3"; // Prefilled demo API key for testing
+    this.tmdbApiKey = localStorage.getItem("tracker_tmdb_api_key") || "1f296c09b0b4decc46dbf784e1b8b2e3"; 
     
-    // Seed default users if empty
     if (!localStorage.getItem("tracker_users")) {
       const defaultUsers = [
-        { email: "admin@admin.ru", password: "admin", premium: true, points: 500, achievements: ["collector_50"] },
-        { email: "test@test.ru", password: "test", premium: false, points: 50, achievements: [] }
+        { 
+          email: "admin@admin.ru", password: "admin", premium: true, points: 500, 
+          level: 15, hoursWatched: 450, digitalCards: ['Одиннадцатая', 'Джон Сноу'], followers: 120, following: 15,
+          achievements: ["collector_50"] 
+        },
+        { 
+          email: "test@test.ru", password: "test", premium: false, points: 50, 
+          level: 2, hoursWatched: 15, digitalCards: [], followers: 3, following: 5,
+          achievements: [] 
+        }
       ];
       localStorage.setItem("tracker_users", JSON.stringify(defaultUsers));
     }
-    
-    // Seed feedback database if empty
-    if (!localStorage.getItem("tracker_feedback")) {
-      const defaultFeedback = [
-        { id: 1, userEmail: "user1@mail.ru", title: "Черное зеркало", type: "Фантастика", creator: "Netflix", progress: "6 сезонов", desc: "Антология о влиянии современных технологий на человеческие отношения.", approved: false }
-      ];
-      localStorage.setItem("tracker_feedback", JSON.stringify(defaultFeedback));
+
+    const session = localStorage.getItem("tracker_session");
+    if (session) {
+      this.currentUser = JSON.parse(session);
+    } else {
+      // Auto-login to skip auth screens
+      this.currentUser = this.getUsers()[0];
+      this.saveSession();
+      this.seedDefaultUserItems();
     }
   },
 
@@ -46,12 +49,10 @@ const STATE = {
     localStorage.setItem("tracker_tmdb_api_key", key);
   },
 
-  // Save current session
   saveSession() {
     if (this.currentUser) {
       localStorage.setItem("tracker_session", JSON.stringify(this.currentUser));
       
-      // Sync back to users database
       const users = this.getUsers();
       const index = users.findIndex(u => u.email === this.currentUser.email);
       if (index !== -1) {
@@ -63,12 +64,10 @@ const STATE = {
     }
   },
 
-  // Get user database
   getUsers() {
     return JSON.parse(localStorage.getItem("tracker_users") || "[]");
   },
 
-  // User Actions
   login(email, password) {
     const users = this.getUsers();
     const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
@@ -91,7 +90,12 @@ const STATE = {
       email: email,
       password: password,
       premium: false,
-      points: 100, // starting gift
+      points: 100,
+      level: 1,
+      hoursWatched: 0,
+      digitalCards: [],
+      followers: 0,
+      following: 0,
       achievements: []
     };
     
@@ -119,11 +123,21 @@ const STATE = {
   addPoints(amount) {
     if (!this.currentUser) return;
     this.currentUser.points += amount;
+    // level up simple logic
+    this.currentUser.level = 1 + Math.floor(this.currentUser.points / 100);
     this.saveSession();
     window.dispatchEvent(new CustomEvent("userUpdated"));
   },
+  
+  awardDigitalCard(cardName) {
+    if (!this.currentUser) return;
+    if (!this.currentUser.digitalCards.includes(cardName)) {
+       this.currentUser.digitalCards.push(cardName);
+       this.saveSession();
+       window.dispatchEvent(new CustomEvent("cardAwarded", { detail: { cardName }}));
+    }
+  },
 
-  // Tracking List Operations (Per User)
   getStorageKey() {
     const email = this.currentUser ? this.currentUser.email : "guest";
     return `tracker_items_${email}`;
@@ -151,8 +165,9 @@ const STATE = {
         progress: dbItem.progress,
         progressValue: parseFloat(dbItem.progress) || 12,
         rating: dbItem.rating,
-        status: idx === 0 ? "watching" : idx === 1 ? "completed" : "planned",
-        notes: "Тестовая запись для ознакомления.",
+        expectedRating: idx === 2 ? 8 : null, // for want_to_watch
+        status: idx === 0 ? "watching" : idx === 1 ? "completed" : "want_to_watch",
+        notes: "Заметка к сериалу.",
         dateAdded: new Date(Date.now() - (idx * 86400000 * 3)).toISOString().split("T")[0]
       }));
       localStorage.setItem(key, JSON.stringify(initialItems));
@@ -169,13 +184,14 @@ const STATE = {
       progress: itemData.progress || "0",
       progressValue: parseFloat(itemData.progress) || 0,
       rating: parseInt(itemData.rating) || 0,
-      status: itemData.status || "planned",
+      expectedRating: parseInt(itemData.expectedRating) || 0,
+      status: itemData.status || "want_to_watch",
       notes: itemData.notes || "",
       dateAdded: new Date().toISOString().split("T")[0]
     };
     items.unshift(newItem);
     this.saveUserItems(items);
-    this.addPoints(10); // Reward for tracking
+    this.addPoints(10);
     return newItem;
   },
 
@@ -196,7 +212,6 @@ const STATE = {
     this.saveUserItems(items);
   },
 
-  // Achievement Check Loop
   checkAchievements() {
     if (!this.currentUser) return;
     
@@ -222,71 +237,5 @@ const STATE = {
       this.saveSession();
       window.dispatchEvent(new CustomEvent("userUpdated"));
     }
-  },
-
-  // Feedback Requests Queue
-  getFeedbackRequests() {
-    return JSON.parse(localStorage.getItem("tracker_feedback") || "[]");
-  },
-
-  submitFeedback(feedbackData) {
-    const queue = this.getFeedbackRequests();
-    const newRequest = {
-      id: Date.now(),
-      userEmail: this.currentUser ? this.currentUser.email : "гость",
-      title: feedbackData.title,
-      type: feedbackData.type,
-      creator: feedbackData.creator,
-      progress: feedbackData.progress,
-      desc: feedbackData.desc || "Запрос от пользователя на добавление нового фильма/сериала.",
-      approved: false
-    };
-    queue.unshift(newRequest);
-    localStorage.setItem("tracker_feedback", JSON.stringify(queue));
-    
-    // Reward user for submission
-    this.addPoints(15);
-    window.dispatchEvent(new CustomEvent("feedbackSubmitted"));
-    return newRequest;
-  },
-
-  approveFeedback(id) {
-    const queue = this.getFeedbackRequests();
-    const index = queue.findIndex(f => f.id === id);
-    if (index !== -1 && !queue[index].approved) {
-      queue[index].approved = true;
-      localStorage.setItem("tracker_feedback", JSON.stringify(queue));
-      
-      const request = queue[index];
-      
-      // Add it to the configuration database dynamically
-      CONFIG.database.unshift({
-        id: Date.now(),
-        title: request.title,
-        type: request.type,
-        creator: request.creator,
-        progress: request.progress,
-        desc: request.desc,
-        rating: 8.0
-      });
-      
-      // Award requesting user points
-      const users = this.getUsers();
-      const userIndex = users.findIndex(u => u.email === request.userEmail);
-      if (userIndex !== -1) {
-        users[userIndex].points += 50;
-        localStorage.setItem("tracker_users", JSON.stringify(users));
-        
-        if (this.currentUser && this.currentUser.email === request.userEmail) {
-          this.currentUser.points += 50;
-          this.saveSession();
-          window.dispatchEvent(new CustomEvent("userUpdated"));
-        }
-      }
-      
-      window.dispatchEvent(new CustomEvent("feedbackApproved", { detail: request }));
-      return true;
-    }
-    return false;
   }
 };
