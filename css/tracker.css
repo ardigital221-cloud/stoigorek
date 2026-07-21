@@ -164,30 +164,40 @@ button {
   background: #2563eb;
 }
 
-/* Dashboard Layout (Desktop) */
+/* Dashboard Layout */
 .dashboard-wrapper {
-  display: grid;
-  grid-template-columns: 240px 1fr 300px;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
-/* Sidebar */
-.desktop-sidebar {
-  background: rgba(13, 13, 18, 0.8);
-  border-right: 1px solid var(--border-color);
-  padding: var(--spacing-lg);
+/* Desktop Topbar */
+.desktop-topbar {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(13, 13, 18, 0.8);
+  backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
-  height: 100vh;
-  backdrop-filter: blur(20px);
+  z-index: 100;
 }
+
+.topbar-content {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-xl);
+}
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: var(--spacing-xl);
 }
 .logo {
   width: 32px; height: 32px;
@@ -199,58 +209,57 @@ button {
   font-size: 0.9rem;
   box-shadow: 0 0 10px var(--primary-glow);
 }
-.brand-name {
+.brand-text {
   font-weight: 600;
   letter-spacing: 1px;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  line-height: 1.1;
+  color: var(--text-main);
 }
-.side-nav {
+
+.top-nav {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-grow: 1;
+  gap: 8px;
 }
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 8px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
-  font-size: 0.95rem;
-  justify-content: flex-start;
+  font-size: 0.9rem;
 }
 .nav-item:hover {
-  background: rgba(255,255,255,0.03);
   color: var(--text-main);
 }
 .nav-item.active {
-  background: rgba(124, 58, 237, 0.1);
   color: var(--primary-color);
-}
-.sidebar-socials {
-  display: flex;
-  gap: 12px;
-  margin-top: var(--spacing-lg);
-  color: var(--text-muted);
+  background: rgba(124, 58, 237, 0.1);
 }
 
-/* Main Column */
-.main-column {
-  display: flex;
-  flex-direction: column;
-}
-.desktop-topbar {
+.topbar-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(13, 13, 18, 0.6);
-  backdrop-filter: blur(20px);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  gap: 20px;
+}
+.search-icon {
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.search-icon:hover { color: var(--text-main); }
+
+.avatar-small {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--surface-color);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold;
+  overflow: hidden;
+  border: 1px solid var(--primary-color);
+}
+.avatar-small img {
+  width: 100%; height: 100%; object-fit: cover;
 }
 .search-bar {
   display: flex;
@@ -285,6 +294,17 @@ button {
 .content-root {
   padding: var(--spacing-xl);
   flex-grow: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Reusable Components for Profile and Universe */
+.dark-panel {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
 }
 
 /* Right Panel */
@@ -609,11 +629,26 @@ button {
     padding: 0 var(--spacing-md);
     z-index: 50;
   }
-  .mobile-user-info {
-    display: flex; align-items: center; gap: 12px;
+  .mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .mobile-user-info .greeting { font-weight: 600; display: block; font-size: 1.1rem; }
-  .mobile-user-info .subtext { font-size: 0.75rem; color: var(--text-secondary); }
+  .mobile-brand .logo {
+    width: 28px; height: 28px; font-size: 0.8rem;
+  }
+  .mobile-brand .brand-text {
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    line-height: 1.1;
+  }
+  .mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--text-secondary);
+  }
 
   /* Prevent iOS zoom on focus */
   input, select, textarea, .form-input, .search-bar input {

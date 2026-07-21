@@ -74,18 +74,16 @@ const UI = {
     this.updateHeader();
     
     const root = document.getElementById("app-root");
-    const rightPanel = document.getElementById("right-panel");
     if (!root) return;
 
-    if (this.activeTab === "tracker") {
+    if (this.activeTab === "tracker" || this.activeTab === "tracker_list") {
       this.renderTracker(root);
-      if(rightPanel) this.renderTrackerWidgets(rightPanel);
     } else if (this.activeTab === "profile") {
       this.renderProfile(root);
-      if(rightPanel) rightPanel.innerHTML = ""; // clean or put something else
+    } else if (this.activeTab === "universe") {
+      this.renderUniverse(root);
     } else if (this.activeTab === "encyclopedia") {
       this.renderEncyclopedia(root);
-      if(rightPanel) rightPanel.innerHTML = "";
     }
   },
 
@@ -93,35 +91,13 @@ const UI = {
     const user = STATE.currentUser;
     if (!user) return;
 
-    // Mobile Header
-    const mobileUser = document.getElementById("mobile-user-info");
-    if (mobileUser) {
-      mobileUser.innerHTML = `
-        <div style="font-weight: bold; font-size: 1.2rem; margin-left: 10px;">PROR</div>
-      `;
-    }
-
-    // Desktop Sidebar Widget
-    const sidebarUser = document.getElementById("sidebar-user-widget");
-    if (sidebarUser) {
-      sidebarUser.innerHTML = `
-        <div class="user-widget-compact" style="margin-top: 20px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-          <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">${user.email.charAt(0).toUpperCase()}</div>
-          <div>
-            <div style="font-size: 0.85rem; font-weight: 600;">${user.email.split('@')[0]}</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Уровень ${user.level || 0}</div>
-          </div>
-        </div>
-      `;
-    }
-
     // Topbar Profile
-    const topbarActions = document.getElementById("topbar-actions");
-    if (topbarActions) {
-      topbarActions.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-           <span style="font-weight: 500; font-size: 0.9rem;">${user.email.split('@')[0]}</span>
-           <div class="avatar" style="width: 36px; height: 36px;">${user.email.charAt(0).toUpperCase()}</div>
+    const avatarSmall = document.getElementById("desktop-user-avatar");
+    if (avatarSmall) {
+      avatarSmall.innerHTML = `
+        <img src="https://i.pravatar.cc/150?u=${user.email}" alt="user" onerror="this.style.display='none'">
+        <div class="avatar-fallback" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+           ${user.email.charAt(0).toUpperCase()}
         </div>
       `;
     }
@@ -154,6 +130,13 @@ const UI = {
               <div style="height: 100%; width: ${progress}%; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);"></div>
            </div>
         </div>
+      </div>
+
+      <div style="display: flex; gap: 16px; overflow-x: auto; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); white-space: nowrap;" class="hide-scrollbar">
+         <div style="padding-bottom: 8px; border-bottom: 2px solid var(--primary-color); color: white; font-weight: 600; cursor: pointer;">Сейчас смотрю</div>
+         <div style="padding-bottom: 8px; color: var(--text-muted); cursor: pointer;">Буду смотреть</div>
+         <div style="padding-bottom: 8px; color: var(--text-muted); cursor: pointer;">Заброшено</div>
+         <div style="padding-bottom: 8px; color: var(--text-muted); cursor: pointer;">Избранное</div>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 10px;">
@@ -360,37 +343,185 @@ const UI = {
     if (!user) return;
     
     root.innerHTML = `
-      <h1 style="margin-bottom: var(--spacing-xl);">Моя Вселенная</h1>
-      <div class="card" style="display: flex; gap: var(--spacing-lg); align-items: center; margin-bottom: var(--spacing-xl);">
-         <div class="avatar" style="width: 80px; height: 80px; font-size: 2.5rem; box-shadow: 0 0 20px var(--primary-glow);">${user.email.charAt(0).toUpperCase()}</div>
-         <div>
-            <h2 style="margin-bottom: 4px;">${user.email}</h2>
-            <div style="color: var(--primary-color); font-weight: 600;">Уровень ${user.level || 0} (${user.points || 0} XP)</div>
+      <h1 style="margin-bottom: var(--spacing-xl); font-size: 1.5rem;">Профиль</h1>
+      <div class="profile-header-card">
+         <div class="profile-avatar-large">
+            <img src="https://i.pravatar.cc/300?u=${user.email}" onerror="this.style.display='none'">
+            <div class="avatar-fallback" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; background: var(--surface-color); border-radius: 50%;">
+               ${user.email.charAt(0).toUpperCase()}
+            </div>
+            <div class="profile-level-badge">Уровень ${user.level || 17}</div>
+         </div>
+         <div class="profile-info">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+               <h2 style="font-size: 2rem; margin-bottom: 24px;">${user.email.split('@')[0]}</h2>
+               <button class="btn btn-secondary" style="border-radius: 20px; font-size: 0.8rem;">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+               </button>
+            </div>
+            <div style="margin-bottom: 20px;">
+               <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px;">
+                  <span style="color: var(--primary-color); font-weight: bold;">1240 / <span style="color: var(--text-muted);">1500 XP</span></span>
+               </div>
+               <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: 82%; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);"></div>
+               </div>
+            </div>
+         </div>
+         <div class="profile-stats-grid" style="margin-left: auto;">
+            <div class="stat-box">
+               <span class="stat-label">Сериалы</span>
+               <span class="stat-value">48</span>
+            </div>
+            <div class="stat-box">
+               <span class="stat-label">Серии</span>
+               <span class="stat-value">1246</span>
+            </div>
+            <div class="stat-box">
+               <span class="stat-label">Дни в комьюнити</span>
+               <span class="stat-value">86</span>
+            </div>
+            <div class="stat-box">
+               <span class="stat-label">Карточки</span>
+               <span class="stat-value">62</span>
+            </div>
          </div>
       </div>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-lg);">
-         <div class="card">
-            <h3 style="margin-bottom: 16px;">Статистика</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 8px;">Подписчиков: <strong style="color: white;">${user.followers}</strong></p>
-            <p style="color: var(--text-secondary);">Подписок: <strong style="color: white;">${user.following}</strong></p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+         <h2 style="font-size: 1.1rem; font-weight: 600;">Недавние достижения</h2>
+         <div style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">Все</div>
+      </div>
+      <div class="horizontal-scroll" id="achievements-container" style="margin-bottom: var(--spacing-xl);"></div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+         <div class="dark-panel">
+            <h3 style="margin-bottom: 24px;">Любимые жанры</h3>
+            <div style="display: flex; align-items: center; gap: 32px;">
+               <div class="donut-chart">
+                  <div class="donut-text">
+                     <div class="percent">47%</div>
+                     <div class="label">Драма</div>
+                  </div>
+               </div>
+               <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem; width: 100%;">
+                  <div style="display: flex; justify-content: space-between;"><span style="color: #7c3aed;">● Драма</span><span>47%</span></div>
+                  <div style="display: flex; justify-content: space-between;"><span style="color: #3b82f6;">● Фантастика</span><span>22%</span></div>
+                  <div style="display: flex; justify-content: space-between;"><span style="color: #10b981;">● Триллер</span><span>15%</span></div>
+                  <div style="display: flex; justify-content: space-between;"><span style="color: #f59e0b;">● Криминал</span><span>10%</span></div>
+                  <div style="display: flex; justify-content: space-between;"><span style="color: #ef4444;">● Комедия</span><span>6%</span></div>
+               </div>
+            </div>
          </div>
-         <div class="card">
-            <h3 style="margin-bottom: 16px;">Коллекция</h3>
-            <div class="horizontal-scroll" id="profile-cards-container"></div>
+         <div class="dark-panel">
+            <h3 style="margin-bottom: 24px;">Активность за неделю</h3>
+            <div class="activity-grid">
+               ${Array(140).fill(0).map(() => `<div class="activity-cell" data-level="${Math.floor(Math.random()*4)}"></div>`).join("")}
+            </div>
+         </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+         <h2 style="font-size: 1.1rem; font-weight: 600;">Коллекция карточек</h2>
+         <div style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">Все карточки</div>
+      </div>
+      <div class="horizontal-scroll" id="profile-cards-container">
+         <div class="card" style="width: 140px; height: 200px; padding: 0; position: relative; overflow: hidden; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+            <img src="https://image.tmdb.org/t/p/w500/A31vW3O4B20uJ4v50j5mXy117W.jpg" style="width:100%; height:100%; object-fit: cover;">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); padding: 12px;">
+               <div style="font-weight: bold; font-size: 0.8rem;">Дейенерис</div><div style="font-size: 0.7rem; color: #ccc;">Таргариен</div>
+            </div>
+            <div style="position: absolute; top: 8px; right: 8px; font-size: 0.6rem; font-weight: bold; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; color: #a855f7;">RARE</div>
+         </div>
+         <div class="card" style="width: 140px; height: 200px; padding: 0; position: relative; overflow: hidden; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+            <img src="https://image.tmdb.org/t/p/w500/sX2e0lHh7yebZgV7d4E95fG6F8C.jpg" style="width:100%; height:100%; object-fit: cover;">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); padding: 12px;">
+               <div style="font-weight: bold; font-size: 0.8rem;">Шерлок</div><div style="font-size: 0.7rem; color: #ccc;">Холмс</div>
+            </div>
+            <div style="position: absolute; top: 8px; right: 8px; font-size: 0.6rem; font-weight: bold; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; color: #9ca3af;">COMMON</div>
          </div>
       </div>
     `;
+    this.renderAchievements();
+  },
 
-    const cardsContainer = document.getElementById("profile-cards-container");
-    if (cardsContainer) {
-       const cards = user.digitalCards || [];
-       if(cards.length === 0) {
-          cardsContainer.innerHTML = `<span style="color: var(--text-muted); font-size: 0.9rem;">Нет карточек</span>`;
-       } else {
-          cardsContainer.innerHTML = cards.map(c => `<div class="digital-card-mini"><span>${c}</span></div>`).join("");
-       }
-    }
+  renderUniverse(root) {
+    root.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+         <h1 style="font-size: 1.5rem;">Моя вселенная</h1>
+         <button class="btn btn-secondary" style="border-radius: 20px; font-size: 0.85rem;">+ Добавить вселенную</button>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Все твои сериальные миры в одном месте</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-bottom: var(--spacing-xl);">
+         <div class="dark-panel" style="background: url('https://image.tmdb.org/t/p/w500/suopoADq1hRVtxJZwI1uO8DPT55.jpg') center/cover; position: relative;">
+            <div style="position: absolute; inset: 0; background: rgba(13,13,18,0.85); border-radius: inherit;"></div>
+            <div style="position: relative; z-index: 2;">
+               <div style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                  <svg width="32" height="32" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+               </div>
+               <h3 style="margin-bottom: 8px; font-size: 1.2rem;">Игра престолов</h3>
+               <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #ccc; margin-bottom: 12px;">
+                  <span>73% просмотрено</span>
+                  <span>8/11 сезонов</span>
+               </div>
+               <div style="height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px;">
+                  <div style="width: 73%; height: 100%; background: #a855f7;"></div>
+               </div>
+            </div>
+         </div>
+         <div class="dark-panel" style="background: url('https://image.tmdb.org/t/p/w500/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg') center/cover; position: relative;">
+            <div style="position: absolute; inset: 0; background: rgba(13,13,18,0.85); border-radius: inherit;"></div>
+            <div style="position: relative; z-index: 2;">
+               <div style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                  <b style="font-size: 1.5rem; color: white;">A</b>
+               </div>
+               <h3 style="margin-bottom: 8px; font-size: 1.2rem;">Marvel</h3>
+               <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #ccc; margin-bottom: 12px;">
+                  <span>63% просмотрено</span>
+                  <span>28/44 проектов</span>
+               </div>
+               <div style="height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px;">
+                  <div style="width: 63%; height: 100%; background: #ef4444;"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-xl);">
+         <div>
+            <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;">Связи между вселенными</h2>
+            <div class="node-graph-container">
+               <div class="node node-center" style="top: 50%; left: 50%;">
+                  <img src="https://image.tmdb.org/t/p/w200/A31vW3O4B20uJ4v50j5mXy117W.jpg">
+               </div>
+               <div class="node node-edge" style="width: 120px; top: 50%; left: 50%; transform: rotate(45deg);"></div>
+               <div class="node node-small" style="top: 20%; left: 80%;">
+                  <img src="https://image.tmdb.org/t/p/w200/sX2e0lHh7yebZgV7d4E95fG6F8C.jpg">
+               </div>
+               <div class="node node-edge" style="width: 150px; top: 50%; left: 50%; transform: rotate(135deg);"></div>
+               <div class="node node-small" style="top: 80%; left: 20%;">
+                  <img src="https://image.tmdb.org/t/p/w200/hE31nPjvSMTfiTe0yQ3A2oem5tZ.jpg">
+               </div>
+            </div>
+         </div>
+         <div class="dark-panel">
+            <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;">Интересные пересечения</h2>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+               <div style="display: flex; gap: 12px;">
+                  <div style="display: flex;">
+                     <img src="https://image.tmdb.org/t/p/w200/A31vW3O4B20uJ4v50j5mXy117W.jpg" style="width:40px; height:40px; border-radius:50%; object-fit: cover; border: 2px solid #000; z-index: 2;">
+                     <img src="https://image.tmdb.org/t/p/w200/sX2e0lHh7yebZgV7d4E95fG6F8C.jpg" style="width:40px; height:40px; border-radius:50%; object-fit: cover; border: 2px solid #000; margin-left: -15px;">
+                  </div>
+                  <div>
+                     <div style="font-weight: 600; font-size: 0.85rem;">Тирион и Тони Старк</div>
+                     <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Оба гениальные, но недооцененные окружением.</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+    `;
   },
 
   renderEncyclopedia(root) {
