@@ -282,11 +282,15 @@ const UI = {
       const parts = item.title.split(' ');
       const initials = parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0].substring(0, 2);
 
+      const posterHtml = item.posterUrl 
+        ? `<img src="${item.posterUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md);">`
+        : `<div class="v-poster-text">${initials.toUpperCase()}</div><div class="v-rating">${rating}</div>`;
+
       html += `
         <div class="v-card" data-id="${item.id}">
-          <div class="v-poster" style="background: linear-gradient(135deg, ${bg[0]}, ${bg[1]});">
-             <div class="v-poster-text">${initials.toUpperCase()}</div>
-             <div class="v-rating">${rating}</div>
+          <div class="v-poster" style="background: linear-gradient(135deg, ${bg[0]}, ${bg[1]}); position: relative;">
+             ${posterHtml}
+             ${item.posterUrl ? `<div class="v-rating" style="position: absolute; top: 10px; right: 10px; z-index: 2;">${rating}</div>` : ''}
           </div>
           <div class="v-title" title="${item.title}">${item.title}</div>
           <div class="v-genre">${item.type}</div>
@@ -415,35 +419,82 @@ const UI = {
   openAddModal() {
     const modal = document.getElementById("add-item-modal");
     modal.innerHTML = `
-      <div class="modal-card">
+      <div class="modal-card" style="max-height: 90vh; display: flex; flex-direction: column;">
         <button class="btn-close-modal">✕</button>
-        <h2 style="margin-bottom: 24px;">Добавление сериала</h2>
+        <h2 style="margin-bottom: 24px;">Поиск сериала</h2>
         
-        <div class="form-group">
-          <label class="form-label">Название</label>
-          <input type="text" id="modal-title" class="form-input" placeholder="Например: Разделение">
+        <div class="form-group" style="display: flex; gap: 10px;">
+          <input type="text" id="modal-search-query" class="form-input" placeholder="Введите название..." style="flex-grow: 1;">
+          <button class="btn btn-primary" id="modal-btn-search">Найти</button>
         </div>
         
-        <div class="form-group">
-          <label class="form-label">Статус</label>
-          <select id="modal-status" class="form-input" style="background: var(--surface-color);">
-            <option value="watching">Смотрю</option>
-            <option value="want_to_watch">Хочу посмотреть</option>
-            <option value="completed">Завершено</option>
-          </select>
+        <div id="modal-search-results" style="overflow-y: auto; max-height: 400px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem;">Введите название и нажмите "Найти"</div>
         </div>
-
-        <button class="btn btn-primary" id="modal-btn-save" style="width: 100%; margin-top: 16px; padding: 12px;">Сохранить в трекер</button>
+        
+        <div id="modal-selected-container" style="display: none;">
+          <div style="margin-bottom: 16px; color: var(--primary-color);">Выбран: <span id="modal-selected-title" style="color: white; font-weight: bold;"></span></div>
+          <div class="form-group">
+            <label class="form-label">Статус</label>
+            <select id="modal-status" class="form-input" style="background: var(--surface-color);">
+              <option value="watching">Смотрю</option>
+              <option value="want_to_watch">Хочу посмотреть</option>
+              <option value="completed">Завершено</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="modal-btn-save" style="width: 100%; padding: 12px;">Добавить в трекер</button>
+        </div>
       </div>
     `;
     modal.classList.add("active");
 
+    let selectedItem = null;
+
+    document.getElementById("modal-btn-search").addEventListener("click", async () => {
+      const query = document.getElementById("modal-search-query").value;
+      if (!query) return;
+      const resultsContainer = document.getElementById("modal-search-results");
+      resultsContainer.innerHTML = `<div style="text-align: center;">Поиск...</div>`;
+      
+      const films = await API.searchSeries(query);
+      if (films.length === 0) {
+        resultsContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted);">Ничего не найдено</div>`;
+        return;
+      }
+
+      resultsContainer.innerHTML = films.map(f => `
+        <div class="search-result-item" data-id="${f.filmId}" style="display: flex; gap: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: var(--radius-md); cursor: pointer; align-items: center;">
+          <img src="${f.posterUrlPreview || ''}" style="width: 40px; height: 60px; object-fit: cover; border-radius: 4px; background: var(--surface-hover);">
+          <div>
+             <div style="font-weight: 600;">${f.nameRu || f.nameEn || 'Без названия'}</div>
+             <div style="font-size: 0.8rem; color: var(--text-muted);">${f.year || ''} • Рейтинг: ${f.rating !== 'null' ? f.rating : 'N/A'}</div>
+          </div>
+        </div>
+      `).join("");
+
+      resultsContainer.querySelectorAll('.search-result-item').forEach(el => {
+         el.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            const film = films.find(f => f.filmId == id);
+            selectedItem = film;
+            
+            resultsContainer.querySelectorAll('.search-result-item').forEach(r => r.style.border = 'none');
+            e.currentTarget.style.border = '1px solid var(--primary-color)';
+            
+            document.getElementById("modal-selected-title").textContent = film.nameRu || film.nameEn;
+            document.getElementById("modal-selected-container").style.display = 'block';
+         });
+      });
+    });
+
     document.getElementById("modal-btn-save").addEventListener("click", () => {
+      if (!selectedItem) return;
       STATE.addTrackedItem({
-        title: document.getElementById("modal-title").value || "Без названия",
+        title: selectedItem.nameRu || selectedItem.nameEn || "Без названия",
         type: "Сериал",
         status: document.getElementById("modal-status").value,
-        expectedRating: 8
+        expectedRating: (selectedItem.rating && selectedItem.rating !== 'null') ? selectedItem.rating : 8.0,
+        posterUrl: selectedItem.posterUrl || selectedItem.posterUrlPreview
       });
       modal.classList.remove("active");
       this.render();
