@@ -96,13 +96,30 @@ const UI = {
     // Mobile Header
     const mobileUser = document.getElementById("mobile-user-info");
     if (mobileUser) {
+      const currentXp = user.points || 1240;
+      const nextLevelXp = (user.level || 1) * 1500;
+      const progress = Math.min((currentXp / nextLevelXp) * 100, 100);
+      
       mobileUser.innerHTML = `
-        <div class="avatar">${user.email.charAt(0).toUpperCase()}</div>
-        <div class="user-greeting">
-          <span class="greeting">Привет, ${user.email.split('@')[0]}</span>
-          <span class="subtext">Продолжай смотреть и зарабатывать XP</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+          <div class="user-greeting">
+            <span class="greeting" style="font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 4px;">Привет, ${user.email.split('@')[0]}</span>
+            <span class="subtext" style="color: var(--text-muted); font-size: 0.85rem;">Продолжай смотреть и<br>зарабатывать XP</span>
+          </div>
+          <div style="position: relative;">
+            <div class="avatar" style="width: 60px; height: 60px; font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 2px solid var(--primary-color); box-shadow: 0 0 20px var(--primary-glow);">${user.email.charAt(0).toUpperCase()}</div>
+            <div class="level-badge" style="position: absolute; bottom: -5px; right: -5px; background: var(--primary-color); padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; border: 2px solid var(--bg-color);">${user.level || 17}</div>
+          </div>
         </div>
-        <div class="level-badge" style="margin-left: auto;">${user.level || 0}</div>
+        <div style="margin-bottom: 20px;">
+           <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px; font-weight: 500;">
+              <span>Уровень ${user.level || 17}</span>
+              <span style="color: var(--primary-color);">${currentXp} / <span style="color: var(--text-muted);">${nextLevelXp} XP</span></span>
+           </div>
+           <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; width: ${progress}%; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);"></div>
+           </div>
+        </div>
       `;
     }
 
@@ -135,49 +152,39 @@ const UI = {
   renderTracker(root) {
     const user = STATE.currentUser;
     root.innerHTML = `
-      <div style="margin-bottom: var(--spacing-xl);">
-         <h1 style="margin-bottom: 8px;">Добро пожаловать, ${user.email.split('@')[0]} 👋</h1>
-         <p style="color: var(--text-secondary);">Продолжай смотреть и зарабатывать XP</p>
-      </div>
-
-      <div class="hero-card">
-         <div class="hero-poster">
-            <div class="play-btn" style="border-radius: 12px; width: auto; padding: 5px 15px; background: rgba(124, 58, 237, 0.8);">
-               <span style="font-size: 0.8rem; font-weight: bold; color: white;">В тренде</span>
-            </div>
+      <h2 style="margin-bottom: 16px; font-size: 1.1rem; font-weight: 600;">Продолжить просмотр</h2>
+      <div class="hero-card" style="display: flex; flex-direction: row; gap: 16px; background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-lg); align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+         <div class="hero-poster" style="width: 110px; height: 75px; border-radius: 10px; flex-shrink: 0; background: linear-gradient(135deg, #1e1b4b, #312e81); position: relative; overflow: hidden;">
+            <img src="https://image.tmdb.org/t/p/w500/49WJfeN0mOXnHAHXKQ80uLNEkZ8.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.style.display='none'">
          </div>
-         <div class="hero-info">
-            <h2 class="hero-title">Не забудьте отметить</h2>
-            <div class="hero-meta">Сериал, который вы смотрите прямо сейчас</div>
-            <div class="hero-progress-bar">
-               <div class="hero-progress-fill" style="width: 45%;"></div>
+         <div class="hero-info" style="flex-grow: 1; min-width: 0;">
+            <h2 class="hero-title" style="font-size: 1.1rem; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Stranger Things</h2>
+            <div class="hero-meta" style="color: var(--primary-color); font-size: 0.85rem; margin-bottom: 12px;">3 сезон, 4 серия</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">
+               <span>Осталось 52 мин</span>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-               <span style="font-size: 0.8rem; color: var(--text-muted);">Прогресс: почти половина</span>
-               <button class="btn btn-primary">
-                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                 Отметить серию
-               </button>
+            <div class="hero-progress-bar" style="height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+               <div class="hero-progress-fill" style="width: 75%; height: 100%; background: var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);"></div>
             </div>
          </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-         <h2>Мои сериалы</h2>
-         <div class="filter-tabs" id="status-filters"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 32px;">
+         <h2 style="font-size: 1.1rem; font-weight: 600;">Мои сериалы</h2>
+         <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">Все <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
       </div>
 
-      <div class="series-grid" id="items-list-container"></div>
+      <div class="series-grid" id="items-list-container" style="display: flex; overflow-x: auto; gap: 16px; padding-bottom: 10px; scroll-snap-type: x mandatory;"></div>
 
-      <div style="margin-top: var(--spacing-xl);">
-         <h2 style="margin-bottom: 16px;">Недавно полученные карточки</h2>
-         <div class="horizontal-scroll" id="recent-cards-container"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 24px;">
+         <h2 style="font-size: 1.1rem; font-weight: 600;">Достижения</h2>
+         <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">Все <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
       </div>
+      <div class="horizontal-scroll" id="achievements-container" style="display: flex; overflow-x: auto; gap: 16px; padding-bottom: 20px; margin-bottom: 40px;"></div>
     `;
 
-    this.renderStatusFilters();
     this.renderTrackedItems();
-    this.renderRecentCards();
+    this.renderAchievements();
   },
 
   renderTrackerWidgets(panel) {
@@ -283,26 +290,23 @@ const UI = {
       const initials = parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0].substring(0, 2);
 
       const posterHtml = item.posterUrl 
-        ? `<img src="${item.posterUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md);">`
-        : `<div class="v-poster-text">${initials.toUpperCase()}</div><div class="v-rating">${rating}</div>`;
+        ? `<img src="${item.posterUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">`
+        : `<div class="v-poster-text">${initials.toUpperCase()}</div>`;
 
       html += `
-        <div class="v-card" data-id="${item.id}">
-          <div class="v-poster" style="background: linear-gradient(135deg, ${bg[0]}, ${bg[1]}); position: relative;">
+        <div class="v-card" data-id="${item.id}" style="min-width: 140px; background: transparent; padding: 0; scroll-snap-align: start; display: flex; flex-direction: column; height: 100%;">
+          <div class="v-poster" style="height: 200px; border-radius: 12px; margin-bottom: 12px; background: linear-gradient(135deg, ${bg[0]}, ${bg[1]}); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
              ${posterHtml}
-             ${item.posterUrl ? `<div class="v-rating" style="position: absolute; top: 10px; right: 10px; z-index: 2;">${rating}</div>` : ''}
+             <div class="v-rating" style="position: absolute; top: 10px; right: 10px; z-index: 2; background: rgba(124, 58, 237, 0.9); padding: 2px 6px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; box-shadow: 0 4px 10px var(--primary-glow); border: 1px solid rgba(255,255,255,0.2);">${rating}</div>
           </div>
-          <div class="v-title" title="${item.title}">${item.title}</div>
-          <div class="v-genre">${item.type}</div>
-          <div class="v-progress">
-             <span>${item.progressValue} серий</span>
-             <div style="display: flex; gap: 5px;">
-                <button class="btn-icon btn-progress-dec" data-id="${item.id}" style="width:24px; height:24px;">-</button>
-                <button class="btn-icon btn-progress-inc" data-id="${item.id}" style="width:24px; height:24px;">+</button>
-             </div>
+          <div class="v-title" title="${item.title}" style="font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</div>
+          <div class="v-genre" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px;">${item.type === 'movie' ? 'Фильм' : 'Сериал'}</div>
+          <div style="flex-grow: 1;"></div>
+          <div class="v-progress" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">
+             <span>${item.progressValue}/36 серий</span>
           </div>
-          <div class="v-progress-bar">
-             <div class="v-progress-fill" style="width: ${Math.min((item.progressValue / 50) * 100, 100)}%;"></div>
+          <div class="v-progress-bar" style="height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+             <div class="v-progress-fill" style="width: ${Math.min((item.progressValue / 36) * 100, 100)}%; height: 100%; background: var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);"></div>
           </div>
         </div>
       `;
@@ -335,21 +339,29 @@ const UI = {
     });
   },
 
-  renderRecentCards() {
-    const container = document.getElementById("recent-cards-container");
+  renderAchievements() {
+    const container = document.getElementById("achievements-container");
     if (!container) return;
 
-    const cards = STATE.currentUser?.digitalCards || ["Стартовая карта"];
-    let html = "";
-    cards.forEach((c, i) => {
-      const rarities = ["COMMON", "RARE", "EPIC"];
-      const rarity = rarities[i % rarities.length];
-      const rColor = rarity === "EPIC" ? "#ec4899" : rarity === "RARE" ? "#3b82f6" : "#94a3b8";
+    const achs = [
+      { id: 1, title: "Сериаломан", desc: "Посмотри 10 сериалов", progress: "7/10", pct: 70, icon: '<svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19.82 2H4.18C2.976 2 2 2.976 2 4.18v15.64C2 21.024 2.976 22 4.18 22h15.64c1.204 0 2.18-.976 2.18-2.18V4.18C22 2.976 21.024 2 19.82 2zM7.5 20H4V16.5h3.5V20zm0-5.75H4v-3.5h3.5v3.5zm0-5.75H4V5h3.5v3.5zm12.5 11.5H16.5V16.5H20V20zm0-5.75H16.5v-3.5H20v3.5zm0-5.75H16.5V5H20v3.5z"></path></svg>' },
+      { id: 2, title: "Ночная сова", desc: "Посмотри серию после 00:00", progress: "3/5", pct: 60, icon: '<svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M17.5 2.5c-4.136 0-7.5 3.364-7.5 7.5 0 1.258.32 2.438.878 3.47A9.97 9.97 0 0 1 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-.853-.106-1.68-.306-2.479A7.472 7.472 0 0 1 17.5 2.5z"></path></svg>' },
+      { id: 3, title: "Коллекционер", desc: "Собери 50 карточек", progress: "32/50", pct: 64, icon: '<svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path></svg>' }
+    ];
 
+    let html = "";
+    achs.forEach(ach => {
       html += `
-        <div class="digital-card-mini">
-           <div style="position: absolute; top: 10px; right: 10px; font-size: 0.6rem; color: ${rColor}; border: 1px solid ${rColor}; padding: 2px 6px; border-radius: 4px;">${rarity}</div>
-           <span>${c}</span>
+        <div class="achievement-card" style="min-width: 160px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-lg); padding: 16px; scroll-snap-align: start;">
+           <div class="ach-icon" style="width: 44px; height: 44px; background: var(--primary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px var(--primary-glow); margin-bottom: 16px;">
+              ${ach.icon}
+           </div>
+           <div class="ach-title" style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">${ach.title}</div>
+           <div class="ach-desc" style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.3; margin-bottom: 12px;">${ach.desc}</div>
+           <div class="ach-progress-text" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px;">${ach.progress}</div>
+           <div class="ach-progress-bar" style="height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+              <div class="ach-progress-fill" style="width: ${ach.pct}%; height: 100%; background: var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);"></div>
+           </div>
         </div>
       `;
     });
