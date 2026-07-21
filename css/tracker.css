@@ -308,6 +308,7 @@ button {
 
 /* Mobile Specifics (Hidden on Desktop) */
 .mobile-header { display: none; }
+.mobile-only-block { display: none; }
 .bottom-nav { display: none; }
 
 /* COMPONENTS */
@@ -589,9 +590,11 @@ button {
     padding-bottom: 80px; /* space for bottom nav */
   }
   
-  .desktop-sidebar, .desktop-topbar, .right-panel {
+  .desktop-sidebar, .desktop-topbar, .right-panel, .desktop-only {
     display: none;
   }
+
+  .mobile-only-block { display: block !important; }
 
   .mobile-header {
     display: flex;

@@ -96,30 +96,8 @@ const UI = {
     // Mobile Header
     const mobileUser = document.getElementById("mobile-user-info");
     if (mobileUser) {
-      const currentXp = user.points || 1240;
-      const nextLevelXp = (user.level || 1) * 1500;
-      const progress = Math.min((currentXp / nextLevelXp) * 100, 100);
-      
       mobileUser.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-          <div class="user-greeting">
-            <span class="greeting" style="font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 4px;">Привет, ${user.email.split('@')[0]}</span>
-            <span class="subtext" style="color: var(--text-muted); font-size: 0.85rem;">Продолжай смотреть и<br>зарабатывать XP</span>
-          </div>
-          <div style="position: relative;">
-            <div class="avatar" style="width: 60px; height: 60px; font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 2px solid var(--primary-color); box-shadow: 0 0 20px var(--primary-glow);">${user.email.charAt(0).toUpperCase()}</div>
-            <div class="level-badge" style="position: absolute; bottom: -5px; right: -5px; background: var(--primary-color); padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; border: 2px solid var(--bg-color);">${user.level || 17}</div>
-          </div>
-        </div>
-        <div style="margin-bottom: 20px;">
-           <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px; font-weight: 500;">
-              <span>Уровень ${user.level || 17}</span>
-              <span style="color: var(--primary-color);">${currentXp} / <span style="color: var(--text-muted);">${nextLevelXp} XP</span></span>
-           </div>
-           <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-              <div style="height: 100%; width: ${progress}%; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);"></div>
-           </div>
-        </div>
+        <div style="font-weight: bold; font-size: 1.2rem; margin-left: 10px;">PROR</div>
       `;
     }
 
@@ -151,25 +129,34 @@ const UI = {
 
   renderTracker(root) {
     const user = STATE.currentUser;
+    const currentXp = user?.points || 1240;
+    const nextLevelXp = (user?.level || 1) * 1500;
+    const progress = Math.min((currentXp / nextLevelXp) * 100, 100);
+
     root.innerHTML = `
-      <h2 style="margin-bottom: 16px; font-size: 1.1rem; font-weight: 600;">Продолжить просмотр</h2>
-      <div class="hero-card" style="display: flex; flex-direction: row; gap: 16px; background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-lg); align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
-         <div class="hero-poster" style="width: 110px; height: 75px; border-radius: 10px; flex-shrink: 0; background: linear-gradient(135deg, #1e1b4b, #312e81); position: relative; overflow: hidden;">
-            <img src="https://image.tmdb.org/t/p/w500/49WJfeN0mOXnHAHXKQ80uLNEkZ8.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.style.display='none'">
-         </div>
-         <div class="hero-info" style="flex-grow: 1; min-width: 0;">
-            <h2 class="hero-title" style="font-size: 1.1rem; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Stranger Things</h2>
-            <div class="hero-meta" style="color: var(--primary-color); font-size: 0.85rem; margin-bottom: 12px;">3 сезон, 4 серия</div>
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">
-               <span>Осталось 52 мин</span>
-            </div>
-            <div class="hero-progress-bar" style="height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px;">
-               <div class="hero-progress-fill" style="width: 75%; height: 100%; background: var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);"></div>
-            </div>
-         </div>
+      <div class="mobile-only-block" style="margin-bottom: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+          <div class="user-greeting">
+            <span class="greeting" style="font-size: 1.5rem; font-weight: bold; display: block; margin-bottom: 4px;">Привет, ${user?.email?.split('@')[0] || 'Гость'}</span>
+            <span class="subtext" style="color: var(--text-muted); font-size: 0.85rem;">Продолжай смотреть и<br>зарабатывать XP</span>
+          </div>
+          <div style="position: relative;">
+            <div class="avatar" style="width: 60px; height: 60px; font-size: 1.5rem; background: rgba(255,255,255,0.05); border: 2px solid var(--primary-color); box-shadow: 0 0 20px var(--primary-glow);">${user?.email?.charAt(0).toUpperCase() || 'G'}</div>
+            <div class="level-badge" style="position: absolute; bottom: -5px; right: -5px; background: var(--primary-color); padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; border: 2px solid var(--bg-color);">${user?.level || 17}</div>
+          </div>
+        </div>
+        <div style="margin-bottom: 20px;">
+           <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px; font-weight: 500;">
+              <span>Уровень ${user?.level || 17}</span>
+              <span style="color: var(--primary-color);">${currentXp} / <span style="color: var(--text-muted);">${nextLevelXp} XP</span></span>
+           </div>
+           <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+              <div style="height: 100%; width: ${progress}%; background: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);"></div>
+           </div>
+        </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 32px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 10px;">
          <h2 style="font-size: 1.1rem; font-weight: 600;">Мои сериалы</h2>
          <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; cursor: pointer;">Все <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
       </div>
