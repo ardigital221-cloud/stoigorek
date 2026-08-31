@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
 });
 
-// Specialized JDM & Markoobraznye Calculator Data
+// Specialized JDM & Markoobraznye Calculator Data (STRICTLY SUSPENSION & ENGINE ONLY)
 const calcServices = [
   // Ходовая часть / Подвеска
   { id: 'susp_levers', category: 'susp', name: 'Замена косых / передних рычагов (Mark II/Chaser/Cresta)', price: 3000 },
@@ -16,26 +16,14 @@ const calcServices = [
   { id: 'susp_coilovers', category: 'susp', name: 'Установка и настройка койловеров (винтовой подвески)', price: 6000 },
   { id: 'susp_ball', category: 'susp', name: 'Замена нижней / верхней шаровой опоры', price: 2500 },
   { id: 'susp_gear', category: 'susp', name: 'Замена / обслуживание редуктора и приводов', price: 5000 },
-  { id: 'susp_full', category: 'susp', name: 'Комплексная диагностика ходовой части Маркообразных', price: 1000 },
+  { id: 'susp_full', category: 'susp', name: 'Комплексный осмотр и диагностика ходовой части Марка', price: 1000 },
 
-  // Двигатель / ДВС (1JZ / 2JZ / 1G / 3S)
-  { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ-GE / 1JZ-GTE / 2JZ)', price: 35000 },
+  // Двигатель / ДВС (1JZ / 2JZ / 1G Beams)
+  { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ-GE / 1JZ-GTE / 2JZ / 1G)', price: 35000 },
   { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / сальников клапанов', price: 12000 },
   { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 7000 },
   { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + фильтры', price: 1500 },
-  { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 10000 },
-  { id: 'eng_swap', category: 'eng', name: 'Консультация и подготовка под СВАП (1JZ/2JZ/UZ)', price: 5000 },
-
-  // Диагностика & Электрика
-  { id: 'diag_comp', category: 'diag', name: 'Компьютерная диагностика Toyota JDM (OBD-1 / OBD-2)', price: 1500 },
-  { id: 'diag_endoscopy', category: 'diag', name: 'Эндоскопия цилиндров ДВС (проверка задиров)', price: 2500 },
-  { id: 'diag_compression', category: 'diag', name: 'Замер компрессии и давления масляной системы', price: 2000 },
-  { id: 'diag_electric', category: 'diag', name: 'Поиск и устранение замыканий / проводка JDM', price: 3000 },
-
-  // Тормозная система и Допы
-  { id: 'brake_pads', category: 'brake', name: 'Замена тормозных колодок и дисков (ось)', price: 2000 },
-  { id: 'brake_swap', category: 'brake', name: 'Установка 4-pot тормозов (от Celsior / Supra)', price: 8000 },
-  { id: 'brake_fluid', category: 'brake', name: 'Замена тормозной жидкости с прокачкой', price: 1500 }
+  { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 10000 }
 ];
 
 let selectedServices = new Set(['susp_levers', 'eng_timing']);
