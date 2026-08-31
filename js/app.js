@@ -1,41 +1,44 @@
-// СТО ИГОРЕК / PROAUTO - Interactive Application Logic
+// СТО «МАРКООБРАЗНЫЕ» — Specialized Mark II / Chaser / Cresta / Crown Service
+// Direct WhatsApp & Phone: +7 (705) 607-72-89
 
 document.addEventListener('DOMContentLoaded', () => {
   initCalculator();
   initModals();
   initFaq();
   initMobileNav();
-  initTimer();
 });
 
-// Calculator Data
+// Specialized JDM & Markoobraznye Calculator Data
 const calcServices = [
-  { id: 'diag_comp', category: 'diag', name: 'Компьютерная диагностика всех систем', price: 1000 },
-  { id: 'diag_road', category: 'diag', name: 'Выездная диагностика перед покупкой', price: 2500 },
-  { id: 'diag_smoke', category: 'diag', name: 'Поиск подсоса воздуха дымогенератором', price: 1500 },
-  
-  { id: 'susp_break', category: 'susp', name: 'Замена тормозных колодок (ось)', price: 1200 },
-  { id: 'susp_shock', category: 'susp', name: 'Замена амортизаторов (пары)', price: 3000 },
-  { id: 'susp_lever', category: 'susp', name: 'Замена рычагов / сайлентблоков', price: 2000 },
-  { id: 'susp_full', category: 'susp', name: 'Комплексный осмотр ходовой части', price: 800 },
-  
-  { id: 'elec_jump', category: 'elec', name: 'Прикурить АКБ / запуск (Выезд 24/7)', price: 1500 },
-  { id: 'elec_battery', category: 'elec', name: 'Замена аккумулятора с доставкой', price: 1000 },
-  { id: 'elec_starter', category: 'elec', name: 'Ремонт стартера / генератора', price: 3500 },
-  { id: 'elec_search', category: 'elec', name: 'Поиск утечки тока / короткого замыкания', price: 2000 },
-  
-  { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + фильтры', price: 1000 },
-  { id: 'eng_timing', category: 'eng', name: 'Замена ремня / цепи ГРМ', price: 6000 },
-  { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / клапанной крышки', price: 4000 },
-  { id: 'eng_diesel', category: 'eng', name: 'Диагностика и ремонт форсунок (дизель)', price: 4500 },
-  
-  { id: 'road_unlock', category: 'road', name: 'Вскрытие авто без повреждений 24/7', price: 2500 },
-  { id: 'road_fuel', category: 'road', name: 'Подвоз топлива (до 20 литров)', price: 1500 },
-  { id: 'road_wheel', category: 'road', name: 'Замена колеса на запаску / ремонт прокола', price: 1500 },
-  { id: 'road_tow', category: 'road', name: 'Эвакуация / буксировка до СТО', price: 3000 }
+  // Ходовая часть / Подвеска
+  { id: 'susp_levers', category: 'susp', name: 'Замена косых / передних рычагов (Mark II/Chaser/Cresta)', price: 3000 },
+  { id: 'susp_bushings', category: 'susp', name: 'Замена плавающих сайлентблоков цапфы', price: 4000 },
+  { id: 'susp_coilovers', category: 'susp', name: 'Установка и настройка койловеров (винтовой подвески)', price: 6000 },
+  { id: 'susp_ball', category: 'susp', name: 'Замена нижней / верхней шаровой опоры', price: 2500 },
+  { id: 'susp_gear', category: 'susp', name: 'Замена / обслуживание редуктора и приводов', price: 5000 },
+  { id: 'susp_full', category: 'susp', name: 'Комплексная диагностика ходовой части Маркообразных', price: 1000 },
+
+  // Двигатель / ДВС (1JZ / 2JZ / 1G / 3S)
+  { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ-GE / 1JZ-GTE / 2JZ)', price: 35000 },
+  { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / сальников клапанов', price: 12000 },
+  { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 7000 },
+  { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + фильтры', price: 1500 },
+  { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 10000 },
+  { id: 'eng_swap', category: 'eng', name: 'Консультация и подготовка под СВАП (1JZ/2JZ/UZ)', price: 5000 },
+
+  // Диагностика & Электрика
+  { id: 'diag_comp', category: 'diag', name: 'Компьютерная диагностика Toyota JDM (OBD-1 / OBD-2)', price: 1500 },
+  { id: 'diag_endoscopy', category: 'diag', name: 'Эндоскопия цилиндров ДВС (проверка задиров)', price: 2500 },
+  { id: 'diag_compression', category: 'diag', name: 'Замер компрессии и давления масляной системы', price: 2000 },
+  { id: 'diag_electric', category: 'diag', name: 'Поиск и устранение замыканий / проводка JDM', price: 3000 },
+
+  // Тормозная система и Допы
+  { id: 'brake_pads', category: 'brake', name: 'Замена тормозных колодок и дисков (ось)', price: 2000 },
+  { id: 'brake_swap', category: 'brake', name: 'Установка 4-pot тормозов (от Celsior / Supra)', price: 8000 },
+  { id: 'brake_fluid', category: 'brake', name: 'Замена тормозной жидкости с прокачкой', price: 1500 }
 ];
 
-let selectedServices = new Set(['diag_comp']);
+let selectedServices = new Set(['susp_levers', 'eng_timing']);
 
 function initCalculator() {
   const tabs = document.querySelectorAll('.calc-tab');
@@ -59,7 +62,7 @@ function initCalculator() {
       itemEl.innerHTML = `
         <div class="calc-item-info">
           <strong>${service.name}</strong>
-          <span>${service.price.toLocaleString('ru-RU')} ₽</span>
+          <span>${service.price.toLocaleString('ru-RU')} ₸</span>
         </div>
         <div class="calc-checkbox">${isSelected ? '✓' : ''}</div>
       `;
@@ -85,9 +88,9 @@ function initCalculator() {
     const discount = Math.round(subtotal * 0.10);
     const final = subtotal - discount;
 
-    if (totalSubtotalEl) totalSubtotalEl.textContent = `${subtotal.toLocaleString('ru-RU')} ₽`;
-    if (totalDiscountEl) totalDiscountEl.textContent = `-${discount.toLocaleString('ru-RU')} ₽`;
-    if (totalFinalEl) totalFinalEl.textContent = `${final.toLocaleString('ru-RU')} ₽`;
+    if (totalSubtotalEl) totalSubtotalEl.textContent = `${subtotal.toLocaleString('ru-RU')} ₸`;
+    if (totalDiscountEl) totalDiscountEl.textContent = `-${discount.toLocaleString('ru-RU')} ₸`;
+    if (totalFinalEl) totalFinalEl.textContent = `${final.toLocaleString('ru-RU')} ₸`;
   }
 
   tabs.forEach(tab => {
@@ -130,13 +133,31 @@ function initModals() {
     });
   });
 
-  // Handle all lead form submissions
+  // Handle forms & direct WhatsApp submission
   const forms = document.querySelectorAll('form');
   forms.forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      
+      const nameInput = form.querySelector('input[type="text"]');
+      const phoneInput = form.querySelector('input[type="tel"]');
+      const modelInput = form.querySelector('select') || form.querySelectorAll('input[type="text"]')[1];
+      
+      const name = nameInput ? nameInput.value : 'Клиент';
+      const phone = phoneInput ? phoneInput.value : '';
+      const model = modelInput ? modelInput.value : 'Маркообразный авто';
+
+      // Build WhatsApp message
+      const text = encodeURIComponent(`Здравствуйте! Хочу записаться на сервис для Маркообразного авто:\n\nИмя: ${name}\nТелефон: ${phone}\nМодель: ${model}\nНомер мастерам: +77056077289`);
+      const waUrl = `https://wa.me/77056077289?text=${text}`;
+      
       modalOverlays.forEach(m => m.classList.remove('active'));
-      showToast('Ваша заявка успешно отправлена! Мастер свяжется с вами через 2-3 минуты.');
+      showToast('Заявка создана! Переправляем в WhatsApp мастера...');
+      
+      setTimeout(() => {
+        window.open(waUrl, '_blank');
+      }, 1000);
+
       form.reset();
     });
   });
@@ -191,22 +212,4 @@ function initMobileNav() {
       });
     });
   }
-}
-
-function initTimer() {
-  const timerEl = document.getElementById('arrival-timer');
-  if (!timerEl) return;
-  
-  let minutes = 24;
-  let seconds = 38;
-
-  setInterval(() => {
-    seconds--;
-    if (seconds < 0) {
-      seconds = 59;
-      minutes--;
-      if (minutes < 15) minutes = 35;
-    }
-    timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds} мин`;
-  }, 1000);
 }
