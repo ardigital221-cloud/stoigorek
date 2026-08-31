@@ -1,4 +1,4 @@
-// СТО «МАРКООБРАЗНЫЕ» — Specialized Mark II / Chaser / Cresta / Crown Service
+// СТО «ИГОРЕК» — Specialized Mark II / Chaser / Cresta / Crown Service
 // Direct WhatsApp & Phone: +7 (705) 607-72-89
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,7 +117,7 @@ function initFormsAutomation() {
       const model = selects[0] ? selects[0].value : 'Mark II';
       const service = selects[1] ? selects[1].value : 'Ремонт ходовой части';
 
-      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО МАРКООБРАЗНЫЕ)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n📍 Прошу перезвонить для согласования времени.`;
+      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО ИГОРЕК)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n📍 Прошу перезвонить для согласования времени.`;
       
       sendToWhatsApp(masterPhone, messageText);
       expressForm.reset();
@@ -150,7 +150,7 @@ function initFormsAutomation() {
       const discount = Math.round(subtotal * 0.10);
       const finalPrice = subtotal - discount;
 
-      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО МАРКООБРАЗНЫЕ)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n💰 Предварительный расчет: ${subtotal.toLocaleString('ru-RU')} ₸\n🎁 Скидка за онлайн-запись (10%): -${discount.toLocaleString('ru-RU')} ₸\n✅ Итого к оплате: ${finalPrice.toLocaleString('ru-RU')} ₸\n\nПрошу записать на ремонт.`;
+      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО ИГОРЕК)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n💰 Предварительный расчет: ${subtotal.toLocaleString('ru-RU')} ₸\n🎁 Скидка за онлайн-запись (10%): -${discount.toLocaleString('ru-RU')} ₸\n✅ Итого к оплате: ${finalPrice.toLocaleString('ru-RU')} ₸\n\nПрошу записать на ремонт.`;
       
       sendToWhatsApp(masterPhone, messageText);
       calcForm.reset();
