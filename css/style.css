@@ -629,3 +629,29 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-card);
 }
+
+/* TOAST NOTIFICATION STYLING */
+.toast-notification {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  width: 90%;
+  max-width: 420px;
+  background: #121824;
+  border: 1px solid var(--green);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #FFF;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.toast-notification.active {
+  transform: translate(-50%, 0);
+}

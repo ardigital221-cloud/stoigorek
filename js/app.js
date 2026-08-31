@@ -162,11 +162,19 @@ function sendToWhatsApp(phone, message) {
   const encodedText = encodeURIComponent(message);
   const waUrl = `https://wa.me/${phone}?text=${encodedText}`;
 
-  showToast('Формируем шаблон сообщения и открываем WhatsApp...');
+  showToast('Открываем WhatsApp для отправки шаблона...');
+
+  // Safe background link creation (prevents current page from unloading / breaking CSS)
+  const link = document.createElement('a');
+  link.href = waUrl;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  document.body.appendChild(link);
 
   setTimeout(() => {
-    window.location.href = waUrl;
-  }, 600);
+    link.click();
+    document.body.removeChild(link);
+  }, 400);
 }
 
 function showToast(message) {
@@ -189,7 +197,7 @@ function showToast(message) {
   toast.classList.add('active');
   setTimeout(() => {
     toast.classList.remove('active');
-  }, 4000);
+  }, 3500);
 }
 
 function initFaq() {
