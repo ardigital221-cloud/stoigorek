@@ -3,132 +3,692 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Series Universe — Твоя личная вселенная сериалов</title>
-  
-  <meta name="description" content="Умный трекер просмотренных сериалов. Создай свою вселенную.">
-  <meta name="theme-color" content="#0d0d12">
+  <title>СТО «ИГОРЕК» (PROAUTO) — Автосервис и Выездной автомеханик 24/7</title>
+  <meta name="description" content="Честный автосервис полного цикла и круглосуточная выездная автопомощь СТО «ИГОРЕК» (PROAUTO). Выезд мастера за 20-40 мин. Прозрачная смета, фотоотчеты в мессенджеры, гарантия 12 месяцев.">
+  <meta name="theme-color" content="#0B0E14">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="css/tracker.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Background Ambient Glows -->
-  <div class="ambient-background">
-    <div class="glow glow-purple"></div>
-    <div class="glow glow-blue"></div>
-  </div>
+  <div class="bg-grid"></div>
 
-  <!-- Highlighted word in the middle -->
-  <div style="position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 9999; background: rgba(124, 58, 237, 0.9); color: #fff; font-weight: bold; font-size: 3rem; padding: 20px 40px; border-radius: 15px; box-shadow: 0 0 30px rgba(124, 58, 237, 1); letter-spacing: 5px; text-align: center; backdrop-filter: blur(5px);">
-    ВЯЧЕСЛАВ
-  </div>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon">И</div>
+        <div class="logo-text">
+          <span class="brand-title">СТО «ИГОРЕК»</span>
+          <span class="brand-subtitle">PROAUTO • 24/7</span>
+        </div>
+      </a>
 
-  <!-- MOBILE HEADER (Visible only on mobile) -->
-  <header class="mobile-header">
-    <div class="mobile-brand">
-      <div class="logo">SU</div>
-      <div class="brand-text">SERIES<br>UNIVERSE</div>
-    </div>
-    <div class="mobile-actions">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-    </div>
-  </header>
-
-  <!-- DESKTOP TOPBAR -->
-  <header class="desktop-topbar">
-    <div class="topbar-content">
-      <div class="brand">
-        <div class="logo">SU</div>
-        <div class="brand-text">SERIES<br>UNIVERSE</div>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span>Работаем сейчас 24/7</span>
       </div>
-      
-      <nav class="top-nav" id="top-nav">
-        <button class="nav-item active" data-tab="tracker">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-          Главная
-        </button>
-        <button class="nav-item" data-tab="tracker_list">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          Трекер
-        </button>
-        <button class="nav-item" data-tab="universe">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          Вселенная
-        </button>
-        <button class="nav-item" data-tab="encyclopedia">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-          Энциклопедия
-        </button>
-        <button class="nav-item" data-tab="calendar">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          Календарь
-        </button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#services" class="nav-link">Услуги</a></li>
+          <li><a href="#calculator" class="nav-link">Калькулятор</a></li>
+          <li><a href="#roadside" class="nav-link">Выезд 24/7</a></li>
+          <li><a href="#transparency" class="nav-link">Гарантии & Отчеты</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="#contacts" class="nav-link">Контакты</a></li>
+        </ul>
       </nav>
 
-      <div class="topbar-actions">
-        <div class="search-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </div>
-        <div class="avatar-small" id="desktop-user-avatar">
-          <img src="https://i.pravatar.cc/150?u=test" alt="user" onerror="this.style.display='none'">
-          <div class="avatar-fallback">T</div>
-        </div>
+      <div class="header-right">
+        <a href="tel:+79990000000" class="header-phone">
+          <span class="phone-number">+7 (999) 000-00-00</span>
+          <span class="phone-label">Вызов механика 24/7</span>
+        </a>
+        <button class="btn btn-primary btn-sm" data-modal="modal-booking">Записаться -10%</button>
+        <button class="mobile-nav-toggle" aria-label="Меню">☰</button>
       </div>
     </div>
   </header>
 
-  <!-- DASHBOARD WRAPPER -->
-  <div class="dashboard-wrapper">
-    <!-- CENTER CONTENT -->
-    <main class="content-root" id="app-root">
-      <!-- Injected via JS based on active tab -->
-    </main>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="promo-tag">
+            <span>🔥</span>
+            <span>Диагностика 0 ₽ при ремонте + Скидка 10% на онлайн-запись</span>
+          </div>
+
+          <h1 class="hero-title">
+            Честный автосервис и <span class="text-gradient">срочный выезд механика 24/7</span>
+          </h1>
+
+          <p class="hero-description">
+            Обслуживание бензиновых, дизельных и легких коммерческих авто. Фиксируем цену в смете до начала работ, высылаем фото/видеотчет ремонта в Telegram и даем официальную гарантию 12 месяцев.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" data-modal="modal-booking">
+              Записаться со скидкой 10%
+            </button>
+            <a href="tel:+79990000000" class="btn btn-emergency btn-lg">
+              🚨 Срочный вызов (20-40 мин)
+            </a>
+          </div>
+
+          <div class="trust-bullets">
+            <div class="bullet-item">
+              <div class="bullet-icon">✓</div>
+              <div class="bullet-text">
+                <strong>Прозрачная смета</strong>
+                <span>Цена не меняется после начала работ</span>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-icon">✓</div>
+              <div class="bullet-text">
+                <strong>Видео/Фото отчет</strong>
+                <span>Контроль каждого этапа в мессенджер</span>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-icon">✓</div>
+              <div class="bullet-text">
+                <strong>Срочный выезд 24/7</strong>
+                <span>Приедем за 20–40 мин в любую точку</span>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-icon">✓</div>
+              <div class="bullet-text">
+                <strong>Гарантия 12 месяцев</strong>
+                <span>Официально по договору и заказ-наряду</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Express Form Card -->
+        <div class="glass-card express-form-card">
+          <div class="form-header">
+            <h3 class="form-title">Экспресс-запись в сервис</h3>
+            <p class="form-subtitle">Забронируйте скидку 10% и бесплатную диагностику</p>
+          </div>
+
+          <form id="hero-express-form">
+            <div class="form-group">
+              <label class="form-label">Ваше имя</label>
+              <input type="text" class="form-input" placeholder="Иван" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Номер телефона</label>
+              <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Марка и модель авто</label>
+              <input type="text" class="form-input" placeholder="Например: Ford Transit 2018">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Что требуется сделать?</label>
+              <select class="form-select">
+                <option value="diag">Компьютерная диагностика (0 ₽)</option>
+                <option value="susp">Ремонт ходовой / Тормоза</option>
+                <option value="elec">Автоэлектрика / Прикурить 24/7</option>
+                <option value="eng">Ремонт ДВС / Дизель</option>
+                <option value="to">Регулярное ТО (масло, фильтры)</option>
+                <option value="road">Срочный выезд механика на дорогу</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: 10px;">
+              Записаться со скидкой 10%
+            </button>
+            <p class="form-notice">🔒 Ваши данные защищены. Перезвоним за 2 минуты.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Наши направления</span>
+        <h2 class="section-title">Услуги автосервиса <span class="text-orange">СТО «ИГОРЕК»</span></h2>
+        <p class="section-desc">Обслуживаем легкие коммерческие фургоны (Газель, Ford Transit, Largus), а также бензиновые и дизельные легковые авто любого года выпуска.</p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="glass-card service-card">
+          <div>
+            <div class="service-icon-box">🔍</div>
+            <h3 class="service-title">Компьютерная и Выездная диагностика</h3>
+            <ul class="service-list">
+              <li>Сканирование дилерским сканером Launch/Autel</li>
+              <li>Считывание и сброс ошибок всех блоков</li>
+              <li>Проверка эндоскопом и дымогенератором</li>
+              <li>Комплексная проверка авто перед покупкой</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">от 0 ₽ <span>/ 1 000 ₽</span></div>
+            <button class="btn btn-secondary btn-sm" data-modal="modal-booking">Записаться</button>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="glass-card service-card">
+          <div>
+            <div class="service-icon-box">⚡</div>
+            <h3 class="service-title">Автоэлектрика и Запуск 24/7</h3>
+            <ul class="service-list">
+              <li>Экстренный запуск ДВС (прикурить 12V/24V)</li>
+              <li>Поиск утечек тока и короткого замыкания</li>
+              <li>Ремонт и замена стартеров, генераторов</li>
+              <li>Замена АКБ с доставкой на место</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">от 1 200 ₽</div>
+            <button class="btn btn-secondary btn-sm" data-modal="modal-booking">Записаться</button>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="glass-card service-card">
+          <div>
+            <div class="service-icon-box">🚗</div>
+            <h3 class="service-title">Ремонт ходовой и Тормозной системы</h3>
+            <ul class="service-list">
+              <li>Замена амортизаторов, пружин, сайлентблоков</li>
+              <li>Замена тормозных дисков и колодок</li>
+              <li>Ремонт рулевых реек и шаровых опор</li>
+              <li>Проверка ступичных подшипников</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">от 800 ₽</div>
+            <button class="btn btn-secondary btn-sm" data-modal="modal-booking">Записаться</button>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="glass-card service-card">
+          <div>
+            <div class="service-icon-box">🔧</div>
+            <h3 class="service-title">Ремонт ДВС и Топливной системы</h3>
+            <ul class="service-list">
+              <li>Замена ремня и цепи ГРМ</li>
+              <li>Ремонт дизельных и бензиновых моторов</li>
+              <li>Диагностика и чистка форсунок</li>
+              <li>Замена прокладок, турбин, помп</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">от 2 500 ₽</div>
+            <button class="btn btn-secondary btn-sm" data-modal="modal-booking">Записаться</button>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="glass-card service-card">
+          <div>
+            <div class="service-icon-box">🛠️</div>
+            <h3 class="service-title">Регулярное ТО и Расходники</h3>
+            <ul class="service-list">
+              <li>Замена моторного и трансмиссионного масла</li>
+              <li>Замена масляного, воздушного, салонного фильтра</li>
+              <li>Замена антифриза и тормозной жидкости</li>
+              <li>Подбор оригинальных запчастей и аналогов</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">от 1 000 ₽</div>
+            <button class="btn btn-secondary btn-sm" data-modal="modal-booking">Записаться</button>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="glass-card service-card" style="border-color: rgba(255, 85, 0, 0.4);">
+          <div>
+            <div class="service-icon-box" style="background: var(--accent-orange); color: #fff;">🚛</div>
+            <h3 class="service-title">Коммерческий транспорт & Флот</h3>
+            <ul class="service-list">
+              <li>Обслуживание Газель NEXT, Ford Transit, Lada Largus</li>
+              <li>Безналичный расчет с НДС / без НДС для юрлиц</li>
+              <li>Приоритетный прием без очереди</li>
+              <li>Заключение договора на ТО коммерческого парка</li>
+            </ul>
+          </div>
+          <div class="service-footer">
+            <div class="service-price">Спецусловия</div>
+            <button class="btn btn-primary btn-sm" data-modal="modal-booking">Для юрлиц</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR SECTION -->
+  <section class="section" id="calculator" style="background: rgba(15, 20, 30, 0.4);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Онлайн-расчет</span>
+        <h2 class="section-title">Интерактивный калькулятор <span class="text-orange">стоимости работ</span></h2>
+        <p class="section-desc">Выберите необходимые услуги, получите точный предварительный расчет и забронируйте скидку 10% при онлайн-записи.</p>
+      </div>
+
+      <div class="calculator-container">
+        <div class="calc-main">
+          <div class="calc-categories">
+            <button class="calc-tab active" data-category="all">Все услуги</button>
+            <button class="calc-tab" data-category="diag">Диагностика</button>
+            <button class="calc-tab" data-category="susp">Ходовая</button>
+            <button class="calc-tab" data-category="elec">Электрика</button>
+            <button class="calc-tab" data-category="eng">ДВС & ТО</button>
+            <button class="calc-tab" data-category="road">Выезд 24/7</button>
+          </div>
+
+          <div class="calc-items-grid" id="calc-items">
+            <!-- Dynamic JS injection -->
+          </div>
+        </div>
+
+        <!-- Sticky Calculator Summary Box -->
+        <div class="glass-card calc-summary-card">
+          <h3 style="font-size: 1.3rem; margin-bottom: 20px;">Ваш заказ-наряд</h3>
+          
+          <div class="summary-row">
+            <span>Предварительная сумма:</span>
+            <strong id="calc-subtotal" style="color: #FFF;">0 ₽</strong>
+          </div>
+          <div class="summary-row">
+            <span>Скидка за онлайн-запись:</span>
+            <span class="discount-badge" id="calc-discount">-0 ₽ (10%)</span>
+          </div>
+
+          <div class="summary-total">
+            <span>Итого к оплате:</span>
+            <span id="calc-final" class="text-orange">0 ₽</span>
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin: 16px 0;">
+            * Итоговая цена фиксируется в договоре до начала работ и не растет в процессе!
+          </p>
+
+          <form id="calc-submit-form">
+            <div class="form-group">
+              <input type="tel" class="form-input" placeholder="Ваш номер телефона" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full btn-lg">
+              Зафиксировать цену и скидку 10%
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADSIDE EMERGENCY SECTION -->
+  <section class="section" id="roadside">
+    <div class="container">
+      <div class="glass-card roadside-block" style="padding: 50px;">
+        <div class="roadside-grid">
+          <div>
+            <div class="status-badge" style="margin-bottom: 16px; background: rgba(255, 23, 68, 0.15); border-color: rgba(255, 23, 68, 0.4); color: #FF1744;">
+              <span class="status-dot" style="background-color: #FF1744; animation: pulse-red 1.5s infinite;"></span>
+              <span>ЭКСТРЕННАЯ АВТОПОМОЩЬ 24/7</span>
+            </div>
+
+            <h2 class="section-title" style="margin-bottom: 16px;">
+              Заглохли на дороге? <span class="text-orange">Выездной механик мчит!</span>
+            </h2>
+
+            <p class="section-desc" style="margin-bottom: 20px;">
+              Экипаж СТО «ИГОРЕК» укомплектован всем необходимым оборудованием для ремонта на месте: от прикуривания и вскрытия до локального ремонта электрики и замены расходников.
+            </p>
+
+            <div class="equipment-tags">
+              <div class="eq-tag">🔋 Бустер 12V/24V (Прикурить АКБ)</div>
+              <div class="eq-tag">💻 Сканер Autel / Launch</div>
+              <div class="eq-tag">🔑 Вскрытие без повреждений</div>
+              <div class="eq-tag">⛽ Подвоз бензина / дизеля</div>
+              <div class="eq-tag">🛠️ Инструмент зачистки & пайки</div>
+              <div class="eq-tag">🛞 Замена колеса / прокол</div>
+            </div>
+
+            <div style="display: flex; gap: 16px; margin-top: 30px;">
+              <a href="tel:+79990000000" class="btn btn-emergency btn-lg">
+                🚨 Вызвать мастера прям сейчас
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div class="timer-box">
+              <span style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">
+                Среднее время прибытия по городу:
+              </span>
+              <div class="timer-value" id="arrival-timer">24:38 мин</div>
+              <p style="font-size: 0.85rem; color: var(--accent-green); margin-top: 8px;">
+                🟢 3 эвакуационно-ремонтных бригады дежурят на линии
+              </p>
+            </div>
+
+            <div style="background: rgba(11, 14, 20, 0.6); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 20px;">
+              <strong style="display: block; color: #FFF; margin-bottom: 10px;">Как происходит выезд?</strong>
+              <ol style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                <li>Звоните или нажимаете кнопку экстренного вызова.</li>
+                <li>Диспетчер уточняет симптомы поломки и локацию.</li>
+                <li>Мастер выезжает с нужными деталями за 20–40 минут.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSPARENCY & RECOVERY REPORT SIMULATOR -->
+  <section class="section" id="transparency">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Прозрачность и контроль</span>
+        <h2 class="section-title">Честный ремонт с <span class="text-orange">фото- и видеоотчетом</span></h2>
+        <p class="section-desc">Вы всегда знаете, за что платите. Мы высылаем подробный видео- и фотоотчет процесса ремонта и снятых запчастей в ваш мессенджер.</p>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="glass-card step-card">
+          <div class="step-number">1</div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Прием и Диагностика</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Принимаем авто, проводим визуальный и компьютерный осмотр.</p>
+        </div>
+        <div class="glass-card step-card">
+          <div class="step-number">2</div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Прозрачная Смета</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Согласуем точную стоимость. Без вашего одобрения ничего не меняем.</p>
+        </div>
+        <div class="glass-card step-card">
+          <div class="step-number">3</div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Фото/Видео Отчет</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Отправляем в Telegram/WhatsApp кадры дефектов и новых запчастей.</p>
+        </div>
+        <div class="glass-card step-card">
+          <div class="step-number">4</div>
+          <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Оплата & Гарантия</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Выдача авто, заказ-наряд и гарантийный талон на 12 месяцев.</p>
+        </div>
+      </div>
+
+      <!-- Report Simulator Widget -->
+      <div class="report-simulator">
+        <div>
+          <span class="promo-tag" style="margin-bottom: 16px;">📱 Симулятор отчета клиенту</span>
+          <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Смотрите, как мастер держит вас в курсе</h3>
+          <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 24px;">
+            Вам не нужно стоять над душой у механика. В ходе ремонта мастер снимает изношенные детали, процесс установки новых комплектующих и отправляет отчет прямо в ваш чат.
+          </p>
+          <div style="display: flex; gap: 12px;">
+            <a href="https://t.me/" target="_blank" class="btn btn-secondary btn-sm" style="border-color: #24A1DE; color: #24A1DE;">
+              💬 Написать в Telegram
+            </a>
+            <a href="https://wa.me/" target="_blank" class="btn btn-secondary btn-sm" style="border-color: #25D366; color: #25D366;">
+              💬 Написать в WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div class="messenger-mockup">
+          <div class="msg-header">
+            <div class="msg-avatar">И</div>
+            <div>
+              <strong style="display: block; color: #FFF;">СТО ИГОРЕК • Мастер Сергей</strong>
+              <span style="font-size: 0.75rem; color: #25D366;">в сети</span>
+            </div>
+          </div>
+
+          <div class="msg-bubble">
+            Здравствуйте! Сняли тормозные диски на вашем Ford Transit. Износ 90%, рекомендуется замена. Вот фото старых и подготовленных новых колодок Brembo.
+            <div class="msg-photo-grid">
+              <div class="msg-photo-placeholder">📷 Старый диск (Износ)</div>
+              <div class="msg-photo-placeholder">📷 Новый комплект</div>
+            </div>
+            <span style="font-size: 0.65rem; color: #8696A0; float: right; margin-top: 4px;">14:32</span>
+          </div>
+
+          <div class="msg-bubble" style="background: #005C4B; margin-left: auto; border-radius: 12px 12px 2px 12px;">
+            Отлично, спасибо за отчет! Меняйте, смету подтверждаю 👍
+            <span style="font-size: 0.65rem; color: #8696A0; float: right; margin-top: 4px;">14:34 ✓✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAR CASES & REVIEWS SECTION -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Реальные кейсы</span>
+        <h2 class="section-title">Примеры выполненных работ и <span class="text-orange">отзывы</span></h2>
+        <p class="section-desc">Каждый день мы возвращаем в строй десятки автомобилей. Посмотрите реальные примеры ремонтов.</p>
+      </div>
+
+      <div class="cases-grid">
+        <!-- Case 1 -->
+        <div class="glass-card case-card">
+          <span class="case-car-badge">Toyota Camry 2.5 (2019)</span>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Замена цепи ГРМ и дефектовка</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+            Клиент обратился с шумом на холодную. Проведена компьютерная диагностика, заменена цепь ГРМ, натяжители и сальники.
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span>Время: <strong>6 часов</strong></span>
+            <span class="text-orange">Смета: <strong>14 500 ₽</strong></span>
+          </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="glass-card case-card">
+          <span class="case-car-badge">Ford Transit 2.2 TDCi (Комтранспорт)</span>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Ремонт ТНВД и форсунок</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+            Коммерческий фургон заглох во время рейса. Наш выездной мастер диагностировал поломку, автомобиль доставлен в СТО, восстановлены форсунки за 24 часа.
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span>Время: <strong>24 часа</strong></span>
+            <span class="text-orange">Смета: <strong>22 000 ₽</strong></span>
+          </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="glass-card case-card">
+          <span class="case-car-badge">Kia Rio 1.6 (2021) — Выезд 24/7</span>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Экстренный запуск на трассе ночью</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+            Машина заглохла в 02:30 ночи из-за сгоревшего генератора и разряженного АКБ. Мастер приехал через 30 минут, прикурил и заменил генератор на месте.
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; font-size: 0.85rem;">
+            <span>Выезд: <strong>32 минуты</strong></span>
+            <span class="text-orange">Смета: <strong>4 500 ₽</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="section" id="faq" style="background: rgba(15, 20, 30, 0.4);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Часто задаваемые вопросы</span>
+        <h2 class="section-title">Вопросы и <span class="text-orange">ответы</span></h2>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item open">
+          <div class="faq-question">
+            <span>Может ли измениться цена после начала работ?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Нет! В СТО «ИГОРЕК» действует правило прозрачной сметы. Каждая позиция согласовывается с вами до начала ремонта и фиксируется в заказ-наряде. Если в процессе выявляются скрытые дефекты, мы сначала высылаем видеоподтверждение и согласовываем доп. работы с вами.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Как быстро выезжает автомеханик при экстренном вызове?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Наш экипаж круглосуточно дежурит в разных районах города. Среднее время прибытия мастера на место поломки составляет от 20 до 40 минут с момента подтверждения вызова.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Какая гарантия предоставляется на услуги?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            На все виды выполненных работ и установленные через наш сервис запчасти предоставляется официальная гарантия 12 месяцев по договору / заказ-наряду.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Как работает услуга видео- и фотоотчета?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            В процессе ремонта автомеханик производит съёмку дефектных деталей и процесса установки новых узлов, после чего отправляет фото и видео вам в Telegram или WhatsApp.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Работаете ли вы с юридическими лицами и коммерческим транспортом?</span>
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Да! Мы регулярно обслуживаем коммерческие автомобили и фургоны (Газель NEXT, Ford Transit, Lada Largus). Работаем по договору с оплатой по безналичному расчету.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS SECTION -->
+  <section class="section" id="contacts">
+    <div class="container">
+      <div class="contacts-grid">
+        <div>
+          <span class="section-tag">Свяжитесь с нами</span>
+          <h2 class="section-title">Контакты и <span class="text-orange">адрес сервиса</span></h2>
+          <p class="section-desc">Ждем вас на СТО или выезжаем к вам 24/7 по всему городу и области.</p>
+
+          <div class="contact-info-list">
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-detail">
+                <strong>Адрес автосервиса:</strong>
+                <span>ул. Автомобильная, д. 24, корп. 2</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div class="contact-detail">
+                <strong>Телефон 24/7:</strong>
+                <a href="tel:+79990000000" style="color: var(--accent-orange); text-decoration: none; font-weight: bold; font-size: 1.1rem;">+7 (999) 000-00-00</a>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">🕒</div>
+              <div class="contact-detail">
+                <strong>Режим работы:</strong>
+                <span class="text-green" style="font-weight: bold;">Круглосуточно (24/7) без выходных</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">💬</div>
+              <div class="contact-detail">
+                <strong>Быстрая связь в мессенджерах:</strong>
+                <div style="display: flex; gap: 10px; margin-top: 6px;">
+                  <a href="https://t.me/" target="_blank" class="btn btn-secondary btn-sm">Telegram</a>
+                  <a href="https://wa.me/" target="_blank" class="btn btn-secondary btn-sm">WhatsApp</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-placeholder">
+          <div class="map-bg-pattern"></div>
+          <div style="font-size: 3rem; margin-bottom: 10px;">🗺️</div>
+          <strong style="color: #FFF; font-size: 1.2rem;">Карта проезда к СТО «ИГОРЕК»</strong>
+          <span>ул. Автомобильная, д. 24 • Выездной экипаж в радиусе 50 км</span>
+          <button class="btn btn-primary btn-sm" style="margin-top: 16px;" data-modal="modal-booking">Построить маршрут</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">И</div>
+        <span style="color: #FFF; font-weight: bold;">СТО «ИГОРЕК» (PROAUTO)</span>
+      </div>
+      <div>© 2026 СТО «ИГОРЕК». Все права защищены. Официальная гарантия 12 месяцев.</div>
+      <div><a href="#services" style="color: var(--text-muted); text-decoration: none;">Наверх ↑</a></div>
+    </div>
+  </footer>
+
+  <!-- FLOATING EMERGENCY MOBILE BUTTON -->
+  <div class="floating-emergency">
+    <a href="tel:+79990000000" class="floating-call-btn" title="Срочный вызов мастера 24/7">
+      📞
+    </a>
   </div>
 
-  <!-- MOBILE BOTTOM NAVIGATION -->
-  <nav class="bottom-nav">
-    <div class="bottom-nav-item active" data-tab="tracker">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      <span>Главная</span>
+  <!-- BOOKING MODAL -->
+  <div class="modal-overlay" id="modal-booking">
+    <div class="modal-card">
+      <button class="modal-close">&times;</button>
+      <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: #FFF;">Онлайн-запись со скидкой 10%</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Заполните форму, и мы зафиксируем за вами скидку 10% и бесплатную диагностику.</p>
+      
+      <form id="modal-booking-form">
+        <div class="form-group">
+          <label class="form-label">Ваше имя</label>
+          <input type="text" class="form-input" placeholder="Иван" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Телефон для связи</label>
+          <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Марка и модель авто</label>
+          <input type="text" class="form-input" placeholder="например: Kia Rio">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: 10px;">
+          Забронировать скидку 10%
+        </button>
+      </form>
     </div>
-    <div class="bottom-nav-item" data-tab="tracker_list">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      <span>Трекер</span>
-    </div>
-    <div class="bottom-nav-item" style="opacity: 1; transform: translateY(-10px);">
-      <button class="btn btn-primary" id="mobile-add-btn" style="border-radius: 50%; width: 56px; height: 56px; padding: 0; box-shadow: 0 4px 20px var(--primary-glow); display: flex; align-items: center; justify-content: center; font-size: 24px;">+</button>
-    </div>
-    <div class="bottom-nav-item" data-tab="universe">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
-      <span>Вселенная</span>
-    </div>
-    <div class="bottom-nav-item" data-tab="profile">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      <span>Профиль</span>
-    </div>
-  </nav>
-
-  <!-- MODALS & TOASTS -->
-  <div class="modal-overlay" id="add-item-modal"></div>
-  <div class="modal-overlay" id="settings-modal"></div>
-
-  <div class="achievement-toast" id="achievement-toast">
-    <div class="toast-info">
-      <h4 id="toast-title">Цель завершена!</h4>
-      <p id="toast-desc">Вы разблокировали награду.</p>
-    </div>
-    <div class="toast-pts" id="toast-pts">+50</div>
   </div>
 
-  <script src="js/config.js"></script>
-  <script src="js/state.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/ui.js"></script>
+  <!-- Script -->
   <script src="js/app.js"></script>
 </body>
 </html>
