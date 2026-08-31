@@ -15,22 +15,21 @@ function disableGestureZoom() {
   document.addEventListener('gestureend', (e) => e.preventDefault());
 }
 
-// Specialized JDM & Markoobraznye Calculator Data (STRICTLY SUSPENSION & ENGINE ONLY)
+// Specialized JDM & Markoobraznye Calculator Data (ALL PRICES FROM 5000 ₸, ENGINES ASSESSED ON SITE)
 const calcServices = [
-  // Ходовая часть / Подвеска
-  { id: 'susp_levers', category: 'susp', name: 'Замена косых / передних рычагов (Mark II/Chaser/Cresta)', price: 3000 },
-  { id: 'susp_bushings', category: 'susp', name: 'Замена плавающих сайлентблоков цапфы', price: 4000 },
-  { id: 'susp_coilovers', category: 'susp', name: 'Установка и настройка койловеров (винтовой подвески)', price: 6000 },
-  { id: 'susp_ball', category: 'susp', name: 'Замена нижней / верхней шаровой опоры', price: 2500 },
-  { id: 'susp_gear', category: 'susp', name: 'Замена / обслуживание редуктора и приводов', price: 5000 },
-  { id: 'susp_full', category: 'susp', name: 'Комплексный осмотр и диагностика ходовой части', price: 1000 },
+  // Ходовая часть / Подвеска (Все работы от 5 000 ₸)
+  { id: 'susp_levers', category: 'susp', name: 'Замена передних косых / нижних рычагов (Mark II/Chaser)', price: 5000, note: 'от 5 000 ₸' },
+  { id: 'susp_bushings', category: 'susp', name: 'Замена плавающих сайлентблоков цапфы', price: 5000, note: 'от 5 000 ₸' },
+  { id: 'susp_coilovers', category: 'susp', name: 'Установка и настройка койловеров (винтов)', price: 6000, note: 'от 6 000 ₸' },
+  { id: 'susp_ball', category: 'susp', name: 'Замена нижней / верхней шаровой опоры', price: 5000, note: 'от 5 000 ₸' },
+  { id: 'susp_gear', category: 'susp', name: 'Замена / обслуживание редуктора и приводов', price: 5000, note: 'от 5 000 ₸' },
 
-  // Двигатель / ДВС (1JZ / 2JZ / 1G Beams)
-  { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ-GE / 1JZ-GTE / 2JZ / 1G)', price: 35000 },
-  { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / сальников клапанов', price: 12000 },
-  { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 7000 },
-  { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + фильтры', price: 1500 },
-  { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 10000 }
+  // Двигатель / ДВС (Рассматривается на месте после осмотра)
+  { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ / 2JZ / 1G Beams)', price: 0, note: 'Оценка на месте' },
+  { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / сальников клапанов', price: 0, note: 'Оценка на месте' },
+  { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 7000, note: 'от 7 000 ₸' },
+  { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + комплектующие', price: 5000, note: 'от 5 000 ₸' },
+  { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 0, note: 'Оценка на месте' }
 ];
 
 let selectedServices = new Set(['susp_levers', 'eng_timing']);
@@ -54,10 +53,15 @@ function initCalculator() {
       const isSelected = selectedServices.has(service.id);
       const itemEl = document.createElement('div');
       itemEl.className = `calc-item ${isSelected ? 'selected' : ''}`;
+      
+      const priceDisplay = service.price > 0 
+        ? `${service.price.toLocaleString('ru-RU')} ₸` 
+        : 'Оценка на месте';
+
       itemEl.innerHTML = `
         <div class="calc-item-info">
           <strong>${service.name}</strong>
-          <span>${service.price.toLocaleString('ru-RU')} ₸</span>
+          <span>${priceDisplay}</span>
         </div>
         <div class="calc-checkbox">${isSelected ? '✓' : ''}</div>
       `;
@@ -76,16 +80,42 @@ function initCalculator() {
 
   function updateTotals() {
     let subtotal = 0;
+    let hasOnSiteItems = false;
+
     calcServices.forEach(s => {
-      if (selectedServices.has(s.id)) subtotal += s.price;
+      if (selectedServices.has(s.id)) {
+        if (s.price > 0) {
+          subtotal += s.price;
+        } else {
+          hasOnSiteItems = true;
+        }
+      }
     });
 
     const discount = Math.round(subtotal * 0.10);
     const final = subtotal - discount;
 
-    if (totalSubtotalEl) totalSubtotalEl.textContent = `${subtotal.toLocaleString('ru-RU')} ₸`;
-    if (totalDiscountEl) totalDiscountEl.textContent = `-${discount.toLocaleString('ru-RU')} ₸`;
-    if (totalFinalEl) totalFinalEl.textContent = `${final.toLocaleString('ru-RU')} ₸`;
+    if (totalSubtotalEl) {
+      totalSubtotalEl.textContent = subtotal > 0 
+        ? `от ${subtotal.toLocaleString('ru-RU')} ₸` 
+        : 'Рассматривается на месте';
+    }
+
+    if (totalDiscountEl) {
+      totalDiscountEl.textContent = discount > 0 
+        ? `-${discount.toLocaleString('ru-RU')} ₸` 
+        : 'Скидка 10%';
+    }
+
+    if (totalFinalEl) {
+      if (subtotal > 0) {
+        totalFinalEl.textContent = hasOnSiteItems 
+          ? `от ${final.toLocaleString('ru-RU')} ₸ + Оценка ДВС на месте` 
+          : `от ${final.toLocaleString('ru-RU')} ₸`;
+      } else {
+        totalFinalEl.textContent = 'Рассматривается на месте';
+      }
+    }
   }
 
   tabs.forEach(tab => {
@@ -117,7 +147,7 @@ function initFormsAutomation() {
       const model = selects[0] ? selects[0].value : 'Mark II';
       const service = selects[1] ? selects[1].value : 'Ремонт ходовой части';
 
-      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО ИГОРЕК)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n📍 Прошу перезвонить для согласования времени.`;
+      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО ИГОРЕК)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n💡 Цены от 5 000 ₸ (зависят от сложности). Ремонт ДВС рассматривается на месте.\n\n📍 Прошу перезвонить для согласования времени осмотра.`;
       
       sendToWhatsApp(masterPhone, messageText);
       expressForm.reset();
@@ -135,22 +165,36 @@ function initFormsAutomation() {
       
       let subtotal = 0;
       let servicesListText = '';
+      let hasOnSite = false;
       
       calcServices.forEach(s => {
         if (selectedServices.has(s.id)) {
-          subtotal += s.price;
-          servicesListText += `• ${s.name} (${s.price.toLocaleString('ru-RU')} ₸)\n`;
+          if (s.price > 0) {
+            subtotal += s.price;
+            servicesListText += `• ${s.name} (от ${s.price.toLocaleString('ru-RU')} ₸)\n`;
+          } else {
+            hasOnSite = true;
+            servicesListText += `• ${s.name} (Оценка на месте)\n`;
+          }
         }
       });
 
       if (!servicesListText) {
-        servicesListText = '• Вид работ будет уточнен при звонке\n';
+        servicesListText = '• Вид работ будет уточнен при осмотре\n';
       }
 
       const discount = Math.round(subtotal * 0.10);
       const finalPrice = subtotal - discount;
 
-      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО ИГОРЕК)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n💰 Предварительный расчет: ${subtotal.toLocaleString('ru-RU')} ₸\n🎁 Скидка за онлайн-запись (10%): -${discount.toLocaleString('ru-RU')} ₸\n✅ Итого к оплате: ${finalPrice.toLocaleString('ru-RU')} ₸\n\nПрошу записать на ремонт.`;
+      let resultText = subtotal > 0 
+        ? `💰 Предварительный расчет: от ${subtotal.toLocaleString('ru-RU')} ₸\n🎁 Скидка за онлайн-запись (10%): -${discount.toLocaleString('ru-RU')} ₸\n✅ Итого к оплате: от ${finalPrice.toLocaleString('ru-RU')} ₸`
+        : `✅ Расчет стоимости: Рассматривается на месте после осмотра`;
+
+      if (hasOnSite && subtotal > 0) {
+        resultText += ` (+ Оценка ремонта ДВС на месте)`;
+      }
+
+      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО ИГОРЕК)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n${resultText}\n\n💡 Цены от 5 000 ₸ (зависят от сложности). Ремонт ДВС рассматривается на месте.\n\nПрошу записать на осмотр и ремонт.`;
       
       sendToWhatsApp(masterPhone, messageText);
       calcForm.reset();
