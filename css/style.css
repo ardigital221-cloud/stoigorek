@@ -1,4 +1,4 @@
-/* СТО «МАРКООБРАЗНЫЕ» — PURE MOBILE-FIRST AUTOMATION STYLING */
+/* СТО «МАРКООБРАЗНЫЕ» — PURE MOBILE-FIRST AUTOMATION STYLING (STATIC NO-ZOOM) */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
 :root {
@@ -20,12 +20,13 @@
   --font-body: 'Outfit', -apple-system, sans-serif;
 }
 
-/* GLOBAL MOBILE RESET */
+/* GLOBAL MOBILE RESET & DISABLE ZOOM */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 html {
@@ -34,7 +35,9 @@ html {
   color: var(--text-white);
   font-family: var(--font-body);
   -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  touch-action: pan-x pan-y; /* Disables pinch zoom and double-tap zoom */
 }
 
 body {
@@ -43,6 +46,7 @@ body {
   display: flex;
   justify-content: center;
   overflow-x: hidden;
+  touch-action: pan-x pan-y;
 }
 
 /* APP CONTAINER WRAPPER (Strict Mobile Boundary) */

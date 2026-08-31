@@ -2,10 +2,18 @@
 // Direct WhatsApp & Phone: +7 (705) 607-72-89
 
 document.addEventListener('DOMContentLoaded', () => {
+  disableGestureZoom();
   initCalculator();
   initFormsAutomation();
   initFaq();
 });
+
+// Disable iOS Safari pinch zoom and gesture zooming
+function disableGestureZoom() {
+  document.addEventListener('gesturestart', (e) => e.preventDefault());
+  document.addEventListener('gesturechange', (e) => e.preventDefault());
+  document.addEventListener('gestureend', (e) => e.preventDefault());
+}
 
 // Specialized JDM & Markoobraznye Calculator Data (STRICTLY SUSPENSION & ENGINE ONLY)
 const calcServices = [
