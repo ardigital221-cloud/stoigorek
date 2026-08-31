@@ -49,6 +49,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  padding-bottom: 70px;
   background-image: 
     radial-gradient(circle at 15% 15%, rgba(255, 51, 0, 0.1) 0%, transparent 40%),
     radial-gradient(circle at 85% 65%, rgba(0, 230, 118, 0.05) 0%, transparent 45%),
@@ -898,7 +899,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer {
   background: #07090D;
   border-top: 1px solid var(--border-glass);
-  padding: 40px 0;
+  padding: 40px 0 90px;
   color: var(--text-muted);
   font-size: 0.9rem;
 }
@@ -911,30 +912,62 @@ h1, h2, h3, h4, h5, h6 {
   gap: 20px;
 }
 
-/* FLOATING WHATSAPP BUTTON */
-.floating-emergency {
+/* MOBILE BOTTOM QUICK DOCK (AUTOMATION) */
+.mobile-bottom-dock {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 99;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(10, 12, 16, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-glass-bright);
+  z-index: 999;
+  display: none;
+  padding: 10px 16px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.dock-container {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 10px;
 }
 
-.floating-call-btn {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  color: #FFF;
+.dock-btn {
+  flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
   text-decoration: none;
-  animation: pulse-green 2s infinite;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #FFF;
+  transition: var(--transition);
+}
+
+.dock-btn-call {
+  background: rgba(255, 51, 0, 0.15);
+  border: 1px solid rgba(255, 51, 0, 0.4);
+  color: var(--accent-red);
+}
+
+.dock-btn-wa {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #FFF;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.dock-btn-calc {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-glass);
+  color: var(--text-main);
 }
 
 /* MODAL WINDOWS */
@@ -1027,6 +1060,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  .mobile-bottom-dock {
+    display: block;
+  }
+
   .nav-menu {
     display: none;
     position: absolute;
