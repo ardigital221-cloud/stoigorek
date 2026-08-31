@@ -17,7 +17,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=modern_sleek_v12">
+  <link rel="stylesheet" href="css/style.css?v=legal_v13">
+  <style>
+    .form-disclaimer {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      text-align: center;
+      line-height: 1.35;
+    }
+    .form-disclaimer a {
+      color: var(--red);
+      text-decoration: underline;
+    }
+    .footer-legal-links {
+      margin-top: 6px;
+      font-size: 0.72rem;
+    }
+    .footer-legal-links a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
@@ -109,6 +130,9 @@
             <button type="submit" class="btn btn-wa btn-full">
               💬 Отправить заявку мастеру
             </button>
+            <p class="form-disclaimer">
+              Нажимая кнопку, вы соглашаетесь с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a> и <a href="offer.html" target="_blank">Публичной офертой</a>
+            </p>
           </form>
         </div>
       </section>
@@ -237,6 +261,9 @@
               <button type="submit" class="btn btn-wa btn-full" style="margin-top: 10px;">
                 💬 Отправить расчет мастеру в WhatsApp
               </button>
+              <p class="form-disclaimer">
+                Нажимая кнопку, вы соглашаетесь с <a href="privacy.html" target="_blank">Политикой конфиденциальности</a> и <a href="offer.html" target="_blank">Публичной офертой</a>
+              </p>
             </form>
           </div>
         </div>
@@ -266,6 +293,9 @@
     <!-- FOOTER -->
     <footer class="app-footer">
       <div>© 2026 СТО «ИГОРЕК» | +7 (705) 607-72-89</div>
+      <div class="footer-legal-links">
+        <a href="privacy.html" target="_blank">Политика конфиденциальности</a> • <a href="offer.html" target="_blank">Публичная оферта</a>
+      </div>
     </footer>
 
     <!-- MOBILE AUTOMATION BOTTOM FIXED DOCK -->
@@ -287,6 +317,6 @@
     </div>
   </div>
 
-  <script src="js/app.js?v=modern_sleek_v12"></script>
+  <script src="js/app.js?v=legal_v13"></script>
 </body>
 </html>
