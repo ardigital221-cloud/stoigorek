@@ -15,19 +15,19 @@ function disableGestureZoom() {
   document.addEventListener('gestureend', (e) => e.preventDefault());
 }
 
-// Specialized JDM & Markoobraznye Calculator Data (ALL PRICES FROM 5000 ₸, ENGINES ASSESSED ON SITE)
+// Specialized JDM & Markoobraznye Calculator Data (ALL SUSPENSION FROM 5000 ₸, ALL ENGINE REPAIRS ASSESSED ON SITE)
 const calcServices = [
-  // Ходовая часть / Подвеска (Все работы от 5 000 ₸)
+  // Ходовая часть / Подвеска (Работы от 5 000 ₸)
   { id: 'susp_levers', category: 'susp', name: 'Замена передних косых / нижних рычагов (Mark II/Chaser)', price: 5000, note: 'от 5 000 ₸' },
   { id: 'susp_bushings', category: 'susp', name: 'Замена плавающих сайлентблоков цапфы', price: 5000, note: 'от 5 000 ₸' },
   { id: 'susp_coilovers', category: 'susp', name: 'Установка и настройка койловеров (винтов)', price: 6000, note: 'от 6 000 ₸' },
   { id: 'susp_ball', category: 'susp', name: 'Замена нижней / верхней шаровой опоры', price: 5000, note: 'от 5 000 ₸' },
   { id: 'susp_gear', category: 'susp', name: 'Замена / обслуживание редуктора и приводов', price: 5000, note: 'от 5 000 ₸' },
 
-  // Двигатель / ДВС (Рассматривается на месте после осмотра)
+  // Двигатель / ДВС (ВСЕ работы по моторам рассматриваются на месте!)
   { id: 'eng_cap', category: 'eng', name: 'Капитальный ремонт ДВС (1JZ / 2JZ / 1G Beams)', price: 0, note: 'Оценка на месте' },
   { id: 'eng_gasket', category: 'eng', name: 'Замена прокладки ГБЦ / сальников клапанов', price: 0, note: 'Оценка на месте' },
-  { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 7000, note: 'от 7 000 ₸' },
+  { id: 'eng_timing', category: 'eng', name: 'Замена ремня ГРМ + помпа + ролики (1JZ/2JZ/1G)', price: 0, note: 'Оценка на месте' },
   { id: 'eng_oil', category: 'eng', name: 'Замена масла ДВС + комплектующие', price: 5000, note: 'от 5 000 ₸' },
   { id: 'eng_turbo', category: 'eng', name: 'Диагностика и замена турбины (1JZ-GTE VVTi)', price: 0, note: 'Оценка на месте' }
 ];
@@ -55,13 +55,13 @@ function initCalculator() {
       itemEl.className = `calc-item ${isSelected ? 'selected' : ''}`;
       
       const priceDisplay = service.price > 0 
-        ? `${service.price.toLocaleString('ru-RU')} ₸` 
+        ? `от ${service.price.toLocaleString('ru-RU')} ₸` 
         : 'Оценка на месте';
 
       itemEl.innerHTML = `
         <div class="calc-item-info">
           <strong>${service.name}</strong>
-          <span>${priceDisplay}</span>
+          <span style="${service.price === 0 ? 'color: var(--jdm-yellow);' : ''}">${priceDisplay}</span>
         </div>
         <div class="calc-checkbox">${isSelected ? '✓' : ''}</div>
       `;
@@ -147,7 +147,7 @@ function initFormsAutomation() {
       const model = selects[0] ? selects[0].value : 'Mark II';
       const service = selects[1] ? selects[1].value : 'Ремонт ходовой части';
 
-      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО ИГОРЕК)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n💡 Цены от 5 000 ₸ (зависят от сложности). Ремонт ДВС рассматривается на месте.\n\n📍 Прошу перезвонить для согласования времени осмотра.`;
+      const messageText = `🏎️ ЗАЯВКА НА РЕМОНТ (СТО ИГОРЕК)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🚘 Модель авто: ${model}\n🛠️ Необходимые работы: ${service}\n\n💡 Цены от 5 000 ₸ (зависят от сложности). Работы по ДВС и ГРМ рассматриваются на месте.\n\n📍 Прошу перезвонить для согласования времени осмотра.`;
       
       sendToWhatsApp(masterPhone, messageText);
       expressForm.reset();
@@ -191,10 +191,10 @@ function initFormsAutomation() {
         : `✅ Расчет стоимости: Рассматривается на месте после осмотра`;
 
       if (hasOnSite && subtotal > 0) {
-        resultText += ` (+ Оценка ремонта ДВС на месте)`;
+        resultText += ` (+ Оценка работ по ДВС/ГРМ на месте)`;
       }
 
-      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО ИГОРЕК)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n${resultText}\n\n💡 Цены от 5 000 ₸ (зависят от сложности). Ремонт ДВС рассматривается на месте.\n\nПрошу записать на осмотр и ремонт.`;
+      const messageText = `📋 РАСЧЕТ СМЕТЫ С САЙТА (СТО ИГОРЕК)\n\n📞 Телефон клиента: ${phone}\n\n🛠️ Выбранные работы:\n${servicesListText}\n${resultText}\n\n💡 Цены от 5 000 ₸. Работы по ДВС и ГРМ рассматриваются на месте.\n\nПрошу записать на осмотр и ремонт.`;
       
       sendToWhatsApp(masterPhone, messageText);
       calcForm.reset();
@@ -234,7 +234,7 @@ function showToast(message) {
     <div style="font-size: 1.4rem;">💬</div>
     <div>
       <strong style="display: block; font-size: 0.95rem;">WhatsApp Автоматизация</strong>
-      <span style="font-size: 0.82rem; color: #94A3B8;">${message}</span>
+      <span style="font-size: 0.82rem; color: #8E9BAE;">${message}</span>
     </div>
   `;
   
