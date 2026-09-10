@@ -9,7 +9,7 @@
 
   <!-- Open Graph / WhatsApp Preview Tags -->
   <meta property="og:title" content="Уборка и покраска могилок в Павлодаре | Память и Забота">
-  <meta property="og:description" content="Уход за захоронениями в Павлодаре. Фотоотчет До и После в WhatsApp. Оплата после выполнения. Онлайн-калькулятор стоимости. Тел: +7 (705) 126-54-77">
+  <meta property="og:description" content="Уход за захоронениями в Павлодаре. Фотоотчет До и После в WhatsApp. Оплата после выполнения. Онлайн-калькулятор и Корзина услуг. Тел: +7 (705) 126-54-77">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
 
@@ -18,8 +18,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 
-  <!-- Стилистика проекта (Светлая премиальная тема) -->
-  <link rel="stylesheet" href="css/ritual.css?v=3.0">
+  <!-- Стилистика проекта -->
+  <link rel="stylesheet" href="css/ritual.css?v=4.0">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
     </div>
   </aside>
 
-  <!-- ШАПКА САЙТА (HEADER) -->
+  <!-- ШАПКА САЙТА С КНОПКОЙ КОРЗИНЫ -->
   <header class="header">
     <div class="container header-inner">
       
@@ -55,20 +55,24 @@
       <nav aria-label="Главная навигация">
         <ul class="nav-links">
           <li><a href="#cases" class="nav-link">До / После</a></li>
+          <li><a href="#services" class="nav-link">Каталог услуг</a></li>
           <li><a href="#calculator" class="nav-link">Калькулятор ₸</a></li>
-          <li><a href="#services" class="nav-link">Услуги и цены</a></li>
           <li><a href="#remote" class="nav-link">Для иногородних</a></li>
           <li><a href="#cemeteries" class="nav-link">Кладбища</a></li>
           <li><a href="#faq" class="nav-link">Вопросы</a></li>
         </ul>
       </nav>
 
-      <!-- Контакты и прямой WhatsApp -->
+      <!-- Действия в шапке: Корзина и WhatsApp -->
       <div class="header-actions">
-        <div class="header-phone">
-          <a href="tel:+77051265477" class="header-phone-number">+7 (705) 126-54-77</a>
-          <span class="header-phone-label">Мастер на связи (Пн–Вс 8:00–21:00)</span>
-        </div>
+        
+        <!-- Кнопка Корзины -->
+        <button type="button" class="header-cart-btn" aria-label="Открыть корзину">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <span>Корзина</span>
+          <span class="cart-counter-badge" id="headerCartCount">2</span>
+        </button>
+
         <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%83%D0%B1%D0%BE%D1%80%D0%BA%D0%B0%20%D0%B8%D0%BB%D0%B8%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%81%D0%BA%D0%B0%20%D0%BC%D0%BE%D0%B3%D0%B8%D0%BB%D0%BA%D0%B8%20%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%D0%B5." target="_blank" rel="noopener noreferrer" class="btn-header-wa">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.204 8.204 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.24-.75-.67-1.26-1.49-1.41-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.4-.42-.56-.43l-.47-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.22-.19-.47-.31z"/></svg>
           <span>WhatsApp</span>
@@ -93,10 +97,9 @@
           </h1>
 
           <p class="hero-desc">
-            Профессиональная расчистка от бурьяна, выкорчевка кустарников, зачистка ржавчины и покраска оградок атмосферостойкой кузнечной эмалью. Отсыпка мраморной крошкой. 100% фотоотчет «До / После» в WhatsApp. Оплата строго по факту.
+            Профессиональная расчистка от бурьяна, зачистка ржавчины и покраска оградок кузнечной эмалью. Добавляйте нужные услуги в корзину, рассчитывайте точную смету и отправляйте готовый заказ мастеру в WhatsApp.
           </p>
 
-          <!-- Ключевые преимущества -->
           <div class="hero-highlights">
             <div class="highlight-item">
               <div class="highlight-icon">
@@ -123,7 +126,7 @@
                 <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
               </div>
               <div class="highlight-text">
-                <span class="highlight-title">Для жителей других городов</span>
+                <span class="highlight-title">Для иногородних клиентов</span>
                 <span class="highlight-sub">Германия, РФ, Астана, Алматы</span>
               </div>
             </div>
@@ -139,20 +142,18 @@
             </div>
           </div>
 
-          <!-- Кнопки действий -->
           <div class="hero-actions">
-            <a href="#calculator" class="btn-primary-gold">
-              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-              <span>Авто-калькулятор стоимости</span>
+            <a href="#services" class="btn-primary-gold">
+              <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+              <span>Собрать услуги в корзину</span>
             </a>
             <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8E%20%D0%BF%D0%BE%20%D1%83%D0%B1%D0%BE%D1%80%D0%BA%D0%B5%20%D0%B8%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%81%D0%BA%D0%B5%20%D0%BC%D0%BE%D0%B3%D0%B8%D0%BB%D0%BA%D0%B8%20%D0%B2%20%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%D0%B5." target="_blank" rel="noopener noreferrer" class="btn-whatsapp-large">
               <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.204 8.204 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.24-.75-.67-1.26-1.49-1.41-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.4-.42-.56-.43l-.47-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.22-.19-.47-.31z"/></svg>
-              <span>Написать в WhatsApp</span>
+              <span>Консультация в WhatsApp</span>
             </a>
           </div>
         </div>
 
-        <!-- Правая колонка Hero -->
         <div class="hero-visual-card">
           <div class="hero-visual-header">
             <div>
@@ -219,7 +220,6 @@
           </p>
         </div>
 
-        <!-- Переключатели кейсов и кнопка автоматизации -->
         <div class="cases-switcher">
           <button type="button" class="case-tab-btn active" data-case="weeds_cleaning">
             <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
@@ -233,15 +233,13 @@
             <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
             <span>3. Мраморная крошка</span>
           </button>
-          <button type="button" id="btnAutoPlay" class="btn-auto-play" title="Автоматическое плавное сравнение">
+          <button type="button" id="btnAutoPlay" class="btn-auto-play" title="Автоматическое сравнение">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <span>▶ Авто-показ</span>
           </button>
         </div>
 
-        <!-- Сам интерактивный слайдер -->
         <div class="slider-main-container">
-          
           <div>
             <div class="ba-slider-wrapper" id="baSliderWrapper" title="Потяните для сравнения">
               <div class="ba-image-container ba-before" id="baBeforeImg"></div>
@@ -266,7 +264,6 @@
             </div>
           </div>
 
-          <!-- Детали кейса -->
           <div class="case-details-card">
             <div class="case-meta-tag">
               <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -306,7 +303,167 @@
       </div>
     </section>
 
-    <!-- АВТОМАТИЗИРОВАННЫЙ ОНЛАЙН-КАЛЬКУЛЯТОР СТОИМОСТИ -->
+    <!-- КАТАЛОГ УСЛУГ С ДОБАВЛЕНИЕМ В КОРЗИНУ -->
+    <section id="services" class="services-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="section-tag">
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <span>Корзина заказа</span>
+          </div>
+          <h2 class="section-title">Выберите нужные услуги в <span class="gold-text">корзину</span></h2>
+          <p class="section-subtitle">
+            Нажимайте <strong>«+ В корзину»</strong> на любых услугах ниже. Они автоматически суммируются в общую смету, формируя готовый заказ для WhatsApp.
+          </p>
+        </div>
+
+        <div class="services-cards-grid">
+          
+          <!-- Карточка 1: Комплексная уборка -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            </div>
+            <h3 class="service-card-title">Комплексная уборка</h3>
+            <p class="service-card-desc">
+              Полная очистка могильного участка от сорной травы, поросли карагача и клена, прошлогодней сухой листвы и мусора.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Выкорчевка корней бурьяна вручную</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Сбор мусора в плотные мешки и вывоз</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Подметание и влажная чистка цоколя</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 8 000 ₸</span>
+              <button type="button" class="btn-toggle-cart in-cart" data-service="cleaning">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>✓ В корзине</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Карточка 2: Покраска металлоконструкций -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z"/></svg>
+            </div>
+            <h3 class="service-card-title">Покраска оградки</h3>
+            <p class="service-card-desc">
+              Защита оградок, крестов, столиков и лавочек от коррозии. Строгая технология зачистки и покраски эмалью Hammerite.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Механическая зачистка от ржавчины</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Нанесение антикор-грунта ГФ-021</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 2 слоя эмали (черный, серебро, бронза)</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 14 000 ₸</span>
+              <button type="button" class="btn-toggle-cart in-cart" data-service="paint_fence">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>✓ В корзине</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Карточка 3: Отсыпка мраморной крошкой -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
+            </div>
+            <h3 class="service-card-title">Мраморная крошка</h3>
+            <p class="service-card-desc">
+              Идеальное решение для сохранения ухоженного вида без грязи и сорняков на долгие годы вперед.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Укладка геотекстиля высокой плотности</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Белоснежная мраморная крошка 10–20 мм</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Монтаж надежного бордюрного канта</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 28 000 ₸</span>
+              <button type="button" class="btn-toggle-cart" data-service="marble_chips">
+                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span>+ В корзину</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Карточка 4: Мытье и полировка камня -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            </div>
+            <h3 class="service-card-title">Мытье и полировка камня</h3>
+            <p class="service-card-desc">
+              Бережное очищение гранита и мрамора без повреждения надписей и гравировок.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Смывка плесени, мха и солевых разводов</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Пропитка гидрофобизатором «мокрый камень»</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Полировка воском для зеркального блеска</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 4 000 ₸</span>
+              <button type="button" class="btn-toggle-cart" data-service="stone_wash">
+                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span>+ В корзину</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Карточка 5: Защита от сорняков -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <h3 class="service-card-title">Защита от сорняков</h3>
+            <p class="service-card-desc">
+              Профессиональное опрыскивание почвы сертифицированным гербицидом сплошного действия против дикорастущих растений.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Уничтожение корней пырея и полыни</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Эффект защиты до конца теплого сезона</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Безопасно для памятника и ограды</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 5 000 ₸</span>
+              <button type="button" class="btn-toggle-cart" data-service="herbicides">
+                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span>+ В корзину</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Карточка 6: Цветы к датам -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            <h3 class="service-card-title">Цветы к памятным датам</h3>
+            <p class="service-card-desc">
+              Возложение свежих живых цветов, венков, зажжение лампады в дни рождения, годовщины и Радоницу.
+            </p>
+            <ul class="service-card-points">
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Отборные свежие розы или гвоздики</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Неугасимая поминальная лампада</li>
+              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Фотоотчет в точно назначенное время</li>
+            </ul>
+            <div class="service-card-bottom">
+              <span class="service-card-price">от 6 000 ₸</span>
+              <button type="button" class="btn-toggle-cart" data-service="fresh_flowers">
+                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span>+ В корзину</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- АВТОМАТИЗИРОВАННЫЙ ОНЛАЙН-КАЛЬКУЛЯТОР -->
     <section id="calculator" class="calculator-section">
       <div class="container">
         
@@ -315,13 +472,13 @@
             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
             <span>Автоматический расчет ₸</span>
           </div>
-          <h2 class="section-title">Калькулятор стоимости работ в <span class="gold-text">Павлодаре</span></h2>
+          <h2 class="section-title">Калькулятор стоимости и <span class="gold-text">смета</span></h2>
           <p class="section-subtitle">
-            Выберите готовый пакет в 1 клик или отметьте нужные услуги. Калькулятор моментально сформирует расчет и аккуратное сообщение для отправки в WhatsApp.
+            Отмечайте параметры захоронения. Смета синхронизируется с корзиной и автоматически собирает текст заявки для WhatsApp.
           </p>
         </div>
 
-        <!-- Быстрые автоматические пакеты услуг -->
+        <!-- Готовые пакеты в 1 клик -->
         <div class="calc-presets-bar">
           <button type="button" class="preset-chip-btn active" data-preset="paint">
             <span>⚡ Пакет «Уборка + Покраска» (Хит)</span>
@@ -339,14 +496,12 @@
 
         <form id="calcForm" class="calc-grid" onsubmit="return false;">
           
-          <!-- Левая колонка: параметры -->
           <div class="calc-options-panel">
             
-            <!-- Шаг 1 -->
             <div class="calc-step-group">
               <div class="step-label">
                 <span class="step-num">1</span>
-                <span>Выберите тип и размер захоронения:</span>
+                <span>Размер и тип захоронения:</span>
               </div>
               <div class="grave-type-selector">
                 <label class="grave-type-card">
@@ -373,7 +528,6 @@
               </div>
             </div>
 
-            <!-- Шаг 2 -->
             <div class="calc-step-group">
               <div class="step-label">
                 <span class="step-num">2</span>
@@ -393,11 +547,10 @@
               </div>
             </div>
 
-            <!-- Шаг 3 -->
             <div class="calc-step-group">
               <div class="step-label">
                 <span class="step-num">3</span>
-                <span>Отметьте необходимые услуги:</span>
+                <span>Услуги (отметьте галочками):</span>
               </div>
               <div class="services-checkbox-list">
                 
@@ -434,7 +587,7 @@
                 </label>
 
                 <label class="service-check-item">
-                  <input type="checkbox" name="service_item" value="paint_table" checked>
+                  <input type="checkbox" name="service_item" value="paint_table">
                   <div class="service-check-body">
                     <div class="check-left">
                       <div class="custom-checkbox-box">
@@ -458,7 +611,7 @@
                       </div>
                       <div class="service-title-wrap">
                         <span class="service-name">Мытье памятника и полировка гранита</span>
-                        <span class="service-desc-small">Удаление мха, птичьего помета, следов смолы + защитная гидрофобная полироль</span>
+                        <span class="service-desc-small">Удаление мха, птичьего помета, смолы + гидрофобная полироль</span>
                       </div>
                     </div>
                     <span class="service-price-tag">+4 000 ₸</span>
@@ -490,7 +643,7 @@
                       </div>
                       <div class="service-title-wrap">
                         <span class="service-name">Реставрация надписей и креста</span>
-                        <span class="service-desc-small">Обновление золотых или серебряных букв на камне, покраска креста</span>
+                        <span class="service-desc-small">Обновление золотых букв на камне, покраска креста</span>
                       </div>
                     </div>
                     <span class="service-price-tag">+4 500 ₸</span>
@@ -532,7 +685,6 @@
               </div>
             </div>
 
-            <!-- Шаг 4 -->
             <div class="calc-step-group">
               <div class="step-label">
                 <span class="step-num">4</span>
@@ -565,27 +717,27 @@
 
           </div>
 
-          <!-- Правая колонка: смета, живой предпросмотр WhatsApp и кнопка отправки -->
+          <!-- Смета, шаблон WhatsApp и кнопка отправки -->
           <div class="calc-summary-card">
             
             <div class="calc-summary-header">
               <h3 class="calc-summary-title">Смета заказа</h3>
-              <p class="calc-summary-sub">Автоматический мгновенный расчет</p>
+              <p class="calc-summary-sub">Синхронизировано с корзиной</p>
             </div>
 
             <div id="summaryItemsList" class="summary-items-list"></div>
 
             <div class="calc-total-box">
-              <div class="calc-total-label">Итоговая ориентировочная сумма:</div>
-              <div class="calc-total-amount" id="calcTotalNumber">27 000 ₸</div>
-              <div class="calc-total-note">Фиксируется при осмотре фото, без скрытых переплат</div>
+              <div class="calc-total-label">Общая сумма к оплате:</div>
+              <div class="calc-total-amount" id="calcTotalNumber">22 000 ₸</div>
+              <div class="calc-total-note">Фиксируется при осмотре фото, без скрытых доплат</div>
             </div>
 
-            <!-- Автоматический живой предпросмотр сообщения -->
+            <!-- Автоматический живой шаблон WhatsApp -->
             <div class="wa-message-preview-box">
               <div class="wa-preview-header">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                <span>Авто-генерация текста в WhatsApp:</span>
+                <span>Собранный шаблон для WhatsApp:</span>
               </div>
               <div id="waPreviewText" class="wa-preview-body"></div>
             </div>
@@ -596,11 +748,11 @@
 
             <button type="button" id="btnSubmitCalcWa" class="btn-submit-calc-wa">
               <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.204 8.204 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.24-.75-.67-1.26-1.49-1.41-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.4-.42-.56-.43l-.47-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.22-.19-.47-.31z"/></svg>
-              <span>Отправить расчет в WhatsApp</span>
+              <span>Отправить заказ в WhatsApp</span>
             </button>
 
             <p class="calc-guarantee-note">
-              Нажатие кнопки сразу откроет диалог с мастером по номеру <strong>+7 705 126 5477</strong> с уже готовым текстом сметы.
+              Нажатие кнопки сразу перенаправит вас в WhatsApp к мастеру (<strong>+7 705 126 5477</strong>).
             </p>
 
           </div>
@@ -610,143 +762,7 @@
       </div>
     </section>
 
-    <!-- КАТАЛОГ УСЛУГ -->
-    <section id="services" class="services-section">
-      <div class="container">
-        
-        <div class="section-header">
-          <div class="section-tag">
-            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span>Наши услуги</span>
-          </div>
-          <h2 class="section-title">Комплексные работы по <span class="gold-text">благоустройству</span></h2>
-          <p class="section-subtitle">
-            Каждую задачу выполняем бережно и качественно, используя проверенные материалы.
-          </p>
-        </div>
-
-        <div class="services-cards-grid">
-          
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
-            </div>
-            <h3 class="service-card-title">Комплексная уборка</h3>
-            <p class="service-card-desc">
-              Полная очистка могильного участка от сорной травы, поросли карагача и клена, прошлогодней сухой листвы и мусора.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Выкорчевка корней бурьяна вручную</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Сбор мусора в плотные мешки и вывоз</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Подметание и влажная чистка цоколя</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 8 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%20%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D0%BE%D0%B9%20%D1%83%D0%B1%D0%BE%D1%80%D0%BA%D0%B8." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z"/></svg>
-            </div>
-            <h3 class="service-card-title">Покраска металлоконструкций</h3>
-            <p class="service-card-desc">
-              Защита оградок, крестов, столиков и лавочек от коррозии. Строгая технология, краска не облезает после первой зимы.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Механическая зачистка от ржавчины</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Нанесение антикор-грунта ГФ-021</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> 2 слоя эмали (черный, серебро, бронза)</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 14 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BF%D0%BE%D0%BA%D1%80%D0%B0%D1%81%D0%BA%D0%B0%20%D0%BE%D0%B3%D1%80%D0%B0%D0%B4%D0%BA%D0%B8." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
-            </div>
-            <h3 class="service-card-title">Отсыпка мраморной крошкой</h3>
-            <p class="service-card-desc">
-              Идеальное решение для сохранения ухоженного вида без грязи и сорняков на долгие годы вперед.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Укладка геотекстиля высокой плотности</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Белоснежная мраморная крошка 10–20 мм</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Монтаж надежного бордюрного канта</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 28 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BE%D1%82%D1%81%D1%8B%D0%BF%D0%BA%D0%B0%20%D0%BC%D1%80%D0%B0%D0%BC%D0%BE%D1%80%D0%BD%D0%BE%D0%B9%20%D0%BA%D1%80%D0%BE%D1%88%D0%BA%D0%BE%D0%B9." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            </div>
-            <h3 class="service-card-title">Мытье и полировка камня</h3>
-            <p class="service-card-desc">
-              Бережное очищение гранита и мрамора без повреждения надписей и гравировок.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Смывка плесени, мха и солевых разводов</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Пропитка гидрофобизатором «мокрый камень»</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Полировка воском для зеркального блеска</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 4 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BC%D1%8B%D1%82%D1%8C%D0%B5%20%D0%BF%D0%B0%D0%BC%D1%8F%D1%82%D0%BD%D0%B8%D0%BA%D0%B0." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            </div>
-            <h3 class="service-card-title">Защита от сорняков (гербициды)</h3>
-            <p class="service-card-desc">
-              Профессиональное опрыскивание почвы сертифицированным составом сплошного действия против дикорастущих растений.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Уничтожение корней пырея и полыни</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Эффект защиты до конца теплого сезона</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Безопасно для памятника и ограды</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 5 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D0%BE%D1%82%20%D1%81%D0%BE%D1%80%D0%BD%D1%8F%D0%BA%D0%BE%D0%B2." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-          <div class="service-card">
-            <div class="service-card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </div>
-            <h3 class="service-card-title">Цветы к памятным датам</h3>
-            <p class="service-card-desc">
-              Возложение свежих живых цветов, венков, зажжение лампады в дни рождения, годовщины и Радоницу.
-            </p>
-            <ul class="service-card-points">
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Отборные свежие розы или гвоздики</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Неугасимая поминальная лампада</li>
-              <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Фотоотчет в точно назначенное время</li>
-            </ul>
-            <div class="service-card-bottom">
-              <span class="service-card-price">от 6 000 ₸</span>
-              <a href="https://wa.me/77051265477?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B2%D0%BE%D0%B7%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2." target="_blank" class="btn-card-order">Заказать</a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ДИСТАНЦИОННЫЙ ЗАКАЗ -->
+    <!-- СЕКЦИЯ ДЛЯ УДАЛЕННЫХ КЛИЕНТОВ -->
     <section id="remote" class="remote-order-section">
       <div class="container remote-grid">
         
@@ -760,7 +776,7 @@
           </p>
 
           <div style="background: #ffffff; border: 1px solid var(--border-hairline); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
-            <h4 style="color: var(--gold-600); margin-bottom: 8px;">💳 Удобные способы оплаты для любых стран:</h4>
+            <h4 style="color: var(--gold-600); margin-bottom: 8px;">💳 Способы оплаты для любых стран:</h4>
             <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
               • <strong>Казахстан:</strong> Kaspi Gold, Kaspi QR, Halyk Bank.<br>
               • <strong>Россия:</strong> Перевод на карту Сбербанка / Т-Банка в рублях.<br>
@@ -822,16 +838,12 @@
     <!-- КЛАДБИЩА ПАВЛОДАРА -->
     <section id="cemeteries" class="cemeteries-section">
       <div class="container">
-        
         <div class="section-header">
           <div class="section-tag">
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             <span>География работы</span>
           </div>
           <h2 class="section-title">Обслуживаемые кладбища <span class="gold-text">Павлодара</span></h2>
-          <p class="section-subtitle">
-            Работаем на всех основных городских и пригородных кладбищах Павлодара.
-          </p>
         </div>
 
         <div class="cemeteries-grid">
@@ -915,13 +927,9 @@
             <span>Отзывы заказчиков</span>
           </div>
           <h2 class="section-title">Что говорят наши <span class="gold-text">клиенты</span></h2>
-          <p class="section-subtitle">
-            Искренние отзывы людей, доверивших нам уход за могилками своих родственников.
-          </p>
         </div>
 
         <div class="reviews-grid">
-          
           <div class="review-chat-card">
             <div class="chat-header">
               <div class="chat-avatar">ВП</div>
@@ -972,7 +980,6 @@
               <span>Оценка: 5.0</span>
             </div>
           </div>
-
         </div>
 
       </div>
@@ -991,7 +998,6 @@
         </div>
 
         <div class="faq-accordion">
-          
           <div class="faq-item active">
             <button type="button" class="faq-trigger">
               <span>Что делать, если я не знаю точный номер сектора и могилы?</span>
@@ -1041,7 +1047,6 @@
               В среднем выезд осуществляется в течение 24–48 часов после звонка или обращения в WhatsApp. При необходимости срочной подготовки к памятной дате возможен выезд в день обращения.
             </div>
           </div>
-
         </div>
 
       </div>
@@ -1050,7 +1055,6 @@
     <!-- ФИНАЛЬНЫЙ ПРИЗЫВ -->
     <section class="final-cta-section">
       <div class="container">
-        
         <div class="cta-box">
           <div class="section-tag" style="margin-bottom: 12px;">
             <span>Связь напрямую с мастером</span>
@@ -1072,12 +1076,68 @@
             </a>
           </div>
         </div>
-
       </div>
     </section>
   </main>
 
-  <!-- ПОДВАЛ (FOOTER) -->
+  <!-- ЛИПКАЯ ПАНЕЛЬ КОРЗИНЫ ВНИЗУ ЭКРАНА (STICKY BOTTOM CART BAR) -->
+  <aside id="stickyCartBar" class="sticky-cart-bar" aria-label="Панель быстрой корзины">
+    <div class="container sticky-cart-inner">
+      <div class="sticky-cart-info">
+        <div class="sticky-cart-badge">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <span id="stickyCartCount">2 услуги</span>
+        </div>
+        <div class="sticky-cart-total">
+          Итого: <span id="stickyCartTotal">22 000 ₸</span>
+        </div>
+      </div>
+      <div class="sticky-cart-actions">
+        <button type="button" class="btn-open-cart-modal">Посмотреть смету</button>
+        <button type="button" id="btnStickySubmitWa" class="btn-sticky-wa">
+          <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.204 8.204 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.24-.75-.67-1.26-1.49-1.41-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.4-.42-.56-.43l-.47-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.22-.19-.47-.31z"/></svg>
+          <span>Заказать в WhatsApp (+7 705 126 5477)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- МОДАЛЬНОЕ ОКНО ОФОРМЛЕНИЯ КОРЗИНЫ -->
+  <div id="cartModalBackdrop" class="cart-modal-backdrop" aria-hidden="true">
+    <div class="cart-modal-dialog">
+      <div class="cart-modal-header">
+        <h3 class="cart-modal-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--gold-500)"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <span>Корзина выбранных услуг</span>
+        </h3>
+        <button type="button" id="btnCloseCartModal" class="btn-close-modal" aria-label="Закрыть корзину">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <div id="cartModalItemsList" class="cart-modal-items-list"></div>
+
+      <div class="calc-total-box" style="margin-bottom: 16px;">
+        <div class="calc-total-label">Итоговая стоимость заказа:</div>
+        <div class="calc-total-amount" id="cartModalTotalNumber">22 000 ₸</div>
+      </div>
+
+      <div class="wa-message-preview-box">
+        <div class="wa-preview-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span>Шаблон сообщения, который откроется в WhatsApp:</span>
+        </div>
+        <div id="modalWaPreviewText" class="wa-preview-body"></div>
+      </div>
+
+      <button type="button" id="btnModalSubmitWa" class="btn-submit-calc-wa">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.41a8.204 8.204 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.24-.75-.67-1.26-1.49-1.41-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.4-.42-.56-.43l-.47-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.12.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.12-.22-.19-.47-.31z"/></svg>
+        <span>Отправить заказ в WhatsApp (+7 705 126 5477)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ПОДВАЛ -->
   <footer class="footer">
     <div class="container footer-inner">
       <div>
@@ -1106,6 +1166,6 @@
   </aside>
 
   <!-- Скрипты -->
-  <script src="js/ritual.js?v=3.0"></script>
+  <script src="js/ritual.js?v=4.0"></script>
 </body>
 </html>

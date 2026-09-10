@@ -1,17 +1,16 @@
 /* ==========================================================================
-   ПАМЯТЬ И ЗАБОТА • ПАВЛОДАР — СВЕТЛАЯ ПРЕМИАЛЬНАЯ ТЕМА
-   Уборка, покраска и благоустройство могилок в Павлодаре
+   ПАМЯТЬ И ЗАБОТА • ПАВЛОДАР — СВЕТЛАЯ ТЕМА + ИНТЕРАКТИВНАЯ КОРЗИНА
    ========================================================================== */
 
 :root {
-  /* Светлая чистая палитра (спокойная, благородная, светлая) */
+  /* Светлая чистая палитра */
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
   --bg-card: #ffffff;
   --bg-card-alt: #f1f5f9;
   --bg-card-hover: #ffffff;
-  --bg-accent-soft: rgba(217, 119, 6, 0.06);
-  --bg-emerald-soft: rgba(5, 150, 105, 0.07);
+  --bg-accent-soft: rgba(217, 119, 6, 0.07);
+  --bg-emerald-soft: rgba(5, 150, 105, 0.08);
 
   /* Текст */
   --text-pure: #0f172a;
@@ -62,7 +61,6 @@
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Сброс стилей */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -86,6 +84,7 @@ body {
     radial-gradient(circle at 50% 90%, rgba(217, 119, 6, 0.03) 0%, transparent 50%);
   line-height: 1.6;
   overflow-x: hidden;
+  padding-bottom: 70px; /* Отступ для липкой корзины */
 }
 
 .container {
@@ -106,9 +105,7 @@ button, input, select, textarea {
   font-size: 1rem;
 }
 
-/* ==========================================================================
-   ТИПОГРАФИКА В СВЕТЛОЙ ТЕМЕ
-   ========================================================================== */
+/* Типографика */
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   font-weight: 700;
@@ -163,9 +160,7 @@ h1, h2, h3, h4 {
   line-height: 1.65;
 }
 
-/* ==========================================================================
-   ШАПКА (HEADER)
-   ========================================================================== */
+/* Шапка */
 .top-notice-bar {
   background: #ffffff;
   border-bottom: 1px solid var(--border-hairline);
@@ -268,7 +263,7 @@ h1, h2, h3, h4 {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 24px;
   list-style: none;
 }
 
@@ -284,42 +279,54 @@ h1, h2, h3, h4 {
   color: var(--gold-600);
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--gold-gradient);
-  transition: width var(--transition-fast);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
-.header-phone {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
+/* Кнопка Корзины в шапке */
+.header-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-accent-soft);
+  border: 1.5px solid var(--gold-border);
+  color: var(--gold-600);
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-.header-phone-number {
-  font-size: 1.05rem;
+.header-cart-btn:hover {
+  background: var(--gold-500);
+  color: #ffffff;
+  border-color: var(--gold-500);
+}
+
+.header-cart-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.cart-counter-badge {
+  background: var(--gold-500);
+  color: #ffffff;
+  font-size: 0.75rem;
   font-weight: 800;
-  color: var(--text-pure);
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  transition: all var(--transition-fast);
 }
 
-.header-phone-label {
-  font-size: 0.74rem;
-  color: var(--text-muted);
+.header-cart-btn:hover .cart-counter-badge {
+  background: #ffffff;
+  color: var(--gold-600);
 }
 
 .btn-header-wa {
@@ -328,7 +335,7 @@ h1, h2, h3, h4 {
   gap: 8px;
   background: var(--wa-green);
   color: #ffffff;
-  padding: 11px 20px;
+  padding: 10px 18px;
   border-radius: var(--radius-full);
   font-size: 0.9rem;
   font-weight: 700;
@@ -339,7 +346,6 @@ h1, h2, h3, h4 {
 .btn-header-wa:hover {
   background: var(--wa-green-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px -2px rgba(37, 211, 102, 0.5);
 }
 
 .btn-header-wa svg {
@@ -348,9 +354,7 @@ h1, h2, h3, h4 {
   fill: currentColor;
 }
 
-/* ==========================================================================
-   ГЛАВНЫЙ ЭКРАН (HERO)
-   ========================================================================== */
+/* Hero Section */
 .hero-section {
   position: relative;
   padding: 70px 0 60px;
@@ -479,7 +483,6 @@ h1, h2, h3, h4 {
 
 .btn-primary-gold:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px -3px rgba(217, 119, 6, 0.5);
   filter: brightness(1.05);
 }
 
@@ -509,7 +512,6 @@ h1, h2, h3, h4 {
 .btn-whatsapp-large:hover {
   background: var(--wa-green-hover);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px -3px rgba(37, 211, 102, 0.55);
 }
 
 .btn-whatsapp-large svg {
@@ -518,7 +520,6 @@ h1, h2, h3, h4 {
   fill: currentColor;
 }
 
-/* Правая карточка Hero */
 .hero-visual-card {
   background: #ffffff;
   border: 1px solid var(--border-hairline);
@@ -597,9 +598,7 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 
-/* ==========================================================================
-   ИНТЕРАКТИВНЫЙ БЛОК «ДО / ПОСЛЕ»
-   ========================================================================== */
+/* До / После слайдер */
 .before-after-section {
   padding: 90px 0;
   background: #ffffff;
@@ -650,7 +649,6 @@ h1, h2, h3, h4 {
   fill: currentColor;
 }
 
-/* Кнопка авто-показа (автоматизация просмотра До/После) */
 .btn-auto-play {
   background: var(--bg-emerald-soft);
   border: 1px solid rgba(5, 150, 105, 0.3);
@@ -666,15 +664,10 @@ h1, h2, h3, h4 {
   transition: all var(--transition-fast);
 }
 
-.btn-auto-play:hover {
-  background: var(--emerald-600);
-  color: #ffffff;
-}
-
+.btn-auto-play:hover,
 .btn-auto-play.playing {
   background: var(--emerald-600);
   color: #ffffff;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
 }
 
 .btn-auto-play svg {
@@ -683,7 +676,6 @@ h1, h2, h3, h4 {
   fill: currentColor;
 }
 
-/* Контейнер слайдера */
 .slider-main-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -746,7 +738,6 @@ h1, h2, h3, h4 {
   height: 100%;
 }
 
-/* Метки ДО / ПОСЛЕ */
 .ba-badge {
   position: absolute;
   top: 16px;
@@ -773,7 +764,6 @@ h1, h2, h3, h4 {
   color: #ffffff;
 }
 
-/* Разделитель и рукоятка */
 .ba-divider-handle {
   position: absolute;
   top: 0;
@@ -839,7 +829,6 @@ h1, h2, h3, h4 {
   fill: var(--gold-500);
 }
 
-/* Карточка деталей кейса */
 .case-details-card {
   display: flex;
   flex-direction: column;
@@ -946,7 +935,143 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   АВТОМАТИЗИРОВАННЫЙ ОНЛАЙН-КАЛЬКУЛЯТОР СТОИМОСТИ
+   КАТАЛОГ УСЛУГ И КНОПКИ ДОБАВЛЕНИЯ В КОРЗИНУ
+   ========================================================================== */
+.services-section {
+  padding: 90px 0;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.services-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.service-card {
+  background: var(--bg-page);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-smooth);
+  position: relative;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  background: #ffffff;
+  border-color: var(--gold-border);
+  box-shadow: var(--shadow-hover);
+}
+
+.service-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid var(--border-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.service-card-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--gold-500);
+}
+
+.service-card-title {
+  font-size: 1.35rem;
+  margin-bottom: 12px;
+}
+
+.service-card-desc {
+  font-size: 0.93rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.service-card-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+.service-card-points li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-card-points li svg {
+  width: 15px;
+  height: 15px;
+  fill: var(--emerald-600);
+  flex-shrink: 0;
+}
+
+.service-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.service-card-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold-600);
+}
+
+/* Кнопка добавления услуги в корзину */
+.btn-toggle-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--gold-border);
+  background: #ffffff;
+  color: var(--gold-600);
+  transition: all var(--transition-fast);
+}
+
+.btn-toggle-cart:hover {
+  background: var(--bg-accent-soft);
+  border-color: var(--gold-500);
+}
+
+.btn-toggle-cart.in-cart {
+  background: var(--emerald-600);
+  color: #ffffff;
+  border-color: var(--emerald-600);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.btn-toggle-cart svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   АВТОМАТИЗИРОВАННЫЙ ОНЛАЙН-КАЛЬКУЛЯТОР
    ========================================================================== */
 .calculator-section {
   padding: 90px 0;
@@ -954,7 +1079,6 @@ h1, h2, h3, h4 {
   border-bottom: 1px solid var(--border-hairline);
 }
 
-/* Быстрые автоматические пакеты в 1 клик */
 .calc-presets-bar {
   display: flex;
   justify-content: center;
@@ -1037,7 +1161,6 @@ h1, h2, h3, h4 {
   font-weight: 800;
 }
 
-/* Радиокнопки типа участка */
 .grave-type-selector {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1087,7 +1210,6 @@ h1, h2, h3, h4 {
   color: var(--text-muted);
 }
 
-/* Селект кладбища */
 .cemetery-select-wrap {
   position: relative;
 }
@@ -1124,7 +1246,6 @@ h1, h2, h3, h4 {
   fill: var(--text-muted);
 }
 
-/* Чекбоксы услуг */
 .services-checkbox-list {
   display: flex;
   flex-direction: column;
@@ -1227,7 +1348,6 @@ h1, h2, h3, h4 {
   white-space: nowrap;
 }
 
-/* Периодичность / Скидка */
 .timing-radios {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1263,7 +1383,6 @@ h1, h2, h3, h4 {
   font-weight: 700;
 }
 
-/* Правая карточка: смета и интерактивный предпросмотр WhatsApp */
 .calc-summary-card {
   position: sticky;
   top: 96px;
@@ -1352,7 +1471,6 @@ h1, h2, h3, h4 {
   margin-top: 4px;
 }
 
-/* Блок предпросмотра сгенерированного сообщения WhatsApp (Автоматизация) */
 .wa-message-preview-box {
   background: #eef8f1;
   border: 1px solid #bbf7d0;
@@ -1451,127 +1569,258 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   КАТАЛОГ УСЛУГ
+   ЛИПКАЯ КОРЗИНА ВНИЗУ ЭКРАНА (STICKY BOTTOM CART BAR)
    ========================================================================== */
-.services-section {
-  padding: 90px 0;
+.sticky-cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
   background: #ffffff;
-  border-bottom: 1px solid var(--border-hairline);
+  border-top: 2px solid var(--gold-500);
+  box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.12);
+  padding: 12px 0;
+  transform: translateY(120%);
+  transition: transform var(--transition-smooth);
 }
 
-.services-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+.sticky-cart-bar.visible {
+  transform: translateY(0);
 }
 
-.service-card {
-  background: var(--bg-page);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  transition: all var(--transition-smooth);
-}
-
-.service-card:hover {
-  transform: translateY(-5px);
-  background: #ffffff;
-  border-color: var(--gold-border);
-  box-shadow: var(--shadow-hover);
-}
-
-.service-card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: #ffffff;
-  border: 1px solid var(--border-hairline);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-}
-
-.service-card-icon svg {
-  width: 24px;
-  height: 24px;
-  fill: var(--gold-500);
-}
-
-.service-card-title {
-  font-size: 1.35rem;
-  margin-bottom: 12px;
-}
-
-.service-card-desc {
-  font-size: 0.93rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex-grow: 1;
-}
-
-.service-card-points {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 24px;
-  font-size: 0.86rem;
-  color: var(--text-secondary);
-}
-
-.service-card-points li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.service-card-points li svg {
-  width: 15px;
-  height: 15px;
-  fill: var(--emerald-600);
-  flex-shrink: 0;
-}
-
-.service-card-bottom {
+.sticky-cart-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 18px;
-  border-top: 1px solid var(--border-hairline);
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.service-card-price {
+.sticky-cart-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sticky-cart-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-accent-soft);
+  color: var(--gold-600);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.sticky-cart-badge svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.sticky-cart-total {
   font-size: 1.25rem;
   font-weight: 800;
+  color: var(--text-pure);
+}
+
+.sticky-cart-total span {
   color: var(--gold-600);
 }
 
-.btn-card-order {
-  display: inline-flex;
+.sticky-cart-actions {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--text-pure);
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 8px 16px;
+  gap: 12px;
+}
+
+.btn-open-cart-modal {
   background: var(--bg-card-alt);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hairline);
+  padding: 10px 18px;
   border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.btn-card-order:hover {
-  background: var(--gold-gradient);
+.btn-open-cart-modal:hover {
+  background: #ffffff;
+  border-color: var(--border-subtle);
+  color: var(--text-pure);
+}
+
+.btn-sticky-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--wa-green);
   color: #ffffff;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-wa);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sticky-wa:hover {
+  background: var(--wa-green-hover);
+  transform: translateY(-2px);
+}
+
+.btn-sticky-wa svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 /* ==========================================================================
-   РАЗДЕЛ ДЛЯ ИНОГОРОДНИХ И ЗАРУБЕЖНЫХ ЗАКАЗЧИКОВ
+   МОДАЛЬНОЕ ОКНО КОРЗИНЫ (CART MODAL)
    ========================================================================== */
+.cart-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.cart-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-modal-dialog {
+  background: #ffffff;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-lg);
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 30px;
+  transform: scale(0.95);
+  transition: transform var(--transition-fast);
+}
+
+.cart-modal-backdrop.open .cart-modal-dialog {
+  transform: scale(1);
+}
+
+.cart-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-hairline);
+  margin-bottom: 20px;
+}
+
+.cart-modal-title {
+  font-size: 1.45rem;
+  color: var(--text-pure);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-close-modal:hover {
+  background: var(--bg-card-alt);
+  color: var(--text-pure);
+}
+
+.btn-close-modal svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.cart-modal-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.cart-modal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+}
+
+.cart-item-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-pure);
+}
+
+.cart-item-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cart-item-price {
+  font-weight: 800;
+  color: var(--gold-600);
+  font-size: 1rem;
+}
+
+.btn-remove-item {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-item svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Секции для иногородних, кладбища, отзывы, FAQ, подвал */
 .remote-order-section {
   padding: 90px 0;
   background: var(--bg-page);
@@ -1647,9 +1896,6 @@ h1, h2, h3, h4 {
   line-height: 1.5;
 }
 
-/* ==========================================================================
-   КЛАДБИЩА ПАВЛОДАРА
-   ========================================================================== */
 .cemeteries-section {
   padding: 90px 0;
   background: #ffffff;
@@ -1705,9 +1951,6 @@ h1, h2, h3, h4 {
   line-height: 1.5;
 }
 
-/* ==========================================================================
-   ОТЗЫВЫ КЛИЕНТОВ (ЧАТЫ WHATSAPP В СВЕТЛОЙ ТЕМЕ)
-   ========================================================================== */
 .reviews-section {
   padding: 90px 0;
   background: var(--bg-page);
@@ -1787,9 +2030,6 @@ h1, h2, h3, h4 {
   color: var(--gold-500);
 }
 
-/* ==========================================================================
-   FAQ АККОРДЕОН
-   ========================================================================== */
 .faq-section {
   padding: 90px 0;
   background: #ffffff;
@@ -1860,9 +2100,6 @@ h1, h2, h3, h4 {
   padding: 0 24px 20px;
 }
 
-/* ==========================================================================
-   ФИНАЛЬНЫЙ ПРИЗЫВ
-   ========================================================================== */
 .final-cta-section {
   padding: 90px 0;
   background: linear-gradient(180deg, var(--bg-page) 0%, #ffffff 100%);
@@ -1896,9 +2133,6 @@ h1, h2, h3, h4 {
   flex-wrap: wrap;
 }
 
-/* ==========================================================================
-   ПОДВАЛ (FOOTER)
-   ========================================================================== */
 .footer {
   background: #ffffff;
   border-top: 1px solid var(--border-hairline);
@@ -1920,12 +2154,10 @@ h1, h2, h3, h4 {
   gap: 24px;
 }
 
-/* ==========================================================================
-   ПЛАВАЮЩИЙ ВИДЖЕТ WHATSAPP
-   ========================================================================== */
+/* Плавающий виджет WhatsApp */
 .floating-wa-widget {
   position: fixed;
-  bottom: 26px;
+  bottom: 86px; /* Чуть выше липкой панели */
   right: 26px;
   z-index: 9999;
   display: flex;
@@ -1986,12 +2218,11 @@ h1, h2, h3, h4 {
   100% { transform: scale(1.6); opacity: 0; }
 }
 
-/* Toast */
 .toast-notice {
   position: fixed;
   bottom: 100px;
   right: 26px;
-  z-index: 10000;
+  z-index: 10002;
   background: #ffffff;
   border: 1.5px solid var(--gold-border);
   color: var(--text-pure);
@@ -2015,9 +2246,7 @@ h1, h2, h3, h4 {
   pointer-events: auto;
 }
 
-/* ==========================================================================
-   МОБИЛЬНАЯ АДАПТИВНОСТЬ
-   ========================================================================== */
+/* Мобильная адаптивность */
 @media (max-width: 1024px) {
   .hero-grid,
   .slider-main-container,
@@ -2037,7 +2266,6 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
   .nav-links,
-  .header-phone,
   .wa-widget-tooltip {
     display: none;
   }
@@ -2050,8 +2278,17 @@ h1, h2, h3, h4 {
     grid-template-columns: 1fr;
   }
   .top-notice-inner,
-  .footer-inner {
+  .footer-inner,
+  .sticky-cart-inner {
     flex-direction: column;
     text-align: center;
+  }
+  .sticky-cart-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  .btn-sticky-wa {
+    width: 100%;
+    justify-content: center;
   }
 }
